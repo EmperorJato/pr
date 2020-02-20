@@ -1,0 +1,22 @@
+// Fonts
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:700&display=swap');
+
+
+// Variables
+@import 'variables';
+
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import 'paper-dashboard'; 
+
+// Loader
+@import 'loader';
+
+
+
+*{
+    font-family: 'Poppins', sans-serif;
+}

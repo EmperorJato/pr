@@ -1,0 +1,543 @@
+@extends('layouts.prf')
+
+@section('content')
+<div class="overlay">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
+<div class="card">
+    @if(isset($prforms))
+    <div class="card-header" style="margin-bottom: -12px;">
+        <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
+        <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
+        {{-- <div class="text-center">
+            Date Requested: {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
+        </div> --}}
+        <button class="btn btn-primary float-right" id="edit_prform"><i class="fas fa-edit"></i>&nbsp;Edit</button>
+        <button class="btn btn-success float-right" id="save_prform"><i class="fas fa-check"></i>&nbsp;Save</button>
+    </div>
+    <div class="card-body">
+        <hr>
+        <form id="save_pr">
+            {{csrf_field()}}
+            {{method_field('PUT')}}
+            <input type="hidden" id="pr_id" name="pr_id" value="{{$prforms->pr_id}}">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <p for="department" style="font-size: 18px;">Department: </p>
+                <input type="text" class="form-control" id="department" name="department" value="{{$prforms->department}}" style="background-color: #fff;" readonly>
+            </div>
+            <div class="form-group col-md-6">
+                <p for="project" style="font-size: 18px;">To be used in <i style="font-size: 12px;">(Project Name)</i> :</p>
+                <input type="text" class="form-control" id="project" name="project" value="{{$prforms->project}}" style="background-color: #fff;" readonly>
+            </div>
+        </div><br>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <p for="purpose" style="font-size: 18px;">Specific Purpose or Usage: </p>
+                <input type="text" class="form-control" id="purpose" name="purpose" value="{{$prforms->purpose}}" style="background-color: #fff;" readonly>
+            </div>
+        </div>
+    </form>
+    </div>
+    @else
+    <h4 class="text-center">No Product Found</h4>
+    @endif
+</div>
+<form method="POST" autocomplete="off" onsubmit="return false" id="insert_product">
+    <div class="overlay">
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+    @csrf
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="text-primary">
+                            <tr>
+                                <th style="display: none;">ID</th>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Remarks</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                            @foreach($products as $key => $row)
+                            <tr>
+                                <td style="display: none;">{{$row->p_id}}</td>
+                                <td class="key">{{++$key}}</td>
+                                <td>{{$row->product}}</td>
+                                <td>{{$row->quantity}}</td>
+                                <td>{{$row->unit}}</td>
+                                <td class="price-currency">{{$row->price}}</td>
+                                <td class="total-currency">{{$row->total}}</td>
+                                <input type="hidden" class="total" value="{{$row->total}}" />
+                                <td>{{$row->remarks}}</td>
+                                <td>
+                                    <span style="cursor: pointer; color: #51cbce;" class="editData" data-content="Edit" rel="popover" data-placement="bottom">
+                                        <i class="fas fa-edit" style="font-size: 20px;"></i>
+                                    </span>&nbsp;
+                                    <span style="cursor: pointer; color:red;" class="deleteData" data-content="Delete" rel="popover" data-placement="bottom">
+                                        <i class="fas fa-trash" style="font-size: 20px;"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <small class="form-text text-muted" id="limit"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form id="form_product" name="form_product" onsubmit="return false;">
+    {{csrf_field()}}
+    {{method_field('POST')}}
+    <input type="hidden" id="prform_id" name="prform_id">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <input type="text" class="form-control" id="product" name="product">
+                        <small id="e_product" class="form-text text-muted"></small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="unit">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity" name="quantity">
+                        <small id="e_quantity" class="form-text text-muted"></small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" name="price">
+                        <small id="e_price" class="form-text text-muted"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label for="remarks">Remarks</label>
+                        <input type="text" class="form-control" id="remarks" name="remarks"/>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="total">Total</label>
+                        <input type="text" class="form-control" id="totalCurrency" style= "background-color: #fff;" value="" readonly>
+                        <input type="text" class="form-control" id="total" style= "background-color: #fff;" name="total" value="" hidden>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" id="addProduct"><i class="fas fa-cart-plus"></i>&nbsp; Add</button>
+              </div>
+        </div>
+    </div>
+</form>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Grand Total:</h4>
+        </div>
+        <div class="card-body">
+            <form id="send_request">
+                {{csrf_field()}}
+                {{method_field('PUT')}}
+                <input type="hidden" id="requested_id" name="requested_id" value="">
+            </form>
+          <div class="text-center">
+            <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
+            <button type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-paper-plane"></i>&nbsp; Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form id="edit_form" onsubmit="return false;">
+                {{csrf_field()}}
+                {{method_field('PUT')}}
+                <input type="hidden" id="edit_id" name="edit_id">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="product">Product</label>
+                            <input type="text" class="form-control" id="edit_product" name="edit_product">
+                            <small id="err_product" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="unit">Unit</label>
+                            <input type="text" class="form-control" id="edit_unit" name="edit_unit">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="text" class="form-control" id="edit_quantity" name="edit_quantity">
+                            <small id="err_quantity" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="edit_price" name="edit_price">
+                            <small id="err_price" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <input type="text" class="form-control" id="edit_remarks" name="edit_remarks"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="total">Total</label>
+                            <input type="text" class="form-control" id="edit_totalCurrency" style= "background-color: #fff;" value="" readonly>
+                            <input type="hidden" class="form-control" id="edit_total" style= "background-color: #fff;" value="" name="edit_total" >
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form id="delete_product" style="display: none;">
+    {{csrf_field()}}
+    {{method_field('DELETE')}}
+    <input type="hidden" id="delete_id" name="delete_id">
+  </form>
+
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+
+    function grandTotal(){
+        var grand = 0;
+        
+        $('.total').each(function(i, e){
+            var amount = $(this).val()-0;
+            grand += amount;
+        });
+        
+        $('#grandTotal').html(grand).formatCurrency({symbol: ''});
+    }
+
+    function readFalse(){
+
+        $('#department').attr('readonly', false);
+        $('#project').attr('readonly', false);
+        $('#purpose').attr('readonly', false);
+        
+    }
+
+    function readTrue(){
+
+        $('#department').attr('readonly', true);
+        $('#project').attr('readonly', true);
+        $('#purpose').attr('readonly', true);
+
+    }
+
+    if ($('.key').length >= 22){
+        $('#limit').html('<span class="text-danger"><strong>You have reached the limit of adding products</strong></span>')
+        $('#form_product').hide();
+    } else {
+        $('#form_product').show();
+    }
+
+    $('.editData').popover({ trigger: "hover focus"});
+    $('.deleteData').popover({ trigger: "hover focus"});
+    $('#quantity').numeric();
+    $('#price').numeric();
+    $('.price-currency').formatCurrency({symbol : ''});
+    $('.total-currency').formatCurrency({symbol : '₱ '});
+    $('#save_prform').hide();
+    grandTotal();
+
+    $('#edit_prform').on('click', function(){
+        readFalse();
+        $('#save_prform').show();
+        $('#edit_prform').hide();
+    });
+    
+    $('#save_prform').on('click', function(){
+        $('.overlay').show();
+        $.ajax({
+            url: "{{route('save.pr')}}",
+            type: "PUT",
+            data: $('#save_pr').serialize(),
+            success: function(){
+                
+                readTrue();
+                $('#save_prform').hide();
+                $('#edit_prform').show();
+                $('.overlay').hide();
+            },
+            error: function(){
+                $('.overlay').hide();
+                swal('Error', "Something went wrong, Please try again", "error");
+            }
+        });
+    });
+
+    $('.editData').on('click', function(){
+        $('#edit_quantity').numeric();
+        $('#edit_price').numeric();
+
+        $('#editModal').modal('show');
+        let tr = $(this).closest('tr');
+        let data = tr.children('td').map(function(){
+            return $(this).text();
+        }).get();
+        $('#edit_id').val(data[0]);
+        $('#edit_product').val(data[2]);
+        $('#edit_quantity').val(data[3]);
+        $('#edit_unit').val(data[4]);
+        $('#edit_price').val(data[5]);
+        $('#edit_total').val(parseFloat($('#edit_quantity').val()) * parseFloat($('#edit_price').val()));
+        $('#edit_totalCurrency').val(data[6]).formatCurrency({symbol : '₱ '});
+        $('#edit_remarks').val(data[7]);
+
+        $('body').on('keyup', '#edit_quantity, #edit_price', function(){
+            
+            let quantity = $('#edit_quantity').val();
+            let price = $('#edit_price').val();
+            let total = (price * quantity);
+            $('#edit_total').val(total);
+            $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        });
+
+    });
+
+
+    $('#saveChanges').on('click', function(){
+        $('.overlay').show();
+        $.ajax({
+            url: "{{route('save.product')}}",
+            type: "PUT",
+            data: $('#edit_form').serialize(),
+            success: function(){
+                location.reload();
+            },
+            error: function(){
+                $('.overlay').hide();
+                swal('Error', "Something went wrong, Please try again", "error");
+            }
+        });
+    });
+
+    $('.deleteData').on('click', function(){
+        if ($('.key').length <= 1){
+            swal("Error", "You can't delete the last product left", "error");
+        } else {
+            
+            let tr = $(this).closest('tr');
+            let data = tr.children('td').map(function(){
+                return $(this).text();
+            }).get();
+            
+            $('#delete_id').val(data[0]);
+            $('.overlay').show();
+            $.ajax({
+                url: "{{route('delete.product')}}",
+                type: "DELETE",
+                data: $('#delete_product').serialize(),
+                success: function(){
+                    location.reload();
+                },
+                error: function(){
+                    $('.overlay').hide();
+                    swal('Error', "Something went wrong, Please try again", "error");
+                }
+            });
+            
+        }
+    });
+
+    $('body').on('keyup', '#quantity, #price', function(){
+        
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    $('#form_product').on('submit', function(){
+        
+        let pr_id = $('#pr_id').val();
+        let product = $('#product').val();
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let productStatus = false;
+        let quantityStatus = false;
+        let priceStatus = false;
+      
+      
+        if(product == ""){
+            $('#product').addClass('border-danger');
+            $('#e_product').html('<strong><span class="text-danger">Product is required</span></strong>');
+            productStatus = false;
+        } else {
+            $('#product').removeClass('border-danger');
+            $('#e_product').html('');
+            productStatus = true;
+        }
+        
+        if(quantity == ""){
+            $('#quantity').addClass('border-danger');
+            $('#e_quantity').html('<strong><span class="text-danger">Quantity is required</span></strong>');
+            quantityStatus = false;
+        } else {
+            $('#quantity').removeClass('border-danger');
+            $('#e_quantity').html('');
+            quantityStatus = true;
+        }
+        
+        if(price == ""){
+            $('#price').addClass('border-danger');
+            $('#e_price').html('<strong><span class="text-danger">Price is required</span></strong>');
+            priceStatus = false;
+        } else {
+            $('#price').removeClass('border-danger');
+            $('#e_price').html('');
+            priceStatus = true;
+        }
+
+        if((productStatus && quantityStatus && priceStatus) == true){
+            $('#addProduct').prop("disabled", true);
+            $('#prform_id').val(pr_id);
+            $('.overlay').show();
+            $.ajax({
+                url : "{{route('add.product')}}",
+                type: "POST",
+                data: $('#form_product').serialize(),
+                success: function(){
+                    $('.overlay').hide();
+                    swal('Success', "Added Successfully", "success").then(function(){
+                        $('.overlay').show();
+                        location.reload();
+                    });
+                },
+                error: function(){
+                    $('.overlay').hide();
+                    swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                        $('#addProduct').removeAttr('disabled');
+                    });
+                }
+            });
+        }
+    });
+
+    $('#send_btn').on('click', function(){
+        
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to cancel this request!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willSend) => {
+            if (willSend) {
+                let pr_id = $('#pr_id').val();
+                $('#requested_id').val(pr_id);
+                let req_id =  $('#requested_id').val();
+                let requestor = $('#requestor').val();
+                $('.overlay').show();
+                $.ajax({
+                    url: "{{route('requested.pr')}}",
+                    type: "PUT",
+                    data: $('#send_request').serialize(),
+                    success: function(){
+                        $('.overlay').hide();
+                        swal(
+                        'Good job!',
+                        'Saved Successfully',
+                        'success'
+                        ).then(function(){
+                            swal("Would you like to view this request in PDF?", {
+                                icon: "info",
+                                buttons: {
+                                    cancel : true,
+                                    pdf : {
+                                        text : "View PDF",
+                                        value : "pdf"
+                                    }
+                                },
+                            }).then((e) => {
+                                switch(e){
+                                    case "pdf" :
+                                    window.open("/print/"+req_id+"/"+requestor+"", "_blank");
+                                    $('.overlay').show();
+                                    window.location.href = "/user/requested";
+                                    break;
+                                    
+                                    case "cancel" :
+                                    window.location.href = "/user/requested";
+                                    $('.overlay').show();
+                                    break;
+                                    
+                                    default :
+                                    location.reload();
+                                    $('.overlay').show();
+                                }
+                            });
+                        });
+                    },
+                    error: function(){
+                        $('.overlay').hide();
+                        swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                            $('#addProduct').removeAttr('disabled');
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+@endsection
