@@ -90,7 +90,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <small class="form-text text-muted" id="limit"></small>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-success btn-sm" id="showAdd"><i class="fas fa-cart-plus"></i>&nbsp; Add Product</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,6 +151,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-success" id="addProduct"><i class="fas fa-cart-plus"></i>&nbsp; Add</button>
+                <button type="button" class="btn btn-danger" id="cancelChanges"><i class="fas fa-window-close"></i>&nbsp; Cancel</button>
               </div>
         </div>
     </div>
@@ -177,71 +180,71 @@
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form id="edit_form" onsubmit="return false;">
-                {{csrf_field()}}
-                {{method_field('PUT')}}
-                <input type="hidden" id="edit_id" name="edit_id">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="product">Product</label>
-                            <input type="text" class="form-control" id="edit_product" name="edit_product">
-                            <small id="err_product" class="form-text text-muted"></small>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit_form" onsubmit="return false;">
+                    {{csrf_field()}}
+                    {{method_field('PUT')}}
+                    <input type="hidden" id="edit_id" name="edit_id">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="product">Product</label>
+                                <input type="text" class="form-control" id="edit_product" name="edit_product">
+                                <small id="err_product" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="unit">Unit</label>
+                                <input type="text" class="form-control" id="edit_unit" name="edit_unit">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="text" class="form-control" id="edit_quantity" name="edit_quantity">
+                                <small id="err_quantity" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" class="form-control" id="edit_price" name="edit_price">
+                                <small id="err_price" class="form-text text-muted"></small>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="unit">Unit</label>
-                            <input type="text" class="form-control" id="edit_unit" name="edit_unit">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="remarks">Remarks</label>
+                                <input type="text" class="form-control" id="edit_remarks" name="edit_remarks"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="text" class="form-control" id="edit_quantity" name="edit_quantity">
-                            <small id="err_quantity" class="form-text text-muted"></small>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="text" class="form-control" id="edit_price" name="edit_price">
-                            <small id="err_price" class="form-text text-muted"></small>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="total">Total</label>
+                                <input type="text" class="form-control" id="edit_totalCurrency" style= "background-color: #fff;" value="" readonly>
+                                <input type="hidden" class="form-control" id="edit_total" style= "background-color: #fff;" value="" name="edit_total" >
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <label for="remarks">Remarks</label>
-                            <input type="text" class="form-control" id="edit_remarks" name="edit_remarks"/>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="total">Total</label>
-                            <input type="text" class="form-control" id="edit_totalCurrency" style= "background-color: #fff;" value="" readonly>
-                            <input type="hidden" class="form-control" id="edit_total" style= "background-color: #fff;" value="" name="edit_total" >
-                        </div>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
                 </div>
             </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
   <form id="delete_product" style="display: none;">
     {{csrf_field()}}
@@ -281,13 +284,6 @@
 
     }
 
-    if ($('.key').length >= 22){
-        $('#limit').html('<span class="text-danger"><strong>You have reached the limit of adding products</strong></span>')
-        $('#form_product').hide();
-    } else {
-        $('#form_product').show();
-    }
-
     $('.editData').popover({ trigger: "hover focus"});
     $('.deleteData').popover({ trigger: "hover focus"});
     $('#quantity').numeric();
@@ -296,12 +292,24 @@
     $('.total-currency').formatCurrency({symbol : '₱ '});
     $('#save_prform').hide();
     grandTotal();
+    $('#form_product').hide();
 
     $('#edit_prform').on('click', function(){
         readFalse();
         $('#save_prform').show();
         $('#edit_prform').hide();
     });
+
+    $('#showAdd').on('click', function(){
+        $('#saveChanges').show();
+        $('#form_product').show();
+        $('#product').focus();
+      });
+
+      $('#cancelChanges').on('click', function(){
+        $('#form_product').find(':input').val('');
+        $('#form_product').hide();
+      });
     
     $('#save_prform').on('click', function(){
         $('.overlay').show();
@@ -353,20 +361,70 @@
     });
 
 
-    $('#saveChanges').on('click', function(){
-        $('.overlay').show();
-        $.ajax({
-            url: "{{route('save.product')}}",
-            type: "PUT",
-            data: $('#edit_form').serialize(),
-            success: function(){
-                location.reload();
-            },
-            error: function(){
-                $('.overlay').hide();
-                swal('Error', "Something went wrong, Please try again", "error");
+    $('#saveChanges').on('click', function(e){
+        
+        let e_product = $('#edit_product').val();
+        let e_quantity = $('#edit_quantity').val();
+        let e_price = $('#edit_price').val();
+        let e_totalCurrency = $('#edit_totalCurrency').val();
+        let e_productStatus = false;
+        let e_quantityStatus = false;
+        let e_priceStatus = false;
+        let e_totalCurrenyStatus = false;
+
+        if(e_product == ""){
+            $('#edit_product').addClass('border-danger');
+            $('#err_product').html('<strong><span class="text-danger">Product is required</span></strong>');
+            e_productStatus = false;
+        } else {
+            $('#edit_product').removeClass('border-danger');
+            $('#err_product').html('');
+            e_productStatus = true;
+        }
+        
+        if(e_quantity == ""){
+            $('#edit_quantity').addClass('border-danger');
+            $('#err_quantity').html('<strong><span class="text-danger">Quantity is required</span></strong>');
+            e_quantityStatus = false;
+        } else {
+            $('#edit_quantity').removeClass('border-danger');
+            $('#err_quantity').html('');
+            e_quantityStatus = true;
+        }
+        
+        if(e_price == ""){
+            $('#edit_price').addClass('border-danger');
+            $('#err_price').html('<strong><span class="text-danger">Price is required</span></strong>');
+            e_priceStatus = false;
+        } else {
+            $('#edit_price').removeClass('border-danger');
+            $('#err_price').html('');
+            e_priceStatus = true;
+        }
+
+        if((e_productStatus && e_quantityStatus && e_priceStatus) == true){
+            if (e_totalCurrency != "₱ 0.00"){
+                
+                $('.overlay').show();
+                $.ajax({
+                    url: "{{route('save.product')}}",
+                    type: "PUT",
+                    data: $('#edit_form').serialize(),
+                    success: function(){
+                        location.reload();
+                    },
+                    error: function(){
+                        $('.overlay').hide();
+                        swal('Error', "Something went wrong, Please try again", "error");
+                    }
+                });
+                
+            } else {
+                swal("Error", "Total must be at least ₱ 1.00. Please input again the quantity", "error").then(function(){
+                    $('#quantity').val('');
+                });
             }
-        });
+        }
     });
 
     $('.deleteData').on('click', function(){
@@ -413,11 +471,12 @@
         let product = $('#product').val();
         let quantity = $('#quantity').val();
         let price = $('#price').val();
+        let totalCurrency = $('#totalCurrency').val();
         let productStatus = false;
         let quantityStatus = false;
         let priceStatus = false;
-      
-      
+        
+        
         if(product == ""){
             $('#product').addClass('border-danger');
             $('#e_product').html('<strong><span class="text-danger">Product is required</span></strong>');
@@ -447,37 +506,46 @@
             $('#e_price').html('');
             priceStatus = true;
         }
-
+        
         if((productStatus && quantityStatus && priceStatus) == true){
-            $('#addProduct').prop("disabled", true);
-            $('#prform_id').val(pr_id);
-            $('.overlay').show();
-            $.ajax({
-                url : "{{route('add.product')}}",
-                type: "POST",
-                data: $('#form_product').serialize(),
-                success: function(){
-                    $('.overlay').hide();
-                    swal('Success', "Added Successfully", "success").then(function(){
-                        $('.overlay').show();
-                        location.reload();
-                    });
-                },
-                error: function(){
-                    $('.overlay').hide();
-                    swal('Error', "Something went wrong, Please try again", "error").then(function(){
-                        $('#addProduct').removeAttr('disabled');
-                    });
-                }
-            });
+            if (totalCurrency != "₱ 0.00"){
+                
+                $('#addProduct').prop("disabled", true);
+                $('#prform_id').val(pr_id);
+                $('.overlay').show();
+                $.ajax({
+                    url : "{{route('add.product')}}",
+                    type: "POST",
+                    data: $('#form_product').serialize(),
+                    success: function(){
+                        $('.overlay').hide();
+                        swal('Success', "Added Successfully", "success").then(function(){
+                            $('.overlay').show();
+                            location.reload();
+                        });
+                    },
+                    error: function(){
+                        $('.overlay').hide();
+                        swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                            $('#addProduct').removeAttr('disabled');
+                        });
+                    }
+                });
+                
+            } else {
+                swal("Error", "Total must be at least ₱ 1.00. Please input again the quantity", "error").then(function(){
+                    $('#quantity').val('');
+                });
+            }
+            
         }
     });
 
     $('#send_btn').on('click', function(){
         
         swal({
-            title: "Are you sure?",
-            text: "You will not be able to cancel this request!",
+            title: "Are you sure ?",
+            text: "Once it is sent. You will not be able to cancel this request!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -497,7 +565,7 @@
                         $('.overlay').hide();
                         swal(
                         'Good job!',
-                        'Saved Successfully',
+                        'Send Successfully',
                         'success'
                         ).then(function(){
                             swal("Would you like to view this request in PDF?", {
@@ -517,13 +585,8 @@
                                     window.location.href = "/user/requested";
                                     break;
                                     
-                                    case "cancel" :
-                                    window.location.href = "/user/requested";
-                                    $('.overlay').show();
-                                    break;
-                                    
                                     default :
-                                    location.reload();
+                                    window.location.href = "/user/requested";
                                     $('.overlay').show();
                                 }
                             });

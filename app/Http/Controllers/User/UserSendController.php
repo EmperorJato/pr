@@ -29,6 +29,7 @@ class UserSendController extends Controller
 
         return view('user.user-send', compact('prforms', 'products'));
     }
+    
 
     public function approval(Request $request){
 

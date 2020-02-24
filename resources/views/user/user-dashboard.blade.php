@@ -29,11 +29,14 @@
             <tbody>
             </tbody>
           </table>
+          <div class="text-center">
+            <button type="button" class="btn btn-success btn-sm" id="showAdd"><i class="fas fa-cart-plus"></i>&nbsp; Add Product</button>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <div id="pr_form">
+      <div id="pr_form">
+        <div class="card">
+          <div class="card-body">
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -82,6 +85,7 @@
           <div class="text-center">
             <button type="button" class="btn btn-primary" id="editChanges"><i class="fas fa-edit"></i>&nbsp; Save</button>
             <button type="button" class="btn btn-success" id="saveChanges"><i class="fas fa-cart-plus"></i>&nbsp; Add</button>
+            <button type="button" class="btn btn-danger" id="cancelChanges"><i class="fas fa-window-close"></i>&nbsp; Cancel</button>
           </div>
         </div>
       </div>
@@ -143,6 +147,8 @@
   
   <script type="text/javascript">
 
+
+    $('#pr_form').hide();
 
     function grandTotal(){
       var grand = 0;
@@ -220,22 +226,43 @@
               
               
               if((productStatus && quantityStatus && priceStatus) == true){
-                $('tbody').append(output);
-                $('#pr_form').find(':input').val('');
-                $('#product').focus();
-                $('.editData').popover({ trigger: "hover focus"});
-                $('.deleteData').popover({ trigger: "hover focus"});
-                grandTotal();
+
+                if (totalCurrency != "₱ 0.00"){
+                  $('tbody').append(output);
+                  $('#pr_form').find(':input').val('');
+                  $('#product').focus();
+                  $('.editData').popover({ trigger: "hover focus"});
+                  $('.deleteData').popover({ trigger: "hover focus"});
+                  grandTotal();
+                } else {
+                  swal("Error", "Total must be at least ₱ 1.00 . Please input again the quantity", "error").then(function(){
+                    $('#quantity').val('');
+                  });
+                }
+                
               }
           }
 
       $('#saveChanges').on('click', function(){
-        if ($('input[name="product[]"]').length >= 22){
-          swal("Error", "You have reached the limit of adding products", "error");
-        } else {
+        
+        if ($('.total').val() != 0){
           addProducts();
         }
-      }); 
+          
+      });
+
+      $('#showAdd').on('click', function(){
+        $('#saveChanges').show();
+        $('#pr_form').show();
+        $('#pr_form').find(':input').val('');
+        $('#product').focus();
+        $('#editChanges').hide();
+      });
+
+      $('#cancelChanges').on('click', function(){
+        $('#pr_form').find(':input').val('');
+        $('#pr_form').hide();
+      });
       
 
     $('#editChanges').hide();
@@ -251,12 +278,14 @@
         let price = $('#price').val();
         let total = (price * quantity);
         $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        let totalValue = $('#total').val(); 
+        $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
         
       });
     
     $('body').on('click', '.editData', function(){
-        $('#pr_form')[0].scrollIntoView();     
+        $('#pr_form')[0].scrollIntoView();
+        $('#pr_form').show();
         $('#saveChanges').hide();
         $('#editChanges').show();
         $('#title').text('EDIT PR');
@@ -283,7 +312,8 @@
     $('body').on('click', '.deleteData', function(){
       $(this).popover('dispose');
       $(this).parent().parent().remove();
-      
+      $('#pr_form').find(':input').val('');
+      $('#pr_form').hide();
       grandTotal();
 
     });
@@ -299,6 +329,42 @@
       let remarks = $('#remarks').val();
       let totalCurrency = $('#totalCurrency').val();
       let row_id = $('#editRow').val();
+      let editProduct = $('#product').val();
+      let editQuantity = $('#quantity').val();
+      let editPrice = $('#price').val();
+      let productStatus = false;
+      let quantityStatus = false;
+      let priceStatus = false;
+
+      if(editProduct == ""){
+        $('#product').addClass('border-danger');
+        $('#e_product').html('<strong><span class="text-danger">Product is required</span></strong>');
+        productStatus = false;
+      } else {
+        $('#product').removeClass('border-danger');
+        $('#e_product').html('');
+        productStatus = true;
+      }
+      
+      if(editQuantity == ""){
+        $('#quantity').addClass('border-danger');
+        $('#e_quantity').html('<strong><span class="text-danger">Quantity is required</span></strong>');
+        quantityStatus = false;
+      } else {
+        $('#quantity').removeClass('border-danger');
+        $('#e_quantity').html('');
+        quantityStatus = true;
+      }
+      
+      if(editPrice == ""){
+        $('#price').addClass('border-danger');
+        $('#e_price').html('<strong><span class="text-danger">Price is required</span></strong>');
+        priceStatus = false;
+      } else {
+        $('#price').removeClass('border-danger');
+        $('#e_price').html('');
+        priceStatus = true;
+      }
       
       edited = '<td>'+product+'<input type="hidden" id="product'+row_id+'" name="product[]" value="'+product+'" /></td>';
       edited += '<td>'+quantity+'<input type="hidden" id="quantity'+row_id+'" name="quantity[]" value="'+quantity+'" /></td>';
@@ -314,17 +380,26 @@
         '<i class="fas fa-trash" style="font-size: 20px;"></i>'+
         '</span></td>';
 
-        $('#row'+row_id+'').html(edited);
-        grandTotal();
-        $('#editChanges').hide();
-        $('#saveChanges').show();
-        $('#pr_form').find(':input').val('');
-        $('#title').text('ADD PR');
-
-        $('.editData').popover({ trigger: "hover focus"});
- 
-        $('.deleteData').popover({ trigger: "hover focus"});
-        
+        if((productStatus && quantityStatus && priceStatus) == true){
+          
+          if (totalCurrency != "₱ 0.00"){
+            
+            $('#row'+row_id+'').html(edited);
+            grandTotal();
+            $('#editChanges').hide();
+            $('#saveChanges').show();
+            $('#pr_form').find(':input').val('');
+            $('#title').text('ADD PR');
+            $('#pr_form').hide();
+            $('.editData').popover({ trigger: "hover focus"});
+            $('.deleteData').popover({ trigger: "hover focus"});
+            
+          }else {
+            swal("Error", "Total must be at least ₱ 1.00 . Please enter again the quantity", "error").then(function(){
+              $('#quantity').val('');
+            });
+          }
+        }
     });
     
     $('body').on('keydown', function(e){
@@ -368,7 +443,7 @@
             'success'
             ).then(function(){
               
-              swal("Would you like to send this request?", {
+              swal("Would you like to send this request to procurement ?", {
                 icon: "info",
                 buttons: {
                   cancel : true,
@@ -384,13 +459,8 @@
                   $('.overlay').show();
                   break;
                   
-                  case "cancel" :
-                  window.location.href = "/user/request";
-                  $('.overlay').show();
-                  break;
-                  
                   default :
-                  location.reload();
+                  window.location.href = "/user/request";
                   $('.overlay').show();
                 }
               });

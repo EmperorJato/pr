@@ -1,4 +1,4 @@
-@extends('layouts.prf')
+@extends('layouts.admin-prf')
 
 @section('search')
 <form action="{{route('search-request')}}" method="GET" class="form-inline md-form form-sm mt-0">
@@ -25,24 +25,26 @@
                             <th style="display: none;">ID</th>
                             <th>#</th>
                             <th>Date</th>
+                            <th>Series</th>
+                            <th>Requestor</th>
                             <th>Project</th>
-                            <th>Usage</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($prform as $key => $row)
-                        <tr id="{{$row->pr_id}}">
+                        <tr>
                             <td style="display: none;">{{$row->pr_id}}</td>
-                            <td>{{$prform->firstItem() + $key}}</td>
+                            <td>{{++$key}}</td>
                             <td>{{Carbon\Carbon::parse($row->date)->format('m-d-Y')}}</td>
+                            <td>{{$row->series}}</td>
+                            <td>{{$row->requestor}}</td>
                             <td>{{$row->project}}</td>
-                            <td>{{$row->purpose}}</td>
                             <td>
-                                <a href="{{route('user-send', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approvalData" data-content="Send Request" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-paper-plane" style="font-size: 20px;"></i>
+                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approveData" data-content="View Request" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
-                                <span style="cursor: pointer; color:red;" class="deleteData" data-content="Delete" rel="popover" data-placement="bottom">
+                                <span style="cursor: pointer; color:red;" class="deleteData" data-content="Remove" rel="popover" data-placement="bottom">
                                     <i class="fas fa-trash" style="font-size: 20px;"></i>
                                 </span>
                             </td>
@@ -54,62 +56,50 @@
         </div>
     </div>
 </div>
-{{$prform->links()}} 
-<form id="del_req" style="display: none;">
+
+<form id="status" style="display: none;">
     {{csrf_field()}}
     {{method_field('PUT')}}
-    <input type="hidden" id="req_id" name="req_id">
+    <input type="hidden" id="status_id" name="status_id" value="">
 </form>
+
+{{$prform->links()}}
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
-
-    $('.viewData').popover({ trigger: "hover focus"});
-    $('.approvalData').popover({ trigger: "hover focus"});
-    $('.deleteData').popover({ trigger: "hover focus"});
+    $('.approveData').popover({trigger : "hover focus"});
+    $('.deleteData').popover({trigger : "hover focus"});
 
     $('.deleteData').on('click', function(){
-        let parents = $(this).parent().parent();
+        
         let tr = $(this).closest('tr');
         let data = tr.children('td').map(function(){
             return $(this).text();
         }).get();
-        
-        $('#req_id').val(data[0]);
 
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this item",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                   url: "{{route('request.delete')}}",
-                   type: "PUT",
-                   data: $('#del_req').serialize(),
-                   success: function(){
-                        swal('Success', 'Deleted Successfully', 'success').then(function(){
-                            window.location.reload();
-                        });
-                   },
-                    error: function(){
-                        $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error");
-                    }
-                });
+        $('#status_id').val(data[0]);
+
+        let status_id = $('#status_id').val();
+
+        $('.overlay').show();
+        $.ajax({
+            url: "{{route('admin.remove')}}",
+            type: "PUT",
+            data: $('#status').serialize(),
+            success: function(){
+                $('.overlay').hide();
+                swal("Success", "Successfully Removed", "success").then(function(){
+                    $('.overlay').show();
+                    location.reload();
+                }); 
+            },
+            error: function(){
+                $('.overlay').hide();
+                swal('Error', "Something went wrong, Please try again", "error");
             }
         });
-    });
-
-    $('.viewData').on('click', function(){
-
-        $(this).popover('dispose');
-        
     });
 </script>
 @endsection

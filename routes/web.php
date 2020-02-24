@@ -32,45 +32,14 @@ Route::get('/', function () {
 
 });
 
+
 Auth::routes();
-
-Route::get('/login', function () {
-    
-    if (Auth::check()) {
-
-        if(Auth::user()->user_type == "admin"){
-
-            return redirect()->route('admin-dashboard');
-            
-        }
-        
-        return redirect()->route('user-dashboard');
-    }
-
-    return view('auth.login');
-
-});
-
-Route::get('/register', function () {
-    
-    if (Auth::check()) {
-
-        if(Auth::user()->user_type == "admin"){
-
-            return redirect()->route('admin-dashboard');
-            
-        }
-        
-        return redirect()->route('user-dashboard');
-    }
-
-    return view('auth.login');
-
-});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/print/{id}/{requestor}', 'PrintController@view_print')->name('view.pdf');
+Route::get('/view/{id}/{requestor}', 'PrintController@index')->name('view.prform');
+Route::get('/view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
 
 
 //User Dashboard
@@ -98,7 +67,23 @@ Route::get('/search/requested', 'User\UserRequestedController@search')->name('se
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
 
+    //Admin Dashboard
     Route::get('/admin/dashboard', 'Admin\AdminDashboardController@index')->name('admin-dashboard');
+
+
+    //Admin Requested
+    Route::get('/admin/approved', 'Admin\AdminRequestedController@index')->name('admin-approved');
+
+
+    //Admin Deleted
+    Route::get('/admin/removed', 'Admin\AdminDeletedController@index')->name('admin-removed');
+    
+
+    //Admin View
+    Route::get('/admin/{id}/{requestor}', 'Admin\AdminDashboardController@view')->name('admin-view');
+    Route::put('/admin/approve/pr', 'Admin\AdminDashboardController@approve')->name('admin.approve');
+    Route::put('/admin/remove/pr', 'Admin\AdminDashboardController@remove')->name('admin.remove');
+    Route::put('/admin/delete/pr', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
     
 });
 

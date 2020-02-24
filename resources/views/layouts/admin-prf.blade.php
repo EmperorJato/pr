@@ -11,7 +11,6 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/paper-dashboard.css') }}" rel="stylesheet">
     
 </head>
 <body>
@@ -26,9 +25,21 @@
                 <div class="sidebar-wrapper">
                     <ul class="nav">
                         <li class="{{ Route::currentRouteNamed('admin-dashboard') ? 'active' : '' }}">
-                            <a href="{{route('user-dashboard')}}">
+                            <a href="{{route('admin-dashboard')}}">
                                 <i class="fas fa-chalkboard"></i>
                                 <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('admin-approved') ? 'active' : '' }}">
+                            <a href="{{route('admin-approved')}}">
+                                <i class="fas fa-thumbs-up"></i>
+                                <p>Approved</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('admin-removed') ? 'active' : '' }}">
+                            <a href="{{route('admin-removed')}}">
+                                <i class="fas fa-trash"></i>
+                                <p>Removed</p>
                             </a>
                         </li>
                     </ul>
