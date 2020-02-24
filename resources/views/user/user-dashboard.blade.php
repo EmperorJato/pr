@@ -455,12 +455,12 @@
               }).then((e) => {
                 switch(e){
                   case "pdf" :
-                  window.location.href = "/user/"+pr_id+"/"+requestor+"";
+                  window.location.href = "/pr/user/"+pr_id+"/"+requestor+"";
                   $('.overlay').show();
                   break;
                   
                   default :
-                  window.location.href = "/user/request";
+                  window.location.href = "{{route('requested.pr')}}";
                   $('.overlay').show();
                 }
               });

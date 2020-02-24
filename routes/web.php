@@ -84,6 +84,10 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::put('/admin/approve/pr', 'Admin\AdminDashboardController@approve')->name('admin.approve');
     Route::put('/admin/remove/pr', 'Admin\AdminDashboardController@remove')->name('admin.remove');
     Route::put('/admin/delete/pr', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
+
+    Route::get('/dashboard/admin', 'Admin\AdminDashboardController@search')->name('dashboard.search');
+    Route::get('/approve/admin', 'Admin\AdminRequestedController@search')->name('approve.search');
+    Route::get('/remove/admin', 'Admin\AdminDeletedController@search')->name('remove.search');
     
 });
 

@@ -580,13 +580,13 @@
                             }).then((e) => {
                                 switch(e){
                                     case "pdf" :
-                                    window.open("/print/"+req_id+"/"+requestor+"", "_blank");
+                                    window.open("/pr/print/"+req_id+"/"+requestor+"", "_blank");
                                     $('.overlay').show();
-                                    window.location.href = "/user/requested";
+                                    window.location.href = "{{route('requested.pr')}}";
                                     break;
                                     
                                     default :
-                                    window.location.href = "/user/requested";
+                                    window.location.href = "{{route('requested.pr')}}";
                                     $('.overlay').show();
                                 }
                             });

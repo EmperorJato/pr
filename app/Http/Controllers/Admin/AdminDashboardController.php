@@ -80,4 +80,33 @@ class AdminDashboardController extends Controller
 
     }
 
+    public function search(Request $request){
+
+        $search = $request->get('search');
+
+        if($search != ""){
+
+            $prform = PRForms::where('user_id', Auth::user()->id)
+            ->where('date', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Requested')
+            ->orWhere('series', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Requested')
+            ->orWhere('requestor', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Requested')
+            ->orWhere('project', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Requested')
+            ->orWhere('purpose', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Requested')
+            ->orderBy('series_no', 'asc')
+            ->paginate(10);
+
+            $prform->appends(['search' => $search]);
+
+            return view('admin.admin-dashboard', compact('prform'));
+
+        }
+
+        return redirect()->route('admin-dashboard');
+    }
+
 }

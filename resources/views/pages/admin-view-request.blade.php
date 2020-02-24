@@ -117,7 +117,7 @@
     $('#pdf_btn').on('click', function(){
         let pr_id = $('#pr_id').val();
         let requestor = $('#requestor').val();
-        window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
+        window.open("/pr/print/"+pr_id+"/"+requestor+"", "_blank");
     });
     
     
