@@ -35,11 +35,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+Route::post('register-user', 'Auth\RegisterController@registerUser')->name('register.user');
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+// Print
 Route::get('/print/{id}/{requestor}', 'PrintController@view_print')->name('view.pdf');
-Route::get('/view/{id}/{requestor}', 'PrintController@index')->name('view.prform');
-Route::get('/view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
+Route::get('/user-view/{id}/{requestor}', 'PrintController@index')->name('view.prform');
+Route::get('/admin-view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
 
 
 //User Dashboard

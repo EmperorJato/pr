@@ -143,10 +143,10 @@
                         icon: "info",
                         buttons: true,
                         closeOnClickOutside: false
-                    })
+                    }) 
                     .then((willDelete) => {
                         if (willDelete) {
-                            window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
+                            window.open("/pr/print/"+pr_id+"/"+requestor+"", "_blank");
                             $('.overlay').show();
                             window.location.href = "{{route('admin-dashboard')}}";
                         } else {

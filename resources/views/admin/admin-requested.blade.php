@@ -71,7 +71,9 @@
 @endsection
 
 @section('scripts')
+
 <script type="text/javascript">
+
     $('.approveData').popover({trigger : "hover focus"});
     $('.deleteData').popover({trigger : "hover focus"});
 
@@ -104,5 +106,7 @@
             }
         });
     });
+
 </script>
+
 @endsection
