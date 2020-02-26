@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\PRForms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\PRForms;
 
-class AdminDeletedController extends Controller
+class ApprovedController extends Controller
 {
     public function __construct()
     {
@@ -16,13 +16,13 @@ class AdminDeletedController extends Controller
 
     public function index(){
 
-        $prform = PRForms::where('status', 'Removed')->orderBy('date', 'desc')->paginate(10);
+        $prform =  PRForms::where('user_id', Auth::user()->id)
+        ->where('status', 'Approved')->orderBy('date', 'desc')->paginate(10);
 
-        return view('admin.admin-deleted', compact('prform'));
+        return view('user.user-approved', compact('prform'));
         
     }
 
-    
     public function search(Request $request){
 
         $search = $request->get('search');
@@ -31,29 +31,25 @@ class AdminDeletedController extends Controller
 
             $prform = PRForms::where('user_id', Auth::user()->id)
             ->where('date', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('requestor', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
+            ->where('status', '=', 'Approved')
             ->orWhere('user_id', Auth::user()->id)
             ->where('series', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
+            ->where('status', '=', 'Approved')
             ->orWhere('user_id', Auth::user()->id)
             ->where('project', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
+            ->where('status', '=', 'Approved')
             ->orWhere('user_id', Auth::user()->id)
             ->where('purpose', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
+            ->where('status', '=', 'Approved')
             ->orderBy('date', 'desc')
             ->paginate(10);
 
             $prform->appends(['search' => $search]);
 
-            return view('admin.admin-deleted', compact('prform'));
+            return view('user.user-approved', compact('prform'));
 
         }
 
-        return redirect()->route('admin-removed');
+        return redirect()->route('user-approved');
     }
-
 }

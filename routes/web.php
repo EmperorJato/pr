@@ -68,6 +68,10 @@ Route::delete('/user/delete', 'User\UserSendController@destroy')->name('delete.p
 Route::get('/user/requested', 'User\UserRequestedController@index')->name('user-requested');
 Route::get('/search/requested', 'User\UserRequestedController@search')->name('search-requested');
 
+//User Approved
+Route::get('/user/approved', 'User\ApprovedController@index')->name('user-approved');
+Route::get('/search/approved', 'User\ApprovedController@search')->name('search-approved');
+
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
 
@@ -95,6 +99,8 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::get('/remove/admin', 'Admin\AdminDeletedController@search')->name('remove.search');
     
 });
+
+
 
 
 

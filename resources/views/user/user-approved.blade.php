@@ -1,7 +1,7 @@
-@extends('layouts.admin-prf')
+@extends('layouts.prf')
 
 @section('search')
-<form action="{{route('dashboard.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
+<form action="{{route('search-approved')}}" method="GET" class="form-inline md-form form-sm mt-0">
     <div class="input-group no-border">
         <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
         <div class="input-group-append">
@@ -12,9 +12,6 @@
 @endsection
 
 @section('content')
-<div class="overlay">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-</div>
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
@@ -29,24 +26,24 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Series</th>
-                            <th>Requestor</th>
                             <th>Project</th>
+                            <th>Usage</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($prform as $key => $row)
-                        <tr>
+                        <tr id="{{$row->pr_id}}">
                             <td style="display: none;">{{$row->pr_id}}</td>
-                            <td>{{++$key}}</td>
+                            <td>{{$prform->firstItem() + $key}}</td>
                             <td>{{Carbon\Carbon::parse($row->date)->format('m-d-Y')}}</td>
                             <td>{{$row->series}}</td>
-                            <td>{{$row->requestor}}</td>
                             <td>{{$row->project}}</td>
+                            <td>{{$row->purpose}}</td>
                             <td>
-                                <a href="{{route('admin-view', [$id = $row->pr_id, $requestor = $row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('view.prform', [$id=$row->pr_id, $requestor=$row->requestor])}}"  style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
-                                </a>&nbsp;
+                                </a>
                                 <a href="{{route('view.pdf', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
                                     <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
                                 </a>
@@ -59,22 +56,15 @@
         </div>
     </div>
 </div>
-<form id="status">
-    {{csrf_field()}}
-    {{method_field('PUT')}}
-    <input type="hidden" id="status_id" name="status_id" value="">
-    <input type="hidden" id="requestor" name="requestor" value="">
-</form>
-
-{{$prform->links()}}
+{{$prform->links()}} 
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
 
-    $('.viewData').popover({trigger : "hover focus"});
-    $('.viewPDF').popover({trigger : "hover focus"});
- 
+    $('.viewData').popover({ trigger: "hover focus"});
+    $('.viewPDF').popover({ trigger: "hover focus"});
+
 </script>
 @endsection

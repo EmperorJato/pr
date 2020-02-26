@@ -59,7 +59,7 @@ class AdminDashboardController extends Controller
         PRForms::where('pr_id', $status_id)->update([
 
             'status' => 'Removed',
-            
+
         ]);
 
     }
@@ -99,13 +99,17 @@ class AdminDashboardController extends Controller
             $prform = PRForms::where('user_id', Auth::user()->id)
             ->where('date', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('series', 'like', '%'.$search.'%')
+            ->orWhere('user_id', Auth::user()->id)
+            ->where('series', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('requestor', 'like', '%'.$search.'%')
+            ->orWhere('user_id', Auth::user()->id)
+            ->where('requestor', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('project', 'like', '%'.$search.'%')
+            ->orWhere('user_id', Auth::user()->id)
+            ->where('project', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('purpose', 'like', '%'.$search.'%')
+            ->orWhere('user_id', Auth::user()->id)
+            ->where('purpose', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
             ->orderBy('series_no', 'asc')
             ->paginate(10);

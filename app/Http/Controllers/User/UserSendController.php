@@ -92,8 +92,6 @@ class UserSendController extends Controller
 
     }
 
-    
-
     public function requested(Request $request){
 
         $request_id = $request->get('requested_id');

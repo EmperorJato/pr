@@ -33,13 +33,19 @@
                         <li class="{{ Route::currentRouteNamed('user-request') ? 'active' : '' }}">
                             <a href="{{route('user-request')}}">
                                 <i class="fas fa-list-ul"></i>
-                                <p>Purchase Request</p>
+                                <p>Request</p>
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-requested') ? 'active' : '' }}">
                             <a href="{{route('user-requested')}}">
                                 <i class="fas fa-tasks"></i>
                                 <p>Requested</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('user-approved') ? 'active' : '' }}">
+                            <a href="{{route('user-approved')}}">
+                                <i class="fas fa-thumbs-up"></i>
+                                <p>Approved</p>
                             </a>
                         </li>
                     </ul>
