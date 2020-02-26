@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::get('/admin/{id}/{requestor}', 'Admin\AdminDashboardController@view')->name('admin-view');
     Route::put('/admin/approve/pr', 'Admin\AdminDashboardController@approve')->name('admin.approve');
     Route::put('/admin/remove/pr', 'Admin\AdminDashboardController@remove')->name('admin.remove');
+    Route::put('/admin/restore/pr', 'Admin\AdminDashboardController@restore')->name('admin.restore');
     Route::put('/admin/delete/pr', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
 
     Route::get('/dashboard/admin', 'Admin\AdminDashboardController@search')->name('dashboard.search');

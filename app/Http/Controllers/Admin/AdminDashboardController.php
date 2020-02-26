@@ -58,9 +58,19 @@ class AdminDashboardController extends Controller
 
         PRForms::where('pr_id', $status_id)->update([
 
-            'approve' => Auth::user()->name,
             'status' => 'Removed',
-            'status_date' => Carbon::now()
+            
+        ]);
+
+    }
+
+    public function restore(Request $request){
+
+        $status_id = $request->get('status_id');
+
+        PRForms::where('pr_id', $status_id)->update([
+
+            'status' => 'Approved',
 
         ]);
 

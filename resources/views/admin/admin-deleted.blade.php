@@ -133,7 +133,7 @@
         $('.overlay').show();
        
         $.ajax({
-            url: "{{route('admin.approve')}}",
+            url: "{{route('admin.restore')}}",
             type: "PUT",
             data: $('#status').serialize(),
             success: function(){
