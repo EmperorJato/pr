@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+    @if(session()->has("error"))
+    <script type="text/javascript">
+        $(function(){
+            swal("Login Failed", "Please contact the administrator to access your account. Thank You", "error").then(function(){
+                window.location.href = "{{url('/')}}";
+            });
+        });
+    </script>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

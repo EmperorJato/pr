@@ -1,4 +1,4 @@
-@extends('layouts.admin-prf')
+@extends('layouts.sa-prf')
 
 @section('search')
 <form action="{{route('dashboard.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
@@ -47,9 +47,6 @@
                                 <a href="{{route('admin-view', [$id = $row->pr_id, $requestor = $row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
-                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-                                </a>&nbsp;
                             </td>
                         </tr>
                         @endforeach
@@ -74,7 +71,6 @@
 <script type="text/javascript">
 
     $('.viewData').popover({trigger : "hover focus"});
-    $('.viewPDF').popover({trigger : "hover focus"});
  
 </script>
 @endsection

@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -35,11 +36,16 @@ class LoginController extends Controller
 
             return '/admin/dashboard';
 
-        } 
-        
-        else{
+        } else if(Auth::user()->user_type == 'user'){
 
             return '/user/dashboard';
+
+        } else {
+
+            Session::flush();
+            Session::regenerate();
+            Session::flash('error', 'error');
+            
         }
 
     }
