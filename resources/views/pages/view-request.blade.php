@@ -10,6 +10,7 @@
         <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
         <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
         <div class="text-center">
+            Series No: {{$prforms->series}}<br>
             Request Date: {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
         </div>
     </div>
