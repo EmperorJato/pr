@@ -45,6 +45,7 @@ Route::get('/print/{id}/{requestor}', 'PrintController@view_print')->name('view.
 Route::get('/user-view/{id}/{requestor}', 'PrintController@index')->name('view.prform');
 Route::get('/admin-view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
 
+Route::group(['middleware' => ['auth', 'user']], function(){
 
 //User Dashboard
 Route::get('/user/dashboard', 'User\UserDashboardController@index')->name('user-dashboard');
@@ -71,6 +72,10 @@ Route::get('/search/requested', 'User\UserRequestedController@search')->name('se
 //User Approved
 Route::get('/user/approved', 'User\ApprovedController@index')->name('user-approved');
 Route::get('/search/approved', 'User\ApprovedController@search')->name('search-approved');
+
+
+});
+
 
 
 Route::group(['middleware' => ['auth', 'admin']], function(){

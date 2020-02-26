@@ -20,6 +20,9 @@ class UserMiddleware
 
             return $next($request);
 
+        } else {
+            
+            return back();
         }
         
     }
