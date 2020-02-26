@@ -22,7 +22,7 @@ class UserRequestController extends Controller
 
         
         $prform =  PRForms::where('user_id', Auth::user()->id)
-        ->where('status', '=', null)->orderBy('date', 'asc')->paginate(10);
+        ->where('status', '=', null)->orderBy('date', 'desc')->paginate(10);
 
         return view('user.user-request', compact('prform'));
         
@@ -55,7 +55,7 @@ class UserRequestController extends Controller
             ->where('status', '=', null)
             ->orWhere('purpose', 'like', '%'.$search.'%')
             ->where('status', '=', null)
-            ->orderBy('date', 'asc')
+            ->orderBy('date', 'desc')
             ->paginate(10);
 
             $prform->appends(['search' => $search]);

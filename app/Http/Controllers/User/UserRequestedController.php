@@ -19,7 +19,7 @@ class UserRequestedController extends Controller
     public function index(){
 
         $prform =  PRForms::where('user_id', Auth::user()->id)
-        ->where('status', '=', 'Requested')->orderBy('series_no', 'asc')->paginate(10);
+        ->where('status', '=', 'Requested')->orderBy('date', 'desc')->paginate(10);
 
         return view('user.user-requested', compact('prform'));
 
@@ -40,7 +40,7 @@ class UserRequestedController extends Controller
             ->where('status', '=', 'Requested')
             ->orWhere('purpose', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orderBy('series_no', 'asc')
+            ->orderBy('date', 'desc')
             ->paginate(10);
 
             $prform->appends(['search' => $search]);
