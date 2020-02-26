@@ -460,7 +460,7 @@
                   break;
                   
                   default :
-                  window.location.href = "{{route('requested.pr')}}";
+                  window.location.href = "{{route('user-request')}}";
                   $('.overlay').show();
                 }
               });

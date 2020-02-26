@@ -12,7 +12,6 @@
         <div class="text-center">
             Series No: {{$prforms->series}}<br>
             Request Date: {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
-            
         </div>
     </div>
     <div class="card-body">
