@@ -9,6 +9,7 @@ use App\PRForms;
 use App\Products;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 
 
 class UserDashboardController extends Controller
@@ -22,51 +23,52 @@ class UserDashboardController extends Controller
     }
 
     public function index(){
+        $send = null;
+        $last_requested = null;
+        $last_id = null;
+        $last_total = null;
+        $status = null;
 
-        return view('user.user-dashboard');
+        $last_pr = PRForms::where('user_id', Auth::user()->id)->first();
 
-    }
+        if($last_pr){
 
-    public function create(array $data){
+            $send = PRForms::where('user_id', Auth::user()->id)->latest('created_at')->first();
 
-        $dateNow = Carbon::now();
+            $last_requested = PRForms::where('user_id', Auth::user()->id)->latest('created_at')->first()->series;
 
+            $last_id = PRForms::where('user_id', Auth::user()->id)->latest('created_at')->first()->pr_id;
+    
+            $last_total = Products::where('prform_id', $last_id)->sum('total');
 
-          
-        return PRForms::create([
+            $status = PRForms::where('user_id', Auth::user()->id)->latest('created_at')->first()->status;
 
-            'user_id' => Auth::user()->id,
-            'requestor' => Auth::user()->name,
-            'date' => $dateNow,
-            'department' => $data['department'],
-            'project' => $data['project'],
-            'purpose' => $data['purpose']
-            
-        ]);
-
-    }
-
-    public function store(Request $request){
+        }
         
-        $pr_id = $this->create($request->all())->id;
 
-        if(count($request->product) > 0){
-            foreach($request->product as $item => $a){
-                $data = array(
-                    'prform_id' => $pr_id,
-                    'product' => $request->product[$item],
-                    'quantity' => $request->quantity[$item],
-                    'unit' => $request->unit[$item],
-                    'price' => $request->price[$item],
-                    'total' => $request->total[$item],
-                    'remarks' => $request->remarks[$item]
-                );
+        $req = PRForms::where('user_id', Auth::user()->id)
+        ->where('status', null)->count();
 
-                Products::insert($data);
-            }
+        $requested = PRForms::where('user_id', Auth::user()->id)
+        ->where('status', 'Requested')->count();
+
+        $approved = PRForms::where('user_id', Auth::user()->id)
+        ->where('status', 'Approved')->count();
+
+        $rejected = PRForms::where('user_id', Auth::user()->id)
+        ->where('status', 'Rejected')->count();
+
+        $grand = null;
+        $app = PRForms::where('user_id', Auth::user()->id)->where('status', 'Approved')->first();
+
+        if($app){
+
+            $grand = PRForms::leftJoin('products', 'products.prform_id', '=', 'prforms.pr_id')->where('user_id', Auth::user()->id)->where('status', 'Approved')->sum('total');
         }
 
-        return response()->json(['pr_id' => $pr_id, 'requestor' => Auth::user()->name]);
+        return view('user.user-dashboard', compact(['req', 'requested', 'approved', 'rejected', 'last_pr', 'last_requested', 'last_total', 'grand', 'status', 'send']));
+
     }
+   
 
 }

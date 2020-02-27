@@ -30,6 +30,12 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
+                        <li class="{{ Route::currentRouteNamed('user-form') ? 'active' : '' }}">
+                            <a href="{{route('user-form')}}">
+                                <i class="fas fa-sticky-note"></i>
+                                <p>PR Form</p>
+                            </a>
+                        </li>
                         <li class="{{ Route::currentRouteNamed('user-request') ? 'active' : '' }}">
                             <a href="{{route('user-request')}}">
                                 <i class="fas fa-list-ul"></i>
@@ -39,13 +45,19 @@
                         <li class="{{ Route::currentRouteNamed('user-requested') ? 'active' : '' }}">
                             <a href="{{route('user-requested')}}">
                                 <i class="fas fa-tasks"></i>
-                                <p>Requested</p>
+                                <p>Requested/Pending PR</p>
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-approved') ? 'active' : '' }}">
                             <a href="{{route('user-approved')}}">
                                 <i class="fas fa-thumbs-up"></i>
-                                <p>Approved</p>
+                                <p>Approved PR</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('user-rejected') ? 'active' : '' }}">
+                            <a href="{{route('user-rejected')}}">
+                                <i class="fas fa-thumbs-down"></i>
+                                <p>Rejected PR</p>
                             </a>
                         </li>
                     </ul>

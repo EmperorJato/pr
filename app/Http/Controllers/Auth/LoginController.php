@@ -45,9 +45,14 @@ class LoginController extends Controller
             Session::flush();
             Session::regenerate();
             Session::flash('error', 'error');
-            
+
         }
 
+    }
+
+    public function username()
+    {
+        return 'username';
     }
     
     //protected $redirectTo = RouteServiceProvider::HOME;
