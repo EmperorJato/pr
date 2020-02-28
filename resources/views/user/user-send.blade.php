@@ -7,6 +7,9 @@
 <div class="card">
     @if(isset($prforms))
     <div class="card-header" style="margin-bottom: -12px;">
+        @if($prforms->status_remarks != null)
+        <h5 class="text-danger text-center">{{$prforms->status_remarks}}</h5>
+        @endif
         <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
         <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
         {{-- <div class="text-center">
@@ -157,6 +160,8 @@
     </div>
 </form>
 
+
+
 <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
@@ -172,6 +177,11 @@
           <div class="text-center">
             <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
             <button type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-paper-plane"></i>&nbsp; Send</button>
+            @if(isset($prforms))
+                @if($prforms->status_remarks != null)
+                <h5 class="text-danger">{{$prforms->status_remarks}}</h5>
+                @endif
+            @endif
           </div>
         </div>
       </div>

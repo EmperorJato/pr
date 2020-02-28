@@ -174,11 +174,12 @@
                     <div class="form-group">
                         <label for="reason">Reason</label>
                         <textarea type="text" class="form-control" id="reason" name="reason"></textarea>
+                        <small id="e_reason" class="form-text text-muted"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                    <button type="submit" class="btn btn-primary" id="reasonChanges">Save changes</button>
                 </div>
             </form>
         </div>
@@ -289,35 +290,35 @@
 
     function press(){
         $('body').on('keyup', '#quantity, #price', function(){
-            
-            let quantity = $('#quantity').val();
-            let price = $('#price').val();
-            let total = (price * quantity);
-            $('#total').val(total);
-            $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-            
-        });
         
-        $('body').on('keydown', '#quantity, #price', function(){
-            
-            let quantity = $('#quantity').val();
-            let price = $('#price').val();
-            let total = (price * quantity);
-            $('#total').val(total);
-            $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-            
-        });
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
         
-        $('body').on('keypress', '#quantity, #price', function(){
-            
-            let quantity = $('#quantity').val();
-            let price = $('#price').val();
-            let total = (price * quantity);
-            $('#total').val(total);
-            $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-            
-        });
+    });
+
+    $('body').on('keydown', '#quantity, #price', function(){
         
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    $('body').on('keypress', '#quantity, #price', function(){
+        
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
     }
 
     $('.editData').popover({ trigger: "hover focus"});
@@ -351,7 +352,7 @@
                     }) 
                     .then((willDelete) => {
                         if (willDelete) {
-                            window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
+                            window.open("/pr/print/"+pr_id+"/"+requestor+"", "_blank");
                             $('.overlay').show();
                             window.location.href = "{{route('admin-dashboard')}}";
                         } else {
@@ -371,27 +372,10 @@
     $('#remove_btn').on('click', function(){
 
         $('#reasonModal').modal('show');
-        // let pr_id = $('#pr_id').val();
-        // $('#status_id').val(pr_id);
-        // let status_id = $('#status_id').val();
+        let pr_id = $('#pr_id').val();
+        $('#reason_id').val(pr_id);
+        let reason_id = $('#reason_id').val();
 
-        // $('.overlay').show();
-        // $.ajax({
-        //     url: "{{route('admin.remove')}}",
-        //     type: "PUT",
-        //     data: $('#status').serialize(),
-        //     success: function(){
-        //         $('.overlay').hide();
-        //         swal("Success", "Successfully Rejected", "success").then(function(){
-        //             $('.overlay').show();
-        //             window.location.href = "{{route('admin-dashboard')}}";
-        //         }); 
-        //     },
-        //     error: function(){
-        //         $('.overlay').hide();
-        //         swal('Error', "Something went wrong, Please try again", "error");
-        //     }
-        // });
     });
 
     $('#showAdd').on('click', function(){
@@ -400,7 +384,7 @@
         $('#form_product').show();
         $('#product').focus();
         $('#prform_id').val(pr_id);
-    });
+      });
 
     $('.editData').on('click', function(){
         $('#edit_quantity').numeric();
@@ -631,7 +615,27 @@
         }
     });
 
-    
+    $('#reasonChanges').on('click', function(){
 
+        $('.overlay').show();
+        $.ajax({
+            url: "{{route('admin.remove')}}",
+            type: "PUT",
+            data: $('#reason_form').serialize(),
+            success: function(){
+                $('.overlay').hide();
+                swal("Success", "Successfully Rejected", "success").then(function(){
+                    $('.overlay').show();
+                    window.location.href = "{{route('admin-dashboard')}}";
+                }); 
+            },
+            error: function(){
+                $('.overlay').hide();
+                swal('Error', "Something went wrong, Please try again", "error");
+            }
+        });
+    });
+
+    
 </script>
 @endsection

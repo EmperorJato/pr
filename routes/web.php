@@ -74,7 +74,6 @@ Route::group(['middleware' => ['auth', 'user']], function(){
      Route::get('/user/rejected', 'User\UserRejectedController@index')->name('user-rejected');
      Route::get('/search/rejected', 'User\UserRejectedController@search')->name('search-rejected');
 
-
      //User Edit
      Route::get('/user-edit/{id}/{series}', 'User\UserEditController@index')->name('user-edit');
     
@@ -96,14 +95,14 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 
 
     //Admin Deleted
-    Route::get('/admin/removed', 'Admin\AdminDeletedController@index')->name('admin-removed');
+    Route::get('/admin/rejected', 'Admin\AdminDeletedController@index')->name('admin-removed');
+    Route::put('/admin/restored', 'Admin\AdminDeletedController@restore')->name('admin-restored');
     
 
     //Admin View
     Route::get('/admin/{id}', 'Admin\AdminDashboardController@view')->name('admin-view');
     Route::put('/admin/approve', 'Admin\AdminDashboardController@approve')->name('admin.approve');
     Route::put('/admin/remove', 'Admin\AdminDashboardController@remove')->name('admin.remove');
-    Route::put('/admin/restore', 'Admin\AdminDashboardController@restore')->name('admin.restore');
     Route::put('/admin/delete', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
 
     Route::get('/dashboard/admin', 'Admin\AdminDashboardController@search')->name('dashboard.search');

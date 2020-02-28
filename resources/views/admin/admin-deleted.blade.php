@@ -49,6 +49,9 @@
                                 <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>
+                                <span style="cursor: pointer; color: #34eb80;" class="restoreData" data-content="Restore Request" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-trash-restore" style="font-size: 20px;"></i>
+                                </span>&nbsp;
                             </td>
                         </tr>
                         @endforeach
@@ -72,5 +75,35 @@
 @section('scripts')
 <script type="text/javascript">
     $('.viewData').popover({trigger : "hover focus"});
+    $('.restoreData').popover({trigger : "hover focus"});
+
+
+    $('.restoreData').on('click', function(){
+         let tr = $(this).closest('tr');
+         let data = tr.children('td').map(function(){
+            return $(this).text();
+         }).get();
+
+         $('#status_id').val(data[0]);
+
+         $('.overlay').show();
+
+         $.ajax({
+             url: "{{route('admin-restored')}}",
+             type: "PUT",
+             data: $('#status').serialize(),
+             success: function(){
+                $('.overlay').hide();
+                swal("Success", "Restored Successfully", "success").then(function(){
+                    window.location.href = "{{route('admin-dashboard')}}";
+                });
+             },
+             error: function(){
+                $('.overlay').hide();
+                swal("Error", "Please Try Again", "error");
+             }
+         });
+    });
+
 </script>
 @endsection

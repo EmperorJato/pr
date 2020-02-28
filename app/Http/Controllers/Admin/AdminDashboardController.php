@@ -54,43 +54,19 @@ class AdminDashboardController extends Controller
 
     public function remove(Request $request){
 
-        $status_id = $request->get('status_id');
+        $reason_id = $request->get('reason_id');
 
-        PRForms::where('pr_id', $status_id)->update([
+        PRForms::where('pr_id', $reason_id)->update([
             
             'approve' => Auth::user()->name,
             'status' => 'Rejected',
             'status_date' => Carbon::now(),
+            'status_remarks' => $request->reason
 
         ]);
 
     }
 
-    public function restore(Request $request){
-
-        $status_id = $request->get('status_id');
-
-        PRForms::where('pr_id', $status_id)->update([
-
-            'status' => 'Approved',
-
-        ]);
-
-    }
-
-    public function deleted(Request $request){
-
-        $status_id = $request->get('status_id');
-
-        PRForms::where('pr_id', $status_id)->update([
-
-            'approve' => Auth::user()->name,
-            'status' => 'Deleted',
-            'status_date' => Carbon::now()
-
-        ]);
-
-    }
 
     public function search(Request $request){
 
@@ -163,6 +139,7 @@ class AdminDashboardController extends Controller
         $product->delete();
 
     }
+
 
 
 }
