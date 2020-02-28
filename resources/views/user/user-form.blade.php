@@ -479,7 +479,7 @@
               }).then((e) => {
                 switch(e){
                   case "pdf" :
-                  window.location.href = "/pr/user/"+pr_id+"/"+requestor+"";
+                  window.location.href = "/user/"+pr_id+"/"+requestor+"";
                   $('.overlay').show();
                   break;
                   

@@ -618,7 +618,7 @@
                             }).then((e) => {
                                 switch(e){
                                     case "pdf" :
-                                    window.open("/pr/print/"+req_id+"/"+requestor+"", "_blank");
+                                    window.open("/print/"+req_id+"/"+requestor+"", "_blank");
                                     $('.overlay').show();
                                     window.location.href = "{{route('requested.pr')}}";
                                     break;
