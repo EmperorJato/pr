@@ -50,7 +50,7 @@ class AdminDeletedController extends Controller
 
         return redirect()->route('admin-removed');
     }
-
+    
     public function restore(Request $request){
 
         $status_id = $request->get('status_id');
