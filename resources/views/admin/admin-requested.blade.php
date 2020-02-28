@@ -47,9 +47,6 @@
                                 <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approveData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
-                                <span style="cursor: pointer; color:red;" class="deleteData" data-content="Remove" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-trash" style="font-size: 20px;"></i>
-                                </span>
                             </td>
                         </tr>
                         @endforeach
@@ -75,37 +72,6 @@
 <script type="text/javascript">
 
     $('.approveData').popover({trigger : "hover focus"});
-    $('.deleteData').popover({trigger : "hover focus"});
-
-    $('.deleteData').on('click', function(){
-        
-        let tr = $(this).closest('tr');
-        let data = tr.children('td').map(function(){
-            return $(this).text();
-        }).get();
-
-        $('#status_id').val(data[0]);
-
-        let status_id = $('#status_id').val();
-
-        $('.overlay').show();
-        $.ajax({
-            url: "{{route('admin.remove')}}",
-            type: "PUT",
-            data: $('#status').serialize(),
-            success: function(){
-                $('.overlay').hide();
-                swal("Success", "Successfully Removed", "success").then(function(){
-                    $('.overlay').show();
-                    location.reload();
-                }); 
-            },
-            error: function(){
-                $('.overlay').hide();
-                swal('Error', "Something went wrong, Please try again", "error");
-            }
-        });
-    });
 
 </script>
 

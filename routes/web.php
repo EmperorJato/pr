@@ -45,7 +45,6 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     Route::get('/user/dashboard', 'User\UserDashboardController@index')->name('user-dashboard');
 
     //User Form
-
     Route::get('/user/form', 'User\UserFormController@index')->name('user-form');
     Route::post('/user/form', 'User\UserFormController@store')->name('insert.products');
     
