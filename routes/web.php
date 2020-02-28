@@ -74,6 +74,10 @@ Route::group(['middleware' => ['auth', 'user']], function(){
      //User Approved
      Route::get('/user/rejected', 'User\UserRejectedController@index')->name('user-rejected');
      Route::get('/search/rejected', 'User\UserRejectedController@search')->name('search-rejected');
+
+
+     //User Edit
+     Route::get('/{series}/{id}/{requestor}', 'User\UserEditController@index')->name('user-edit');
     
     
 });
@@ -84,7 +88,9 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 
     //Admin Dashboard
     Route::get('/admin/dashboard', 'Admin\AdminDashboardController@index')->name('admin-dashboard');
-
+    Route::post('/admin/insert', 'Admin\AdminDashboardController@addProduct')->name('admin.add');
+    Route::put('/admin/save_product', 'Admin\AdminDashboardController@saveProduct')->name('admin.save');
+    Route::delete('/admin/delete', 'Admin\AdminDashboardController@destroy')->name('admin.delete');
 
     //Admin Requested
     Route::get('/admin/approved', 'Admin\AdminRequestedController@index')->name('admin-approved');
@@ -95,11 +101,11 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     
 
     //Admin View
-    Route::get('/admin/{id}/{requestor}', 'Admin\AdminDashboardController@view')->name('admin-view');
-    Route::put('/admin/approve/pr', 'Admin\AdminDashboardController@approve')->name('admin.approve');
-    Route::put('/admin/remove/pr', 'Admin\AdminDashboardController@remove')->name('admin.remove');
-    Route::put('/admin/restore/pr', 'Admin\AdminDashboardController@restore')->name('admin.restore');
-    Route::put('/admin/delete/pr', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
+    Route::get('/admin/{id}', 'Admin\AdminDashboardController@view')->name('admin-view');
+    Route::put('/admin/approve', 'Admin\AdminDashboardController@approve')->name('admin.approve');
+    Route::put('/admin/remove', 'Admin\AdminDashboardController@remove')->name('admin.remove');
+    Route::put('/admin/restore', 'Admin\AdminDashboardController@restore')->name('admin.restore');
+    Route::put('/admin/delete', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
 
     Route::get('/dashboard/admin', 'Admin\AdminDashboardController@search')->name('dashboard.search');
     Route::get('/approve/admin', 'Admin\AdminRequestedController@search')->name('approve.search');

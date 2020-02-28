@@ -44,7 +44,7 @@
             </div>
             <div class="col-7 col-md-8">
               <div class="numbers">
-                <p class="card-category">Requested/Pending PR</p>
+                <p class="card-category">Requested PR</p>
                 <p class="card-title">{{$requested}}
               </div>
             </div>

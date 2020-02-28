@@ -16,10 +16,7 @@
     </div>
     <div class="card-body">
         <hr>
-        <form id="save_pr">
-            {{csrf_field()}}
-            {{method_field('PUT')}}
-            <input type="hidden" id="pr_id" name="pr_id" value="{{$prforms->pr_id}}">
+        <input type="hidden" id="pr_id" name="pr_id" value="{{$prforms->pr_id}}">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <p for="department" style="font-size: 18px;">Department: </p>
@@ -36,7 +33,6 @@
                 <input type="text" class="form-control" id="purpose" name="purpose" value="{{$prforms->purpose}}" style="background-color: #fff;" readonly>
             </div>
         </div>
-    </form>
     </div>
     @else
     <h4 class="text-center">No Product Found</h4>
@@ -58,6 +54,7 @@
                             <th>Price</th>
                             <th>Total</th>
                             <th>Remarks</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="table_body">
@@ -72,14 +69,151 @@
                             <td class="total-currency">{{$row->total}}</td>
                             <input type="hidden" class="total" value="{{$row->total}}" />
                             <td>{{$row->remarks}}</td>
+                            <td>
+                                <span style="cursor: pointer; color: #51cbce;" class="editData" data-content="Edit" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-edit" style="font-size: 20px;"></i>
+                                </span>&nbsp;
+                                <span style="cursor: pointer; color:red;" class="deleteData" data-content="Delete" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-trash" style="font-size: 20px;"></i>
+                                </span>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-success btn-sm" id="showAdd"><i class="fas fa-cart-plus"></i>&nbsp; Add Product</button>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit_form" onsubmit="return false;">
+                    {{csrf_field()}}
+                    {{method_field('PUT')}}
+                    <input type="hidden" id="edit_id" name="edit_id">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="product">Product</label>
+                                <input type="text" class="form-control" id="edit_product" name="edit_product">
+                                <small id="err_product" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="unit">Unit</label>
+                                <input type="text" class="form-control" id="edit_unit" name="edit_unit">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="text" class="form-control" id="edit_quantity" name="edit_quantity">
+                                <small id="err_quantity" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" class="form-control" id="edit_price" name="edit_price">
+                                <small id="err_price" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="remarks">Remarks</label>
+                                <input type="text" class="form-control" id="edit_remarks" name="edit_remarks"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="total">Total</label>
+                                <input type="text" class="form-control" id="edit_totalCurrency" style= "background-color: #fff;" value="" readonly>
+                                <input type="hidden" class="form-control" id="edit_total" style= "background-color: #fff;" value="" name="edit_total" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<form id="form_product" name="form_product" onsubmit="return false;">
+    {{csrf_field()}}
+    {{method_field('POST')}}
+    <input type="hidden" id="prform_id" name="prform_id" value="">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <input type="text" class="form-control" id="product" name="product">
+                        <small id="e_product" class="form-text text-muted"></small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="unit">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity" name="quantity">
+                        <small id="e_quantity" class="form-text text-muted"></small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" name="price">
+                        <small id="e_price" class="form-text text-muted"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label for="remarks">Remarks</label>
+                        <input type="text" class="form-control" id="remarks" name="remarks"/>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="total">Total</label>
+                        <input type="text" class="form-control" id="totalCurrency" style= "background-color: #fff;" value="" readonly>
+                        <input type="text" class="form-control" id="total" style= "background-color: #fff;" name="total" value="" hidden>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" id="addProduct"><i class="fas fa-cart-plus"></i>&nbsp; Add</button>
+                <button type="button" class="btn btn-danger" id="cancelChanges"><i class="fas fa-window-close"></i>&nbsp; Cancel</button>
+              </div>
+        </div>
+    </div>
+</form>
 
 <div class="row justify-content-center">
     <div class="col-md-6">
@@ -96,12 +230,18 @@
           <div class="text-center">
             <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
             <button type="button" class="btn btn-primary" id="approve_btn"><i class="fas fa-thumbs-up"></i>&nbsp; Approve</button>
-            <button type="button" class="btn btn-danger" id="remove_btn"><i class="fas fa-trash"></i>&nbsp; Remove</button>
+            <button type="button" class="btn btn-danger" id="remove_btn"><i class="fas fa-thumbs-down"></i>&nbsp; Rejected</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <form id="delete_product" style="display: none;">
+    {{csrf_field()}}
+    {{method_field('DELETE')}}
+    <input type="hidden" id="delete_id" name="delete_id">
+  </form>
 
 @endsection
 
@@ -119,6 +259,42 @@
         $('#grandTotal').html(grand).formatCurrency({symbol: ''});
     }
 
+    function press(){
+        $('body').on('keyup', '#quantity, #price', function(){
+        
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    $('body').on('keydown', '#quantity, #price', function(){
+        
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    $('body').on('keypress', '#quantity, #price', function(){
+        
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let total = (price * quantity);
+        $('#total').val(total);
+        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    }
+
+    $('.editData').popover({ trigger: "hover focus"});
+    $('.deleteData').popover({ trigger: "hover focus"});
+    $('#form_product').hide();
     $('.price-currency').formatCurrency({symbol : ''});
 
     $('.total-currency').formatCurrency({symbol : '₱ '});
@@ -176,7 +352,7 @@
             data: $('#status').serialize(),
             success: function(){
                 $('.overlay').hide();
-                swal("Success", "Successfully Removed", "success").then(function(){
+                swal("Success", "Successfully Rejected", "success").then(function(){
                     $('.overlay').show();
                     window.location.href = "{{route('admin-dashboard')}}";
                 }); 
@@ -187,6 +363,245 @@
             }
         });
     });
+
+    $('#showAdd').on('click', function(){
+        let pr_id = $('#pr_id').val();
+        $('#saveChanges').show();
+        $('#form_product').show();
+        $('#product').focus();
+        $('#prform_id').val(pr_id);
+      });
+
+    $('.editData').on('click', function(){
+        $('#edit_quantity').numeric();
+        $('#edit_price').numeric();
+
+        $('#editModal').modal('show');
+        let tr = $(this).closest('tr');
+        let data = tr.children('td').map(function(){
+            return $(this).text();
+        }).get();
+        $('#edit_id').val(data[0]);
+        $('#edit_product').val(data[2]);
+        $('#edit_quantity').val(data[3]);
+        $('#edit_unit').val(data[4]);
+        $('#edit_price').val(data[5]);
+        $('#edit_total').val(parseFloat($('#edit_quantity').val()) * parseFloat($('#edit_price').val()));
+        $('#edit_totalCurrency').val(data[6]).formatCurrency({symbol : '₱ '});
+        $('#edit_remarks').val(data[7]);
+
+        $('body').on('keyup', '#edit_quantity, #edit_price', function(){
+        
+        let quantity = $('#edit_quantity').val();
+        let price = $('#edit_price').val();
+        let total = (price * quantity);
+        $('#edit_total').val(total);
+        $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    $('body').on('keydown', '#edit_quantity, #edit_price', function(){
+        
+        let quantity = $('#edit_quantity').val();
+        let price = $('#edit_price').val();
+        let total = (price * quantity);
+        $('#edit_total').val(total);
+        $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    $('body').on('keypress', '#edit_quantity, #edit_price', function(){
+        
+        let quantity = $('#edit_quantity').val();
+        let price = $('#edit_price').val();
+        let total = (price * quantity);
+        $('#edit_total').val(total);
+        $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        
+    });
+
+    });
+
+    $('#cancelChanges').on('click', function(){
+        $('#form_product').find(':input').val('');
+        $('#form_product').hide();
+    });
+
+    press();
+
+    $('#form_product').on('submit', function(){
+        
+        let pr_id = $('#pr_id').val();
+        let product = $('#product').val();
+        let quantity = $('#quantity').val();
+        let price = $('#price').val();
+        let totalCurrency = $('#totalCurrency').val();
+        let productStatus = false;
+        let quantityStatus = false;
+        let priceStatus = false;
+        
+        
+        if(product == ""){
+            $('#product').addClass('border-danger');
+            $('#e_product').html('<strong><span class="text-danger">Product is required</span></strong>');
+            productStatus = false;
+        } else {
+            $('#product').removeClass('border-danger');
+            $('#e_product').html('');
+            productStatus = true;
+        }
+        
+        if(quantity == ""){
+            $('#quantity').addClass('border-danger');
+            $('#e_quantity').html('<strong><span class="text-danger">Quantity is required</span></strong>');
+            quantityStatus = false;
+        } else {
+            $('#quantity').removeClass('border-danger');
+            $('#e_quantity').html('');
+            quantityStatus = true;
+        }
+        
+        if(price == ""){
+            $('#price').addClass('border-danger');
+            $('#e_price').html('<strong><span class="text-danger">Price is required</span></strong>');
+            priceStatus = false;
+        } else {
+            $('#price').removeClass('border-danger');
+            $('#e_price').html('');
+            priceStatus = true;
+        }
+        
+        if((productStatus && quantityStatus && priceStatus) == true){
+            if (totalCurrency != "₱ 0.00"){
+                
+                $('#addProduct').prop("disabled", true);
+                $('#prform_id').val(pr_id);
+                $('.overlay').show();
+                $.ajax({
+                    url : "{{route('admin.add')}}",
+                    type: "POST",
+                    data: $('#form_product').serialize(),
+                    success: function(){
+                        $('.overlay').hide();
+                        swal('Success', "Added Successfully", "success").then(function(){
+                            $('.overlay').show();
+                            location.reload();
+                        });
+                    },
+                    error: function(){
+                        $('.overlay').hide();
+                        swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                            $('#addProduct').removeAttr('disabled');
+                        });
+                    }
+                });
+                
+            } else {
+                swal("Error", "Total must be at least ₱ 1.00. Please input again the quantity", "error").then(function(){
+                    $('#quantity').val('');
+                });
+            }
+            
+        }
+    });
+
+    $('#saveChanges').on('click', function(e){
+        
+        let e_product = $('#edit_product').val();
+        let e_quantity = $('#edit_quantity').val();
+        let e_price = $('#edit_price').val();
+        let e_totalCurrency = $('#edit_totalCurrency').val();
+        let e_productStatus = false;
+        let e_quantityStatus = false;
+        let e_priceStatus = false;
+        let e_totalCurrenyStatus = false;
+
+        if(e_product == ""){
+            $('#edit_product').addClass('border-danger');
+            $('#err_product').html('<strong><span class="text-danger">Product is required</span></strong>');
+            e_productStatus = false;
+        } else {
+            $('#edit_product').removeClass('border-danger');
+            $('#err_product').html('');
+            e_productStatus = true;
+        }
+        
+        if(e_quantity == ""){
+            $('#edit_quantity').addClass('border-danger');
+            $('#err_quantity').html('<strong><span class="text-danger">Quantity is required</span></strong>');
+            e_quantityStatus = false;
+        } else {
+            $('#edit_quantity').removeClass('border-danger');
+            $('#err_quantity').html('');
+            e_quantityStatus = true;
+        }
+        
+        if(e_price == ""){
+            $('#edit_price').addClass('border-danger');
+            $('#err_price').html('<strong><span class="text-danger">Price is required</span></strong>');
+            e_priceStatus = false;
+
+
+        } else {
+            $('#edit_price').removeClass('border-danger');
+            $('#err_price').html('');
+            e_priceStatus = true;
+        }
+
+        if((e_productStatus && e_quantityStatus && e_priceStatus) == true){
+            if (e_totalCurrency != "₱ 0.00"){
+                
+                $('.overlay').show();
+                $.ajax({
+                    url: "{{route('admin.save')}}",
+                    type: "PUT",
+                    data: $('#edit_form').serialize(),
+                    success: function(){
+                        location.reload();
+                    },
+                    error: function(){
+                        $('.overlay').hide();
+                        swal('Error', "Something went wrong, Please try again", "error");
+                    }
+                });
+                
+            } else {
+                swal("Error", "Total must be at least ₱ 1.00. Please input again the quantity", "error").then(function(){
+                    $('#quantity').val('');
+                });
+            }
+        }
+    });
+
+    $('.deleteData').on('click', function(){
+        if ($('.key').length <= 1){
+            swal("Error", "You can't delete the last product left", "error");
+        } else {
+            
+            let tr = $(this).closest('tr');
+            let data = tr.children('td').map(function(){
+                return $(this).text();
+            }).get();
+            
+            $('#delete_id').val(data[0]);
+            $('.overlay').show();
+            $.ajax({
+                url: "{{route('admin.delete')}}",
+                type: "DELETE",
+                data: $('#delete_product').serialize(),
+                success: function(){
+                    location.reload();
+                },
+                error: function(){
+                    $('.overlay').hide();
+                    swal('Error', "Something went wrong, Please try again", "error");
+                }
+            });
+            
+        }
+    });
+
+    
 
 </script>
 @endsection

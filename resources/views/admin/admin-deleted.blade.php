@@ -46,12 +46,9 @@
                             <td>{{$row->project}}</td>
                             <td>{{$row->purpose}}</td>
                             <td>
-                                <span style="cursor: pointer; color: #51cbce;" class="restoreData" data-content="Restore Request" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-trash-restore" style="font-size: 20px;"></i>
-                                </span>&nbsp;
-                                <span style="cursor: pointer; color:red;" class="deleteData" data-content="Delete" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-trash" style="font-size: 20px;"></i>
-                                </span>
+                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-eye" style="font-size: 20px;"></i>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -74,79 +71,6 @@
 
 @section('scripts')
 <script type="text/javascript">
-    $('.restoreData').popover({trigger : "hover focus"});
-    $('.deleteData').popover({trigger : "hover focus"});
-
-    $('.deleteData').on('click', function(){
-        
-        let tr = $(this).closest('tr');
-        let data = tr.children('td').map(function(){
-            return $(this).text();
-        }).get();
-        
-        $('#status_id').val(data[0]);
-        
-        let status_id = $('#status_id').val();
-        
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this request",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $('.overlay').show();
-                $.ajax({
-                    url: "{{route('admin.deleted')}}",
-                    type: "PUT",
-                    data: $('#status').serialize(),
-                    success: function(){
-                        $('.overlay').hide();
-                        swal("Success", "Successfully Removed", "success").then(function(){
-                            $('.overlay').show();
-                            location.reload();
-                        }); 
-                    },
-                    error: function(){
-                        $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error");
-                    }
-                });
-            }
-        });
-    });
-
-
-    $('.restoreData').on('click', function(){
-
-        let tr = $(this).closest('tr');
-        let data = tr.children('td').map(function(){
-            return $(this).text();
-        }).get();
-
-        $('#status_id').val(data[0]);
-
-        let status_id = $('#status_id').val();
-
-        $('.overlay').show();
-       
-        $.ajax({
-            url: "{{route('admin.restore')}}",
-            type: "PUT",
-            data: $('#status').serialize(),
-            success: function(){
-                $('.overlay').hide();
-                swal("Success", "Successfully Restored", "success").then(function(){
-                    location.reload();
-                });  
-            },
-            error: function(){
-                $('.overlay').hide();
-                swal('Error', "Something went wrong, Please try again", "error");
-            }
-        });
-    });
+    $('.viewData').popover({trigger : "hover focus"});
 </script>
 @endsection

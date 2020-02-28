@@ -9,9 +9,10 @@
     <div class="card-header" style="margin-bottom: -12px;">
         <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
         <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
-        {{-- <div class="text-center">
-            Date Requested: {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
-        </div> --}}
+        <div class="text-center">
+            {{$prforms->series}}<br>
+            {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
+        </div>
         <button class="btn btn-primary float-right" id="edit_prform"><i class="fas fa-edit"></i>&nbsp;Edit</button>
         <button class="btn btn-success float-right" id="save_prform"><i class="fas fa-check"></i>&nbsp;Save</button>
     </div>
@@ -171,7 +172,7 @@
             </form>
           <div class="text-center">
             <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
-            <button type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-paper-plane"></i>&nbsp; Send</button>
+            <button type="button" class="btn btn-primary" id="pdf_btn"><i class="fas fa-file-pdf"></i>&nbsp; View PDF</button>
           </div>
         </div>
       </div>
@@ -639,6 +640,12 @@
                 });
             }
         });
+    });
+
+    $('#pdf_btn').on('click', function(){
+        let pr_id = $('#pr_id').val();
+        let requestor = $('#requestor').val();
+        window.open("/pr/print/"+pr_id+"/"+requestor+"", "_blank");
     });
 </script>
 @endsection

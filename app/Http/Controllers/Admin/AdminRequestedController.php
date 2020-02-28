@@ -28,20 +28,15 @@ class AdminRequestedController extends Controller
 
         if($search != ""){
 
-            $prform = PRForms::where('user_id', Auth::user()->id)
-            ->where('date', 'like', '%'.$search.'%')
+            $prform = PRForms::where('date', 'like', '%'.$search.'%')
             ->where('status', '=', 'Approved')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('series', 'like', '%'.$search.'%')
+            ->orWhere('series', 'like', '%'.$search.'%')
             ->where('status', '=', 'Approved')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('requestor', 'like', '%'.$search.'%')
+            ->orWhere('requestor', 'like', '%'.$search.'%')
             ->where('status', '=', 'Approved')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('project', 'like', '%'.$search.'%')
+            ->orWhere('project', 'like', '%'.$search.'%')
             ->where('status', '=', 'Approved')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('purpose', 'like', '%'.$search.'%')
+            ->orWhere('purpose', 'like', '%'.$search.'%')
             ->where('status', '=', 'Approved')
             ->orderBy('date', 'desc')
             ->paginate(10);

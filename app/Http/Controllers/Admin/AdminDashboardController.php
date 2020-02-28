@@ -57,8 +57,10 @@ class AdminDashboardController extends Controller
         $status_id = $request->get('status_id');
 
         PRForms::where('pr_id', $status_id)->update([
-
-            'status' => 'Removed',
+            
+            'approve' => Auth::user()->name,
+            'status' => 'Rejected',
+            'status_date' => Carbon::now(),
 
         ]);
 
@@ -96,20 +98,15 @@ class AdminDashboardController extends Controller
 
         if($search != ""){
 
-            $prform = PRForms::where('user_id', Auth::user()->id)
-            ->where('date', 'like', '%'.$search.'%')
+            $prform = PRForms::where('date', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('series', 'like', '%'.$search.'%')
+            ->orWhere('series', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('requestor', 'like', '%'.$search.'%')
+            ->orWhere('requestor', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('project', 'like', '%'.$search.'%')
+            ->orWhere('project', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('purpose', 'like', '%'.$search.'%')
+            ->orWhere('purpose', 'like', '%'.$search.'%')
             ->where('status', '=', 'Requested')
             ->orderBy('series_no', 'asc')
             ->paginate(10);
@@ -122,5 +119,50 @@ class AdminDashboardController extends Controller
 
         return redirect()->route('admin-dashboard');
     }
+
+    public function addProduct(Request $request){
+
+
+        Products::insert([
+
+            'prform_id' => $request->prform_id,
+            'product' => $request->product,
+            'quantity' => $request->quantity,
+            'unit' => $request->unit,
+            'price' => $request->price,
+            'total' => $request->total,
+            'remarks' => $request->remarks
+            
+        ]);
+
+    }
+
+    public function saveProduct(Request $request){
+
+        $p_id = $request->get('edit_id');
+
+        Products::where('p_id', $p_id)->update([
+
+            'product' => $request->edit_product,
+            'unit' => $request->edit_unit,
+            'quantity' => $request->edit_quantity,
+            'price' => $request->edit_price,
+            'remarks' => $request->edit_remarks,
+            'total' => $request->edit_total
+
+        ]);
+
+    }
+
+    public function destroy(Request $request){
+
+        $delete_id = $request->get('delete_id');
+        
+        $product = Products::where('p_id', $delete_id);
+
+        $product->delete();
+
+    }
+
 
 }

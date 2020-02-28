@@ -16,7 +16,7 @@ class AdminDeletedController extends Controller
 
     public function index(){
 
-        $prform = PRForms::where('status', 'Removed')->orderBy('date', 'desc')->paginate(10);
+        $prform = PRForms::where('status', 'Rejected')->orderBy('date', 'desc')->paginate(10);
 
         return view('admin.admin-deleted', compact('prform'));
         
@@ -29,21 +29,16 @@ class AdminDeletedController extends Controller
 
         if($search != ""){
 
-            $prform = PRForms::where('user_id', Auth::user()->id)
-            ->where('date', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('requestor', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('series', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('project', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
-            ->orWhere('user_id', Auth::user()->id)
-            ->where('purpose', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Removed')
+            $prform = PRForms::where('date', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Rejected')
+            ->orWhere('requestor', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Rejected')
+            ->orWhere('series', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Rejected')
+            ->orWhere('project', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Rejected')
+            ->orWhere('purpose', 'like', '%'.$search.'%')
+            ->where('status', '=', 'Rejected')
             ->orderBy('date', 'desc')
             ->paginate(10);
 

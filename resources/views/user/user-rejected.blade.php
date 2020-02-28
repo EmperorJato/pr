@@ -44,9 +44,6 @@
                                 <a href="{{route('view.prform', [$id=$row->pr_id, $requestor=$row->requestor])}}"  style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>
-                                <a href="{{route('view.pdf', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -64,7 +61,6 @@
 <script type="text/javascript">
 
     $('.viewData').popover({ trigger: "hover focus"});
-    $('.viewPDF').popover({ trigger: "hover focus"});
 
 </script>
 @endsection

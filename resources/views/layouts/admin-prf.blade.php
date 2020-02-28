@@ -38,8 +38,8 @@
                         </li>
                         <li class="{{ Route::currentRouteNamed('admin-removed') ? 'active' : '' }}">
                             <a href="{{route('admin-removed')}}">
-                                <i class="fas fa-trash"></i>
-                                <p>Removed</p>
+                                <i class="fas fa-thumbs-down"></i>
+                                <p>Rejected</p>
                             </a>
                         </li>
                     </ul>

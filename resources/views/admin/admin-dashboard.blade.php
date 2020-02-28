@@ -3,9 +3,10 @@
 @section('search')
 <form action="{{route('dashboard.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
     <div class="input-group no-border">
+
         <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
         <div class="input-group-append">
-            <button type="submit"  class="btn-sm btn-outline-info"><i class="fas fa-search"></i></button>
+            <button type="submit"  class="btn-sm btn-outline-info"><i class="fas fa-search"></i> </button>
         </div>
     </div>
 </form>
@@ -44,7 +45,7 @@
                             <td>{{$row->requestor}}</td>
                             <td>{{$row->project}}</td>
                             <td>
-                                <a href="{{route('admin-view', [$id = $row->pr_id, $requestor = $row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('admin-view', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
                                 <a href="{{route('view.pdf', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
@@ -59,12 +60,7 @@
         </div>
     </div>
 </div>
-<form id="status">
-    {{csrf_field()}}
-    {{method_field('PUT')}}
-    <input type="hidden" id="status_id" name="status_id" value="">
-    <input type="hidden" id="requestor" name="requestor" value="">
-</form>
+
 
 {{$prform->links()}}
 
