@@ -157,6 +157,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="reasonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Reason for rejecting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reason_form" onsubmit="return false;">
+                    {{csrf_field()}}
+                    {{method_field('PUT')}}
+                    <input type="hidden" id="reason_id" name="reason_id">
+                    <div class="form-group">
+                        <label for="reason">Reason</label>
+                        <textarea type="text" class="form-control" id="reason" name="reason"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <form id="form_product" name="form_product" onsubmit="return false;">
     {{csrf_field()}}
     {{method_field('POST')}}
@@ -261,35 +289,35 @@
 
     function press(){
         $('body').on('keyup', '#quantity, #price', function(){
+            
+            let quantity = $('#quantity').val();
+            let price = $('#price').val();
+            let total = (price * quantity);
+            $('#total').val(total);
+            $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+            
+        });
         
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        $('body').on('keydown', '#quantity, #price', function(){
+            
+            let quantity = $('#quantity').val();
+            let price = $('#price').val();
+            let total = (price * quantity);
+            $('#total').val(total);
+            $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+            
+        });
         
-    });
-
-    $('body').on('keydown', '#quantity, #price', function(){
+        $('body').on('keypress', '#quantity, #price', function(){
+            
+            let quantity = $('#quantity').val();
+            let price = $('#price').val();
+            let total = (price * quantity);
+            $('#total').val(total);
+            $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+            
+        });
         
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        
-    });
-
-    $('body').on('keypress', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        
-    });
-
     }
 
     $('.editData').popover({ trigger: "hover focus"});
@@ -323,7 +351,7 @@
                     }) 
                     .then((willDelete) => {
                         if (willDelete) {
-                            window.open("/pr/print/"+pr_id+"/"+requestor+"", "_blank");
+                            window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
                             $('.overlay').show();
                             window.location.href = "{{route('admin-dashboard')}}";
                         } else {
@@ -341,27 +369,29 @@
     });
 
     $('#remove_btn').on('click', function(){
-        let pr_id = $('#pr_id').val();
-        $('#status_id').val(pr_id);
-        let status_id = $('#status_id').val();
 
-        $('.overlay').show();
-        $.ajax({
-            url: "{{route('admin.remove')}}",
-            type: "PUT",
-            data: $('#status').serialize(),
-            success: function(){
-                $('.overlay').hide();
-                swal("Success", "Successfully Rejected", "success").then(function(){
-                    $('.overlay').show();
-                    window.location.href = "{{route('admin-dashboard')}}";
-                }); 
-            },
-            error: function(){
-                $('.overlay').hide();
-                swal('Error', "Something went wrong, Please try again", "error");
-            }
-        });
+        $('#reasonModal').modal('show');
+        // let pr_id = $('#pr_id').val();
+        // $('#status_id').val(pr_id);
+        // let status_id = $('#status_id').val();
+
+        // $('.overlay').show();
+        // $.ajax({
+        //     url: "{{route('admin.remove')}}",
+        //     type: "PUT",
+        //     data: $('#status').serialize(),
+        //     success: function(){
+        //         $('.overlay').hide();
+        //         swal("Success", "Successfully Rejected", "success").then(function(){
+        //             $('.overlay').show();
+        //             window.location.href = "{{route('admin-dashboard')}}";
+        //         }); 
+        //     },
+        //     error: function(){
+        //         $('.overlay').hide();
+        //         swal('Error', "Something went wrong, Please try again", "error");
+        //     }
+        // });
     });
 
     $('#showAdd').on('click', function(){
@@ -370,7 +400,7 @@
         $('#form_product').show();
         $('#product').focus();
         $('#prform_id').val(pr_id);
-      });
+    });
 
     $('.editData').on('click', function(){
         $('#edit_quantity').numeric();
