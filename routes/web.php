@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth', 'user']], function(){
 
 
      //User Edit
-     Route::get('/{series}/{id}/{requestor}', 'User\UserEditController@index')->name('user-edit');
+     Route::get('/user-edit/{id}/{series}', 'User\UserEditController@index')->name('user-edit');
     
     
 });
