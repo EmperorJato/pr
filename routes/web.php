@@ -105,6 +105,8 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::put('/admin/remove', 'Admin\AdminDashboardController@remove')->name('admin.remove');
     Route::put('/admin/delete', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
 
+
+    //Admin Search
     Route::get('/dashboard/admin', 'Admin\AdminDashboardController@search')->name('dashboard.search');
     Route::get('/approve/admin', 'Admin\AdminRequestedController@search')->name('approve.search');
     Route::get('/remove/admin', 'Admin\AdminDeletedController@search')->name('remove.search');
@@ -112,6 +114,19 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 });
 
 
+Route::group(['middleware', ['auth', 'sa']], function(){
+
+   
+    Route::get('/sa/dashboard', 'SuperAdmin\SuperAdminController@dashboard')->name('sa-dashboard');
+
+    Route::get('/sa/pending', 'SuperAdmin\SuperAdminController@pending')->name('sa-pending');
+
+    Route::get('/sa/admins', 'SuperAdmin\SuperAdminController@admins')->name('sa-admins');
+
+    Route::get('/sa/users', 'SuperAdmin\SuperAdminController@users')->name('sa-users');
+
+
+});
 
 
 

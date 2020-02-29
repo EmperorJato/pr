@@ -14,12 +14,28 @@ class SuperAdminController extends Controller
 
     }
 
-    public function index(){
+    public function dashboard(){
 
         return view('super-admin.sa-dashboard');
 
     }
 
+    public function pending(){
+
+        return view('super-admin.sa-pending');
+
+    }
     
+    public function admins(){
+
+        return view('super-admin.sa-admin');
+
+    }
+
+    public function users(){
+
+        return view('super-admin.sa-user');
+
+    }
 
 }

@@ -32,19 +32,26 @@ class LoginController extends Controller
 
     protected function redirectTo(){
 
-        if (Auth::user()->user_type == 'admin'){
+        $user = Auth::user()->user_type;
 
-            return '/admin/dashboard';
+        switch($user){
 
-        } else if(Auth::user()->user_type == 'user'){
+            case "admin":
+                return '/admin/dashboard';
+            break;
+            
+            case "user":
+                return '/user/dashboard';
+            break;
 
-            return '/user/dashboard';
+            case "sa":
+                return '/sa/dashboard';
+            break;
 
-        } else {
-
-            Session::flush();
-            Session::regenerate();
-            Session::flash('error', 'error');
+            default: 
+                Session::flush();
+                Session::regenerate();
+                Session::flash('error', 'error');
 
         }
 

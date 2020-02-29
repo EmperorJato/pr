@@ -24,10 +24,28 @@
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
-                        <li class="{{ Route::currentRouteNamed('admin-dashboard') ? 'active' : '' }}">
-                            <a href="{{route('admin-dashboard')}}">
+                        <li class="{{ Route::currentRouteNamed('sa-dashboard') ? 'active' : '' }}">
+                            <a href="{{route('sa-dashboard')}}">
                                 <i class="fas fa-chalkboard"></i>
                                 <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('sa-pending') ? 'active' : '' }}">
+                            <a href="{{route('sa-pending')}}">
+                                <i class="fas fa-mug-hot"></i>
+                                <p>Pending Accounts</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('sa-admins') ? 'active' : '' }}">
+                            <a href="{{route('sa-admins')}}">
+                                <i class="fas fa-user-tie"></i>
+                                <p>Admins</p>
+                            </a>
+                        </li>
+                        <li class="{{ Route::currentRouteNamed('sa-users') ? 'active' : '' }}">
+                            <a href="{{route('sa-users')}}">
+                                <i class="fas fa-user"></i>
+                                <p>Users</p>
                             </a>
                         </li>
                     </ul>
