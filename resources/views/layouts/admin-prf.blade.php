@@ -30,6 +30,12 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
+                        <li class="{{ Route::currentRouteNamed('admin-pending') ? 'active' : '' }}">
+                            <a href="{{route('admin-pending')}}">
+                                <i class="fas fa-business-time"></i>
+                                <p>Pending Request</p>
+                            </a>
+                        </li>
                         <li class="{{ Route::currentRouteNamed('admin-approved') ? 'active' : '' }}">
                             <a href="{{route('admin-approved')}}">
                                 <i class="fas fa-thumbs-up"></i>

@@ -1,11 +1,12 @@
 @extends('layouts.admin-prf')
 
 @section('search')
-<form action="{{route('remove.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
+<form action="{{route('pending.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
     <div class="input-group no-border">
+
         <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
         <div class="input-group-append">
-            <button type="submit"  class="btn-sm btn-outline-info"><i class="fas fa-search"></i></button>
+            <button type="submit"  class="btn-sm btn-outline-info"><i class="fas fa-search"></i> </button>
         </div>
     </div>
 </form>
@@ -31,10 +32,9 @@
                             <th>Series</th>
                             <th>Requestor</th>
                             <th>Project</th>
-                            <th>Usage</th>
                             <th>Action</th>
                         </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
                         @foreach($prform as $key => $row)
                         <tr>
@@ -44,14 +44,13 @@
                             <td>{{$row->series}}</td>
                             <td>{{$row->requestor}}</td>
                             <td>{{$row->project}}</td>
-                            <td>{{$row->purpose}}</td>
                             <td>
-                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('admin-view', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
+                                </a>&nbsp;
+                                <a href="{{route('view.pdf', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
                                 </a>
-                                <span style="cursor: pointer; color: #34eb80;" class="restoreData" data-content="Restore Request" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-trash-restore" style="font-size: 20px;"></i>
-                                </span>&nbsp;
                             </td>
                         </tr>
                         @endforeach
@@ -62,11 +61,6 @@
     </div>
 </div>
 
-<form id="status" style="display: none;">
-    {{csrf_field()}}
-    {{method_field('PUT')}}
-    <input type="hidden" id="status_id" name="status_id" value="">
-</form>
 
 {{$prform->links()}}
 
@@ -74,36 +68,9 @@
 
 @section('scripts')
 <script type="text/javascript">
+
     $('.viewData').popover({trigger : "hover focus"});
-    $('.restoreData').popover({trigger : "hover focus"});
-
-
-    $('.restoreData').on('click', function(){
-         let tr = $(this).closest('tr');
-         let data = tr.children('td').map(function(){
-            return $(this).text();
-         }).get();
-
-         $('#status_id').val(data[0]);
-
-         $('.overlay').show();
-
-         $.ajax({
-             url: "{{route('admin-restored')}}",
-             type: "PUT",
-             data: $('#status').serialize(),
-             success: function(){
-                $('.overlay').hide();
-                swal("Success", "Restored Successfully", "success").then(function(){
-                    window.location.href = "{{route('admin-pending')}}";
-                });
-             },
-             error: function(){
-                $('.overlay').hide();
-                swal("Error", "Please Try Again", "error");
-             }
-         });
-    });
-
+    $('.viewPDF').popover({trigger : "hover focus"});
+ 
 </script>
 @endsection

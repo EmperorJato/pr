@@ -1,76 +1,64 @@
 @extends('layouts.admin-prf')
 
-@section('search')
-<form action="{{route('dashboard.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
-    <div class="input-group no-border">
-
-        <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
-        <div class="input-group-append">
-            <button type="submit"  class="btn-sm btn-outline-info"><i class="fas fa-search"></i> </button>
-        </div>
-    </div>
-</form>
-@endsection
 
 @section('content')
 <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title"></h4>
-        </div>
-        <div class="card-body">
-            <div class="table">
-                <table class="table">
-                    <thead class=" text-primary">
-                        <tr>
-                            <th style="display: none;">ID</th>
-                            <th>#</th>
-                            <th>Date</th>
-                            <th>Series</th>
-                            <th>Requestor</th>
-                            <th>Project</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead> 
-                    <tbody>
-                        @foreach($prform as $key => $row)
-                        <tr>
-                            <td style="display: none;">{{$row->pr_id}}</td>
-                            <td>{{++$key}}</td>
-                            <td>{{Carbon\Carbon::parse($row->date)->format('m-d-Y')}}</td>
-                            <td>{{$row->series}}</td>
-                            <td>{{$row->requestor}}</td>
-                            <td>{{$row->project}}</td>
-                            <td>
-                                <a href="{{route('admin-view', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-eye" style="font-size: 20px;"></i>
-                                </a>&nbsp;
-                                <a href="{{route('view.pdf', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+
+<div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-body ">
+            <div class="row">
+              <div class="col-5 col-md-4">
+                <div class="icon-big text-center icon-warning">
+                  <i class="fas fa-business-time text-warning"></i>
+                </div>
+              </div>
+              <div class="col-7 col-md-8">
+                <div class="numbers">
+                    <p class="card-category">Total Pending Request</p>
+                  <p class="card-title">{{$pr}}
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="card-footer ">
+            <hr>
+            <div class="stats text-center">
+              <i class="fas fa-eye"></i> <a href="{{route('admin-pending')}}" style="text-decoration: none;">View</a>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Grand Total of Pending PRF:</h4>
+          </div>
+          <div class="card-body">
+            <div class="text-center">
+              @if(isset($prform))
+              <h1><span>&#8369; </span><span id="grandTotal">@money($total)</span></h1>
+              @else
+              <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
+              @endif
+            </div>
+          </div>
+        </div>
+      </div>
+
 </div>
 
 
-{{$prform->links()}}
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
 
-    $('.viewData').popover({trigger : "hover focus"});
-    $('.viewPDF').popover({trigger : "hover focus"});
  
 </script>
 @endsection

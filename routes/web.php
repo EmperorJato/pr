@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     Route::get('/user/form', 'User\UserFormController@index')->name('user-form');
     Route::post('/user/form', 'User\UserFormController@store')->name('insert.products');
     
-    //User Requestp
+    //User Requested
     Route::get('/search/request', 'User\UserRequestController@search')->name('search-request');
     Route::get('/user/request', 'User\UserRequestController@index')->name('user-request');
     Route::put('/user/delete', 'User\UserRequestController@delete')->name('request.delete');
@@ -86,9 +86,12 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 
     //Admin Dashboard
     Route::get('/admin/dashboard', 'Admin\AdminDashboardController@index')->name('admin-dashboard');
-    Route::post('/admin/insert', 'Admin\AdminDashboardController@addProduct')->name('admin.add');
-    Route::put('/admin/save_product', 'Admin\AdminDashboardController@saveProduct')->name('admin.save');
-    Route::delete('/admin/delete', 'Admin\AdminDashboardController@destroy')->name('admin.delete');
+
+    //Admin Pending
+    Route::get('/admin/pending', 'Admin\AdminPendingController@index')->name('admin-pending');
+    Route::post('/admin/insert', 'Admin\AdminPendingController@addProduct')->name('admin.add');
+    Route::put('/admin/save_product', 'Admin\AdminPendingController@saveProduct')->name('admin.save');
+    Route::delete('/admin/delete', 'Admin\AdminPendingController@destroy')->name('admin.delete');
 
     //Admin Requested
     Route::get('/admin/approved', 'Admin\AdminRequestedController@index')->name('admin-approved');
@@ -100,14 +103,14 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     
 
     //Admin View
-    Route::get('/admin/{id}', 'Admin\AdminDashboardController@view')->name('admin-view');
-    Route::put('/admin/approve', 'Admin\AdminDashboardController@approve')->name('admin.approve');
-    Route::put('/admin/remove', 'Admin\AdminDashboardController@remove')->name('admin.remove');
-    Route::put('/admin/delete', 'Admin\AdminDashboardController@deleted')->name('admin.deleted');
+    Route::get('/admin/{id}', 'Admin\AdminPendingController@view')->name('admin-view');
+    Route::put('/admin/approve', 'Admin\AdminPendingController@approve')->name('admin.approve');
+    Route::put('/admin/remove', 'Admin\AdminPendingController@remove')->name('admin.remove');
+    Route::put('/admin/delete', 'Admin\AdminPendingController@deleted')->name('admin.deleted');
 
 
     //Admin Search
-    Route::get('/dashboard/admin', 'Admin\AdminDashboardController@search')->name('dashboard.search');
+    Route::get('/pending/admin', 'Admin\AdminPendingController@search')->name('pending.search');
     Route::get('/approve/admin', 'Admin\AdminRequestedController@search')->name('approve.search');
     Route::get('/remove/admin', 'Admin\AdminDeletedController@search')->name('remove.search');
     

@@ -354,7 +354,7 @@
                         if (willDelete) {
                             window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
                             $('.overlay').show();
-                            window.location.href = "{{route('admin-dashboard')}}";
+                            window.location.href = "{{route('admin-pending')}}";
                         } else {
                             $('.overlay').show();
                             window.location.href = "{{route('admin-approved')}}";
@@ -626,7 +626,7 @@
                 $('.overlay').hide();
                 swal("Success", "Successfully Rejected", "success").then(function(){
                     $('.overlay').show();
-                    window.location.href = "{{route('admin-dashboard')}}";
+                    window.location.href = "{{route('admin-pending')}}";
                 }); 
             },
             error: function(){

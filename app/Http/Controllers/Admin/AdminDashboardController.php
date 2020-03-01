@@ -18,128 +18,25 @@ class AdminDashboardController extends Controller
 
     public function index(){
 
-        $prform = PRForms::where('status', '=', 'Requested')->orderBy('series_no', 'asc')->paginate(10);
+        $date =  Carbon::parse(now())->format('Y-m-d');
 
-        return view('admin.admin-dashboard', compact('prform'));
+        $today_pr = PRForms::where('status', 'Requested')->where('date', $date)->count();
 
-    }
+        $pr = PRForms::where('status', 'Requested')->count(); 
 
-    public function view($id){
+        $prform = PRForms::where('status', 'Requested')->first();
 
-        $prforms = Products::select('products.*', 'prforms.*', 'users.*')
-        ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
-        ->join('users', 'users.id', 'prforms.user_id')
-        ->where('prforms.pr_id', $id)->first();
+        $total = null;
 
-        $products = Products::where('prform_id', $id)->get();
+        if($prform){
 
-        return view('admin.admin-view', compact('prforms', 'products'));
-
-    }
-
-
-    public function approve(Request $request){
-
-        $status_id = $request->get('status_id');
-
-        PRForms::where('pr_id', $status_id)->update([
-
-            'approve' => Auth::user()->name,
-            'status' => 'Approved',
-            'status_date' => Carbon::now()
-
-        ]);
-
-    }
-
-    public function remove(Request $request){
-
-        $reason_id = $request->get('reason_id');
-
-        PRForms::where('pr_id', $reason_id)->update([
-            
-            'approve' => Auth::user()->name,
-            'status' => 'Rejected',
-            'status_date' => Carbon::now(),
-            'status_remarks' => $request->reason
-
-        ]);
-
-    }
-
-
-    public function search(Request $request){
-
-        $search = $request->get('search');
-
-        if($search != ""){
-
-            $prform = PRForms::where('date', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Requested')
-            ->orWhere('series', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Requested')
-            ->orWhere('requestor', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Requested')
-            ->orWhere('project', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Requested')
-            ->orWhere('purpose', 'like', '%'.$search.'%')
-            ->where('status', '=', 'Requested')
-            ->orderBy('series_no', 'asc')
-            ->paginate(10);
-
-            $prform->appends(['search' => $search]);
-
-            return view('admin.admin-dashboard', compact('prform'));
-
+    
+            $total = PRForms::select('prforms.*', 'products.*')->leftJoin('products', 'products.prform_id', '=', 'prforms.pr_id')->where('status', 'Requested')->sum('total');
         }
 
-        return redirect()->route('admin-dashboard');
-    }
-
-    public function addProduct(Request $request){
-
-
-        Products::insert([
-
-            'prform_id' => $request->prform_id,
-            'product' => $request->product,
-            'quantity' => $request->quantity,
-            'unit' => $request->unit,
-            'price' => $request->price,
-            'total' => $request->total,
-            'remarks' => $request->remarks
-            
-        ]);
+        return view('admin.admin-dashboard', compact('today_pr', 'pr', 'total', 'prform'));
 
     }
-
-    public function saveProduct(Request $request){
-
-        $p_id = $request->get('edit_id');
-
-        Products::where('p_id', $p_id)->update([
-
-            'product' => $request->edit_product,
-            'unit' => $request->edit_unit,
-            'quantity' => $request->edit_quantity,
-            'price' => $request->edit_price,
-            'remarks' => $request->edit_remarks,
-            'total' => $request->edit_total
-
-        ]);
-
-    }
-
-    public function destroy(Request $request){
-
-        $delete_id = $request->get('delete_id');
-        
-        $product = Products::where('p_id', $delete_id);
-
-        $product->delete();
-
-    }
-
 
 
 }
