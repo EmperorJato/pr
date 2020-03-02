@@ -1,15 +1,5 @@
 @extends('layouts.sa-prf')
 
-@section('search')
-<form action="{{route('dashboard.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
-    <div class="input-group no-border">
-        <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
-        <div class="input-group-append">
-            <button type="submit"  class="btn-sm btn-outline-info"><i class="fas fa-search"></i></button>
-        </div>
-    </div>
-</form>
-@endsection
 
 @section('content')
 <div class="overlay">

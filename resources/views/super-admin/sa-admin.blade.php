@@ -1,7 +1,7 @@
 @extends('layouts.sa-prf')
 
 @section('search')
-<form action="{{route('dashboard.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
+<form action="#" method="GET" class="form-inline md-form form-sm mt-0">
     <div class="input-group no-border">
         <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
         <div class="input-group-append">
