@@ -467,12 +467,12 @@
             'success'
             ).then(function(){
               
-              swal("Would you like to send this request to procurement ?", {
+              swal("Would you like to view this request and send to admin ?", {
                 icon: "info",
                 buttons: {
                   cancel : true,
                   pdf : {
-                    text : "Send Request",
+                    text : "View Request",
                     value : "pdf"
                   }
                 },

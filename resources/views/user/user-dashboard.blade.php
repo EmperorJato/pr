@@ -142,7 +142,7 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Grand Total of your Purchase Requisition:</h4>
+          <h4 class="card-title">Grand Total of your Approved PRF:</h4>
         </div>
         <div class="card-body">
           <div class="text-center">
