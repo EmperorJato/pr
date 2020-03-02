@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     Route::put('/user/delete', 'User\UserRequestController@delete')->name('request.delete');
     
     //User Send
-    Route::get('/user/{id}/{requestor}', '\User\UserSendController@index')->name('user-send');
+    Route::get('/user/{id}/{requestor}', 'User\UserSendController@index')->name('user-send');
     Route::post('/user/insert', 'User\UserSendController@addProduct')->name('add.product');
     Route::put('/user/approval'. 'User\UserSendController@approval')->name('request.approval');
     Route::put('/user/pr', 'User\UserSendController@savePR')->name('save.pr');
