@@ -41,8 +41,8 @@
                             <td>{{$row->project}}</td>
                             <td>{{$row->purpose}}</td>
                             <td>
-                                <a href="{{route('user-edit', [$id=$row->pr_id, $series=$row->series])}}"  style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-eye" style="font-size: 20px;"></i>
+                                <a href="{{route('user-edit', [$id=$row->pr_id, $series=$row->series])}}"  style="cursor: pointer; color: #51cbce;" class="viewData" data-content="Edit" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-edit" style="font-size: 20px;"></i>
                                 </a>
                             </td>
                         </tr>
