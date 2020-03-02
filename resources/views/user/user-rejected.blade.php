@@ -41,7 +41,7 @@
                             <td>{{$row->project}}</td>
                             <td>{{$row->purpose}}</td>
                             <td>
-                                <a href="{{route('user-send', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('view.prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
                             </td>

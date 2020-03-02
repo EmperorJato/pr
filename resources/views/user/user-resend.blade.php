@@ -7,23 +7,74 @@
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
   @csrf
+  <div class="card">
+  <input type="hidden" name="count" id="count" value="{{$count}}">
+    <div class="card-header" style="margin-bottom: -12px;">
+        <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
+    </div>
+    <div class="card-body">
+        <hr>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <p for="department" style="font-size: 18px;">Department: </p>
+                <input type="text" class="form-control" id="department" name="department" value="{{$prforms->department}}" style="background-color: #fff;">
+            </div>
+            <div class="form-group col-md-6">
+                <p for="project" style="font-size: 18px;">To be used in <i style="font-size: 12px;">(Project Name)</i> :</p>
+                <input type="text" class="form-control" id="project" name="project" value="{{$prforms->project}}" style="background-color: #fff;">
+            </div>
+        </div><br>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <p for="purpose" style="font-size: 18px;">Specific Purpose or Usage: </p>
+                <input type="text" class="form-control" id="purpose" name="purpose" value="{{$prforms->purpose}}" style="background-color: #fff;">
+            </div>
+        </div>
+    </div>
+</div>
+
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
           <table class="table">
             <thead class="text-primary">
-              <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Remarks</th>
-                <th>Action</th>
-              </tr>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
             </thead>
-            <tbody>
+            <tbody id="table_body">
+                @foreach($products as $key => $row)
+                <tr id="row{{++$key}}">
+
+                    <td>{{$row->product}}<input type="hidden" value="{{$row->product}}" id="product{{$key}}" name="product[]"/></td>
+                    
+                    <td>{{$row->quantity}}<input type="hidden" value="{{$row->quantity}}" id="quantity{{$key}}" name="quantity[]"/></td>
+                    
+                    <td>{{$row->unit}}<input type="hidden" value="{{$row->unit}}" id="unit{{$key}}" name="unit[]"/></td>
+                    
+                    <td class="price-currency">{{$row->price}}</td><input type="hidden" value="{{$row->price}}" id="price{{$key}}" name="price[]"/>
+                    
+                    <td class="total-currency">{{$row->total}}</td><input type="hidden" class="total" value="{{$row->total}}" id="total{{$key}}" name="total[]" />
+                    
+                    <td>{{$row->remarks}}<input type="hidden" value="{{$row->remarks}}" id="remarks{{$key}}" name="remarks[]" /></td>
+                    
+                    <td>
+                        <span id="{{$key}}" style="cursor: pointer; color: #51cbce;" class="editData" data-content="Edit" rel="popover" data-placement="bottom">
+                            <i class="fas fa-edit" style="font-size: 20px;"></i>
+                        </span>&nbsp;
+                        <span id="{{$key}}" style="cursor: pointer; color:red;" class="deleteData" data-content="Delete" rel="popover" data-placement="bottom">
+                            <i class="fas fa-trash" style="font-size: 20px;"></i>
+                        </span>
+                    </td>
+                </tr>
+                @endforeach
             </tbody>
           </table>
           <div class="text-center">
@@ -31,6 +82,7 @@
           </div>
         </div>
       </div>
+    </form>
       <div id="pr_form">
         <div class="card">
           <div class="card-body">
@@ -103,40 +155,6 @@
       </div>
     </div>
   </div>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalScrollableTitle">To complete, please fill up this form</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="department">Department</label>
-            <input type="text" class="form-control" id="department" name="department">
-          </div>
-          <div class="form-group">
-            <label for="project">To be used in <i>(Project Name)</i> :</label>
-            <input type="text" class="form-control" id="project" name="project">
-            <small id="e_project" class="form-text text-muted"></small>
-          </div>
-          <div class="form-group">
-            <label for="purpose">Specific Purpose or Usage:</label>
-            <textarea type="text" class="form-control" id="purpose" name="purpose"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="submit_pr">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
 <input type="hidden" id="editRow" value="">
 @endsection
 
@@ -248,6 +266,14 @@
           
       });
 
+    $('.editData').popover({ trigger: "hover focus"});
+    $('.deleteData').popover({ trigger: "hover focus"});
+    $('#quantity').numeric();
+    $('#price').numeric();
+    $('.price-currency').formatCurrency({symbol : ''});
+    $('.total-currency').formatCurrency({symbol : '₱ '});
+    grandTotal();
+
       $('#showAdd').on('click', function(){
         $('#saveChanges').show();
         $('#pr_form').show();
@@ -265,7 +291,7 @@
       
 
     $('#editChanges').hide();
-    var count = 0;
+    var count = $('#count').val();
 
     $('#exampleModalCenterTitle').text('ADD PR');
       $('#quantity').numeric();
@@ -437,8 +463,37 @@
       if($('input[name="product[]"]').length <= 0){
         swal("Error", "Please add atleast one product", "error");
       } else {
-        $('#modalForm').modal('show');
+
+        swal({
+            title: "Note",
+            text: "This will create new PRF and it will pending again for approval",
+            icon: "info",
+            buttons: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $('.overlay').show();
+                $.ajax({
+                    url : "{{route('user.resend')}}",
+                    type: "POST",   
+                    data: $('#insert_product').serialize(),
+                    success: function(){
+                        $('.overlay').hide();
+                        swal("Success", "Submitted Successfully", "success").then(function(){
+                            $('.overlay').show();
+                            window.location.href = "{{route('user-dashboard')}}";
+                        });
+                    },
+                    error: function(){
+                        $('.overlay').hide();
+                        $("Error", "You are not active for too long. Please refresh the page. Thank you!", "error");
+                    }
+                });
+            }
+        });
+
       }
+
     });
 
     $('#submit_pr').on('click', function(){

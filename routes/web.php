@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     Route::put('/user/delete', 'User\UserRequestController@delete')->name('request.delete');
     
     //User Send
-    Route::get('/user/{id}/{requestor}', 'User\UserSendController@index')->name('user-send');
+    Route::get('/user/{id}/{requestor}', '\User\UserSendController@index')->name('user-send');
     Route::post('/user/insert', 'User\UserSendController@addProduct')->name('add.product');
     Route::put('/user/approval'. 'User\UserSendController@approval')->name('request.approval');
     Route::put('/user/pr', 'User\UserSendController@savePR')->name('save.pr');
@@ -77,7 +77,9 @@ Route::group(['middleware' => ['auth', 'user']], function(){
      //User Edit
      Route::get('/user-edit/{id}/{series}', 'User\UserEditController@index')->name('user-edit');
     
-    
+    //User Resend
+    Route::get('/user-resend/{id}/{requestor}', 'User\UserSendController@resend')->name('user-resend');
+    Route::post('/user/resend/pr', 'User\UserSendController@store')->name('user.resend');
 });
 
 

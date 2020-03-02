@@ -4,6 +4,13 @@
 <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
+@if($prforms->status == "Rejected")
+    <div class="alert alert-danger" role="alert">
+    <h5 class="text-center">PRF Rejected</h5>
+    <div class="text-center">{{$prforms->series}}</div>
+        Reason: {{$prforms->status_remarks}} 
+    </div>
+@endif
 <div class="card">
     @if(isset($prforms))
     <div class="card-header" style="margin-bottom: -12px;">
@@ -87,6 +94,9 @@
                 <div class="text-center">
                     <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
                     <button type="button" class="btn btn-primary" id="pdf_btn"><i class="fas fa-file-pdf"></i>&nbsp; View PDF</button>
+                    @if($prforms->status == "Rejected")
+                    <a href="{{route('user-resend', [$id=$prforms->pr_id, $requestor=$prforms->requestor])}}" class="btn btn-warning"><i class="fas fa-paper-plane"></i>&nbsp; Resend PRF</a>
+                    @endif
                 </div>
             </div>
         </div>

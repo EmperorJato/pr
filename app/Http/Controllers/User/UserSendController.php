@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Products;
 use App\PRForms;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserSendController extends Controller
 {
@@ -128,6 +129,73 @@ class UserSendController extends Controller
 
         }
 
+    }
+
+    public function resend($id){
+
+        $prforms = Products::select('products.*', 'prforms.*', 'users.*')
+        ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
+        ->join('users', 'users.id', 'prforms.user_id')
+        ->where('prforms.pr_id', $id)->first();
+
+        $products = Products::where('prform_id', $id)->get();
+
+        $count = Products::where('prform_id', $id)->count();
+
+        return view('user.user-resend', compact('prforms', 'products', 'count'));
+
+    }
+
+    public function create(array $data){
+
+        $dateNow = Carbon::now();
+
+        $yearNow = $dateNow->year;
+
+
+        $series_no = PRForms::where('series_no', '<>', null)->orderBy('series_no', 'desc')->latest()->first()->series_no + 1;
+        $series = 'PR'.$yearNow.'-'.str_pad($series_no, 7, '0', STR_PAD_LEFT);
+
+
+
+        return PRForms::create([
+
+            'user_id' => Auth::user()->id,
+            'series_no' => $series_no,
+            'series' => $series,
+            'requestor' => Auth::user()->name,
+            'date' => $dateNow,
+            'department' => $data['department'],
+            'project' => $data['project'],
+            'purpose' => $data['purpose'],
+            'status' => 'Requested'
+            
+        ]);
+
+    }
+
+    public function store(Request $request){
+        
+        $pr_id = $this->create($request->all())->id;
+
+        if(count($request->product) > 0){
+            foreach($request->product as $item => $a){
+                $data = array(
+                    'prform_id' => $pr_id,
+                    'product' => $request->product[$item],
+                    'quantity' => $request->quantity[$item],
+                    'unit' => $request->unit[$item],
+                    'price' => $request->price[$item],
+                    'total' => $request->total[$item],
+                    'remarks' => $request->remarks[$item]
+                );
+
+                Products::insert($data);
+            }
+        }
+
+        return response()->json(['pr_id' => $pr_id, 'requestor' => Auth::user()->name]);
+        
     }
 
 }

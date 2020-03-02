@@ -12,10 +12,7 @@
         @endif
         <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
         <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
-        {{-- <div class="text-center">
-            Date Requested: {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
-        </div> --}}
-        <button class="btn btn-primary float-right" id="edit_prform" data-content="Edit Department / Project Name / Specific Purpose or Usage" rel="popover" data-placement="bottom"><i class="fas fa-edit"></i>&nbsp;Edit</button>
+        <button class="btn btn-primary float-right" id="edit_prform" data-content="Edit Department / Project Name/Usage" rel="popover" data-placement="bottom"><i class="fas fa-edit"></i>&nbsp;Edit</button>
         <button class="btn btn-success float-right" id="save_prform"><i class="fas fa-check"></i>&nbsp;Save</button>
     </div>
     <div class="card-body">
