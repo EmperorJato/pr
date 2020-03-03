@@ -31,31 +31,31 @@
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-form') ? 'active' : '' }}">
-                            <a href="{{route('user-form')}}">
+                            <a href="{{route('user-form')}}" id="user-form" data-content="Add Request / Make a PRF" rel="popover" data-placement="bottom">
                                 <i class="fas fa-sticky-note"></i>
                                 <p>PR Form</p>
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-request') ? 'active' : '' }}">
-                            <a href="{{route('user-request')}}">
+                            <a href="{{route('user-request')}}" id="user-request" data-content="PRF(s) that have not sent yet" rel="popover" data-placement="bottom">
                                 <i class="fas fa-list-ul"></i>
                                 <p>Request</p>
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-requested') ? 'active' : '' }}">
-                            <a href="{{route('user-requested')}}">
+                            <a href="{{route('user-requested')}}" id="user-requested" data-content="Pending PRF(s) for approval" rel="popover" data-placement="bottom">
                                 <i class="fas fa-tasks"></i>
                                 <p>Requested/Pending PR</p>
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-approved') ? 'active' : '' }}">
-                            <a href="{{route('user-approved')}}">
+                            <a href="{{route('user-approved')}}" id="user-approved" data-content="Your approved PRF(s)" rel="popover" data-placement="bottom">
                                 <i class="fas fa-thumbs-up"></i>
                                 <p>Approved PR</p>
                             </a>
                         </li>
                         <li class="{{ Route::currentRouteNamed('user-rejected') ? 'active' : '' }}">
-                            <a href="{{route('user-rejected')}}">
+                            <a href="{{route('user-rejected')}}" id="user-rejected" data-content="Your rejected PRF(s)" rel="popover" data-placement="bottom">
                                 <i class="fas fa-thumbs-down"></i>
                                 <p>Rejected PR</p>
                             </a>
@@ -109,6 +109,13 @@
     <!-- Scripts -->
     <script src="{{ asset('js/all.js') }}"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#user-form').popover({trigger : "hover focus"});
+        $('#user-request').popover({trigger : "hover focus"});
+        $('#user-requested').popover({trigger : "hover focus"});
+        $('#user-approved').popover({trigger : "hover focus"});
+        $('#user-rejected').popover({trigger : "hover focus"});
+    </script>
     @yield('scripts')
 </body>
 </html>

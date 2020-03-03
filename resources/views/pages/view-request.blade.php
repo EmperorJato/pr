@@ -6,10 +6,14 @@
 </div>
 @if($prforms->status == "Rejected")
     <div class="alert alert-danger" role="alert">
-    <h5 class="text-center">PRF Rejected</h5>
-    <div class="text-center">{{$prforms->series}}</div>
-        Reason: {{$prforms->status_remarks}} 
+        <h5 class="text-center">PRF Rejected</h5>
+        <div class="text-center">{{$prforms->series}}</div>
     </div>
+    @if($prforms->status_remarks != null || $prforms->status_remarks != "")
+    <div class="alert alert-danger" role="alert">
+        <div class="row">Reason: {{$prforms->status_remarks}}</div>
+    </div>
+    @endif
 @endif
 <div class="card">
     @if(isset($prforms))

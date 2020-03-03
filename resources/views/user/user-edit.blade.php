@@ -328,7 +328,7 @@
             },
             error: function(){
                 $('.overlay').hide();
-                swal('Error', "Something went wrong, Please try again", "error");
+                swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
             }
         });
     });
@@ -351,25 +351,7 @@
         $('#edit_totalCurrency').val(data[6]).formatCurrency({symbol : '₱ '});
         $('#edit_remarks').val(data[7]);
 
-        $('body').on('keyup', '#edit_quantity, #edit_price', function(){
-            
-            let quantity = $('#edit_quantity').val();
-            let price = $('#edit_price').val();
-            let total = (price * quantity);
-            $('#edit_total').val(total);
-            $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        });
-
-        $('body').on('keypress', '#edit_quantity, #edit_price', function(){
-            
-            let quantity = $('#edit_quantity').val();
-            let price = $('#edit_price').val();
-            let total = (price * quantity);
-            $('#edit_total').val(total);
-            $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        });
-
-        $('body').on('keydown', '#edit_quantity, #edit_price', function(){
+        $('#edit_form').on('keyup', '#edit_quantity, #edit_price, #edit_remarks', function(){
             
             let quantity = $('#edit_quantity').val();
             let price = $('#edit_price').val();
@@ -390,7 +372,7 @@
         let e_productStatus = false;
         let e_quantityStatus = false;
         let e_priceStatus = false;
-        let e_totalCurrenyStatus = false;
+        let e_totalCurrencyStatus = false;
 
         if(e_product == ""){
             $('#edit_product').addClass('border-danger');
@@ -435,7 +417,7 @@
                     },
                     error: function(){
                         $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error");
+                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
                     }
                 });
                 
@@ -468,14 +450,14 @@
                 },
                 error: function(){
                     $('.overlay').hide();
-                    swal('Error', "Something went wrong, Please try again", "error");
+                    swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
                 }
             });
             
         }
     });
 
-    $('body').on('keyup', '#quantity, #price', function(){
+    $('#form_product').on('keyup', '#quantity, #price, #remarks', function(){
         
         let quantity = $('#quantity').val();
         let price = $('#price').val();
@@ -485,25 +467,6 @@
         
     });
 
-    $('body').on('keydown', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        
-    });
-
-    $('body').on('keypress', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        
-    });
 
     $('#form_product').on('submit', function(){
         
@@ -566,7 +529,7 @@
                     },
                     error: function(){
                         $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error").then(function(){
                             $('#addProduct').removeAttr('disabled');
                         });
                     }
@@ -634,7 +597,7 @@
                     },
                     error: function(){
                         $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error").then(function(){
                             $('#addProduct').removeAttr('disabled');
                         });
                     }

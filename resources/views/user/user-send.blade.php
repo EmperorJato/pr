@@ -12,7 +12,7 @@
         @endif
         <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
         <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
-        <button class="btn btn-primary float-right" id="edit_prform" data-content="Edit Department / Project Name/Usage" rel="popover" data-placement="bottom"><i class="fas fa-edit"></i>&nbsp;Edit</button>
+        <button class="btn btn-primary float-right" id="edit_prform" data-content="Edit Department / Project Name / Usage" rel="popover" data-placement="bottom"><i class="fas fa-edit"></i>&nbsp;Edit</button>
         <button class="btn btn-success float-right" id="save_prform"><i class="fas fa-check"></i>&nbsp;Save</button>
     </div>
     <div class="card-body">
@@ -122,14 +122,14 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="text" class="form-control" id="quantity" name="quantity">
+                        <input type="text" class="form-control" id="quantity" name="quantity" value="">
                         <small id="e_quantity" class="form-text text-muted"></small>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="text" class="form-control" id="price" name="price">
+                        <input type="text" class="form-control" id="price" name="price" value="">
                         <small id="e_price" class="form-text text-muted"></small>
                     </div>
                 </div>
@@ -334,7 +334,7 @@
             },
             error: function(){
                 $('.overlay').hide();
-                swal('Error', "Something went wrong, Please try again", "error");
+                swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
             }
         });
     });
@@ -357,7 +357,7 @@
         $('#edit_totalCurrency').val(data[6]).formatCurrency({symbol : '₱ '});
         $('#edit_remarks').val(data[7]);
 
-        $('body').on('keyup', '#edit_quantity, #edit_price', function(){
+        $('#edit_form').on('keyup', '#edit_quantity, #edit_price, #edit_remarks', function(){
             
             let quantity = $('#edit_quantity').val();
             let price = $('#edit_price').val();
@@ -366,23 +366,6 @@
             $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
         });
 
-        $('body').on('keypress', '#edit_quantity, #edit_price', function(){
-            
-            let quantity = $('#edit_quantity').val();
-            let price = $('#edit_price').val();
-            let total = (price * quantity);
-            $('#edit_total').val(total);
-            $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        });
-
-        $('body').on('keydown', '#edit_quantity, #edit_price', function(){
-            
-            let quantity = $('#edit_quantity').val();
-            let price = $('#edit_price').val();
-            let total = (price * quantity);
-            $('#edit_total').val(total);
-            $('#edit_totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        });
 
     });
 
@@ -396,7 +379,7 @@
         let e_productStatus = false;
         let e_quantityStatus = false;
         let e_priceStatus = false;
-        let e_totalCurrenyStatus = false;
+        let e_totalCurrencyStatus = false;
 
         if(e_product == ""){
             $('#edit_product').addClass('border-danger');
@@ -441,7 +424,7 @@
                     },
                     error: function(){
                         $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error");
+                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
                     }
                 });
                 
@@ -474,42 +457,23 @@
                 },
                 error: function(){
                     $('.overlay').hide();
-                    swal('Error', "Something went wrong, Please try again", "error");
+                    swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
                 }
             });
             
         }
     });
 
-    $('body').on('keyup', '#quantity, #price', function(){
+    $('#form_product').on('keyup', '#quantity, #price, #remarks', function(){
         
         let quantity = $('#quantity').val();
         let price = $('#price').val();
         let total = (price * quantity);
         $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
+        let totalValue = $('#total').val(); 
+        $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
         
-    });
-
-    $('body').on('keydown', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        
-    });
-
-    $('body').on('keypress', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        $('#totalCurrency').val(total).formatCurrency({symbol : '₱ '});
-        
-    });
+      });
 
     $('#form_product').on('submit', function(){
         
@@ -572,7 +536,7 @@
                     },
                     error: function(){
                         $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error").then(function(){
                             $('#addProduct').removeAttr('disabled');
                         });
                     }

@@ -99,7 +99,7 @@
                    },
                     error: function(){
                         $('.overlay').hide();
-                        swal('Error', "Something went wrong, Please try again", "error");
+                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
                     }
                 });
             }

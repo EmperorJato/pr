@@ -296,19 +296,9 @@
     $('#exampleModalCenterTitle').text('ADD PR');
       $('#quantity').numeric();
       $('#price').numeric();
-      
-      $('body').on('keyup', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        let totalValue = $('#total').val(); 
-        $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
-        
-      });
 
-      $('body').on('keypress', '#quantity, #price', function(){
+
+      $('#pr_form').on('keyup', '#quantity, #price, #remarks', function(){
         
         let quantity = $('#quantity').val();
         let price = $('#price').val();
@@ -318,17 +308,7 @@
         $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
         
       });
-      
-      $('body').on('keydown', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        let totalValue = $('#total').val(); 
-        $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
-        
-      });
+ 
     
     $('body').on('click', '.editData', function(){
         $('#pr_form')[0].scrollIntoView();
@@ -486,7 +466,7 @@
                     },
                     error: function(){
                         $('.overlay').hide();
-                        $("Error", "You are not active for too long. Please refresh the page. Thank you!", "error");
+                        $("Error", "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
                     }
                 });
             }
@@ -544,7 +524,7 @@
           },
           error: function(e){
             $('.overlay').hide();
-            swal('Error', "Something went wrong, Please try again", "error");
+            swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
           }
         });
       }

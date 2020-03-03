@@ -51,14 +51,14 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="quantity">Quantity</label>
-                  <input type="text" class="form-control" id="quantity">
+                  <input type="text" class="form-control" id="quantity" value="">
                   <small id="e_quantity" class="form-text text-muted"></small>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="price">Price</label>
-                  <input type="text" class="form-control" id="price">
+                  <input type="text" class="form-control" id="price" value="">
                   <small id="e_price" class="form-text text-muted"></small>
                 </div>
               </div>
@@ -146,7 +146,7 @@
 
 
     $('#pr_form').hide();
-
+    
     function grandTotal(){
       var grand = 0;
       
@@ -230,6 +230,8 @@
                   $('#product').focus();
                   $('.editData').popover({ trigger: "hover focus"});
                   $('.deleteData').popover({ trigger: "hover focus"});
+                  $('#price').val('0');
+                  $('#quantity').val('0');
                   grandTotal();
                 } else {
                   swal("Error", "Total must be at least ₱ 1.00 . Please input again the quantity", "error").then(function(){
@@ -271,18 +273,8 @@
       $('#quantity').numeric();
       $('#price').numeric();
       
-      $('body').on('keyup', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        let totalValue = $('#total').val(); 
-        $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
-        
-      });
 
-      $('body').on('keypress', '#quantity, #price', function(){
+      $('#pr_form').on('keyup', '#quantity, #price, #remarks', function(){
         
         let quantity = $('#quantity').val();
         let price = $('#price').val();
@@ -292,18 +284,7 @@
         $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
         
       });
-      
-      $('body').on('keydown', '#quantity, #price', function(){
-        
-        let quantity = $('#quantity').val();
-        let price = $('#price').val();
-        let total = (price * quantity);
-        $('#total').val(total);
-        let totalValue = $('#total').val(); 
-        $('#totalCurrency').val(totalValue).formatCurrency({symbol : '₱ '});
-        
-      });
-    
+       
     $('body').on('click', '.editData', function(){
         $('#pr_form')[0].scrollIntoView();
         $('#pr_form').show();
@@ -489,7 +470,7 @@
           },
           error: function(e){
             $('.overlay').hide();
-            swal('Error', "Something went wrong, Please try again", "error");
+            swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
           }
         });
       }
