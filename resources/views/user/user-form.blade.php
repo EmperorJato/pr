@@ -11,21 +11,21 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-          <table class="table">
-            <thead class="text-primary">
-              <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Remarks</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+            <table class="table">
+              <thead class="text-primary">
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Unit</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
           <div class="text-center">
             <button type="button" class="btn btn-success btn-sm" id="showAdd"><i class="fas fa-cart-plus"></i>&nbsp; Add Product</button>
           </div>
@@ -230,8 +230,6 @@
                   $('#product').focus();
                   $('.editData').popover({ trigger: "hover focus"});
                   $('.deleteData').popover({ trigger: "hover focus"});
-                  $('#price').val('0');
-                  $('#quantity').val('0');
                   grandTotal();
                 } else {
                   swal("Error", "Total must be at least ₱ 1.00 . Please input again the quantity", "error").then(function(){
@@ -256,8 +254,6 @@
         $('#pr_form').find(':input').val('');
         $('#product').focus();
         $('#editChanges').hide();
-        $('#price').val('0');
-        $('#quantity').val('0');
       });
 
       $('#cancelChanges').on('click', function(){

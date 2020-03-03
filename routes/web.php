@@ -105,16 +105,22 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     
 
     //Admin View
-    Route::get('/admin/{id}', 'Admin\AdminPendingController@view')->name('admin-view');
+    Route::get('/admin/pending/{id}', 'Admin\AdminPendingController@view')->name('admin-view');
     Route::put('/admin/approve', 'Admin\AdminPendingController@approve')->name('admin.approve');
     Route::put('/admin/remove', 'Admin\AdminPendingController@remove')->name('admin.remove');
     Route::put('/admin/delete', 'Admin\AdminPendingController@deleted')->name('admin.deleted');
+
+
+    //Admin Check
+    Route::get('/admin/checks', 'Admin\AdminCheckController@index')->name('admin-check');
+    Route::put('/admin/update-issue', 'Admin\AdminCheckController@issue')->name('admin.issue');
 
 
     //Admin Search
     Route::get('/pending/admin', 'Admin\AdminPendingController@search')->name('pending.search');
     Route::get('/approve/admin', 'Admin\AdminRequestedController@search')->name('approve.search');
     Route::get('/remove/admin', 'Admin\AdminDeletedController@search')->name('remove.search');
+    Route::get('/check/admin', 'Admin\AdminCheckController@search')->name('check.search');
     
 });
 

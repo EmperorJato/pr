@@ -43,10 +43,13 @@
                             <td>{{$row->series}}</td>
                             <td>{{$row->requestor}}</td>
                             <td>{{$row->project}}</td>
-                            <td>
+                            <td>    
                                 <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approveData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
+                                <a style="cursor: pointer; color: #ef8157;" class="issueData" data-content="Mark as issue" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-check-circle" style="font-size: 20px;"></i>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -72,6 +75,36 @@
 <script type="text/javascript">
 
     $('.approveData').popover({trigger : "hover focus"});
+    $('.issueData').popover({trigger : "hover focus"});
+    
+
+    $('.issueData').on('click', function(){
+
+        let tr = $(this).closest('tr');
+        let data = tr.children('td').map(function(){
+            return $(this).text();
+        }).get();
+        
+        $('#status_id').val(data[0]);
+        $('.overlay').show();
+        $.ajax({
+            url : "{{route('admin.issue')}}",
+            type : "PUT",
+            data : $('#status').serialize(),
+            success : function(){
+
+                $('.overlay').hide();
+                swal("Success", "", "success").then(function(){
+                    location.reload();
+                });
+
+            },
+            error: function(){
+                $('.overlay').hide();
+                swal("Error", "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
+            }
+        });
+    });
 
 </script>
 

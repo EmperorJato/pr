@@ -1,7 +1,7 @@
 @extends('layouts.admin-prf')
 
 @section('search')
-<form action="{{route('remove.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
+<form action="{{route('check.search')}}" method="GET" class="form-inline md-form form-sm mt-0">
     <div class="input-group no-border">
         <input type="search" id="search" name="search" value="" class="form-control" placeholder="Search...">
         <div class="input-group-append">
@@ -31,7 +31,6 @@
                             <th>Series</th>
                             <th>Requestor</th>
                             <th>Project</th>
-                            <th>Usage</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -44,14 +43,10 @@
                             <td>{{$row->series}}</td>
                             <td>{{$row->requestor}}</td>
                             <td>{{$row->project}}</td>
-                            <td>{{$row->purpose}}</td>
                             <td>
-                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approveData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
-                                </a>
-                                <span style="cursor: pointer; color: #34eb80;" class="restoreData" data-content="Restore Request" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-trash-restore" style="font-size: 20px;"></i>
-                                </span>&nbsp;
+                                </a>&nbsp;
                             </td>
                         </tr>
                         @endforeach
@@ -73,36 +68,11 @@
 @endsection
 
 @section('scripts')
+
 <script type="text/javascript">
-    $('.viewData').popover({trigger : "hover focus"});
-    $('.restoreData').popover({trigger : "hover focus"});
 
+    $('.approveData').popover({trigger : "hover focus"});
 
-    $('.restoreData').on('click', function(){
-        let tr = $(this).closest('tr');
-        let data = tr.children('td').map(function(){
-            return $(this).text();
-        }).get();
-        
-        $('#status_id').val(data[0]);
-        
-        $('.overlay').show();
-        
-        $.ajax({
-            url: "{{route('admin-restored')}}",
-            type: "PUT",
-            data: $('#status').serialize(),
-            success: function(){
-                $('.overlay').hide();
-                swal("Success", "Restored Successfully", "success").then(function(){
-                    window.location.href = "{{route('admin-pending')}}";
-                });
-            },
-            error: function(){
-                $('.overlay').hide();
-                swal("Error", "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
-            }
-        });
-    });
 </script>
+
 @endsection

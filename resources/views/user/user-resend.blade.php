@@ -280,8 +280,6 @@
         $('#pr_form').find(':input').val('');
         $('#product').focus();
         $('#editChanges').hide();
-        $('#price').val('0');
-        $('#quantity').val('0');
       });
 
       $('#cancelChanges').on('click', function(){

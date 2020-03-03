@@ -48,6 +48,12 @@
                                 <p>Rejected</p>
                             </a>
                         </li>
+                        <li class="{{ Route::currentRouteNamed('admin-check') ? 'active' : '' }}">
+                            <a href="{{route('admin-check')}}">
+                                <i class="fas fa-money-check"></i>
+                                <p>Check</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
