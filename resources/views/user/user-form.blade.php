@@ -223,28 +223,20 @@
               
               
               if((productStatus && quantityStatus && priceStatus) == true){
-
-                if (totalCurrency != "₱ 0.00"){
-                  $('tbody').append(output);
-                  $('#pr_form').find(':input').val('');
-                  $('#product').focus();
-                  $('.editData').popover({ trigger: "hover focus"});
-                  $('.deleteData').popover({ trigger: "hover focus"});
-                  grandTotal();
-                } else {
-                  swal("Error", "Total must be at least ₱ 1.00 . Please input again the quantity", "error").then(function(){
-                    $('#quantity').val('');
-                  });
-                }
+                
+                $('tbody').append(output);
+                $('#pr_form').find(':input').val('');
+                $('#product').focus();
+                $('.editData').popover({ trigger: "hover focus"});
+                $('.deleteData').popover({ trigger: "hover focus"});
+                grandTotal();
                 
               }
           }
 
       $('#saveChanges').on('click', function(){
         
-        if ($('.total').val() != 0){
-          addProducts();
-        }
+        addProducts();
           
       });
 
@@ -380,9 +372,7 @@
 
         if((productStatus && quantityStatus && priceStatus) == true){
           
-          if (totalCurrency != "₱ 0.00"){
-            
-            $('#row'+row_id+'').html(edited);
+          $('#row'+row_id+'').html(edited);
             grandTotal();
             $('#editChanges').hide();
             $('#saveChanges').show();
@@ -392,11 +382,6 @@
             $('.editData').popover({ trigger: "hover focus"});
             $('.deleteData').popover({ trigger: "hover focus"});
             
-          }else {
-            swal("Error", "Total must be at least ₱ 1.00 . Please enter again the quantity", "error").then(function(){
-              $('#quantity').val('');
-            });
-          }
         }
     });
     

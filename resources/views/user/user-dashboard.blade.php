@@ -6,7 +6,13 @@
   <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
-  
+  @if(session()->has("error"))
+  <script type="text/javascript">
+      $(function(){
+          swal("Unauthorized User", "", "error");
+      });
+  </script>
+  @endif
   <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card card-stats">

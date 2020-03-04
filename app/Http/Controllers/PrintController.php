@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Products;
+use Illuminate\Support\Facades\Auth;
 
 
 class PrintController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     
 
     public function view_print($id){
@@ -25,14 +31,27 @@ class PrintController extends Controller
 
     public function index($id){
 
-        $prforms = Products::select('products.*', 'prforms.*', 'users.*')
+        
+            $prforms = Products::select('products.*', 'prforms.*', 'users.*')
             ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
             ->join('users', 'users.id', 'prforms.user_id')
-            ->where('prforms.pr_id', $id)->first();
+            ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->first();
 
-        $products = Products::where('prform_id', $id)->get();
+            $products = Products::where('prform_id', $id)->get();
 
-        return view('pages.view-request', compact('prforms', 'products'));
+            if($prforms){
+
+                return view('pages.view-request', compact('prforms', 'products'));
+                
+            } else {
+
+                abort(404);
+
+            }
+
+            
+
+
 
     }
 
