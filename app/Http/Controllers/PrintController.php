@@ -14,7 +14,7 @@ class PrintController extends Controller
 
         $data = [
 
-            'report_path' => '/reports/PR/pr_report',
+            'report_path' => '/Reports/prf/pr_report',
             'controls' => ['pr_id' => $id]
 
         ];
