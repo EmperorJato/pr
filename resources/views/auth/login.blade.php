@@ -11,6 +11,13 @@
         });
     </script>
     @endif
+    @if(session()->has("sessionTimeOut"))
+    <script type="text/javascript">
+        $(function(){
+            swal("Inactive", "This user is inactive. Please Login again", "error");
+        });
+    </script>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

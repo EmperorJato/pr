@@ -405,27 +405,19 @@
         }
 
         if((e_productStatus && e_quantityStatus && e_priceStatus) == true){
-            if (e_totalCurrency != "₱ 0.00"){
-                
-                $('.overlay').show();
-                $.ajax({
-                    url: "{{route('save.product')}}",
-                    type: "PUT",
-                    data: $('#edit_form').serialize(),
-                    success: function(){
-                        location.reload();
-                    },
-                    error: function(){
-                        $('.overlay').hide();
-                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
-                    }
-                });
-                
-            } else {
-                swal("Error", "Total must be at least ₱ 1.00. Please input again the quantity", "error").then(function(){
-                    $('#quantity').val('');
-                });
-            }
+            $('.overlay').show();
+            $.ajax({
+                url: "{{route('save.product')}}",
+                type: "PUT",
+                data: $('#edit_form').serialize(),
+                success: function(){
+                    location.reload();
+                },
+                error: function(){
+                    $('.overlay').hide();
+                    swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
+                }
+            });
         }
     });
 
@@ -511,36 +503,27 @@
         }
         
         if((productStatus && quantityStatus && priceStatus) == true){
-            if (totalCurrency != "₱ 0.00"){
-                
-                $('#addProduct').prop("disabled", true);
-                $('#prform_id').val(pr_id);
-                $('.overlay').show();
-                $.ajax({
-                    url : "{{route('add.product')}}",
-                    type: "POST",
-                    data: $('#form_product').serialize(),
-                    success: function(){
-                        $('.overlay').hide();
-                        swal('Success', "Added Successfully", "success").then(function(){
-                            $('.overlay').show();
-                            location.reload();
-                        });
-                    },
-                    error: function(){
-                        $('.overlay').hide();
-                        swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error").then(function(){
-                            $('#addProduct').removeAttr('disabled');
-                        });
-                    }
-                });
-                
-            } else {
-                swal("Error", "Total must be at least ₱ 1.00. Please input again the quantity", "error").then(function(){
-                    $('#quantity').val('');
-                });
-            }
-            
+            $('#addProduct').prop("disabled", true);
+            $('#prform_id').val(pr_id);
+            $('.overlay').show();
+            $.ajax({
+                url : "{{route('add.product')}}",
+                type: "POST",
+                data: $('#form_product').serialize(),
+                success: function(){
+                    $('.overlay').hide();
+                    swal('Success', "Added Successfully", "success").then(function(){
+                        $('.overlay').show();
+                        location.reload();
+                    });
+                },
+                error: function(){
+                    $('.overlay').hide();
+                    swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error").then(function(){
+                        $('#addProduct').removeAttr('disabled');
+                    });
+                }
+            });
         }
     });
 

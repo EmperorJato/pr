@@ -32,15 +32,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::post('register-user', 'Auth\RegisterController@registerUser')->name('register.user');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Print
 Route::get('/print/{id}/{requestor}', 'PrintController@view_print')->name('view.pdf');
-Route::get('/user-view/{id}/{requestor}', 'PrintController@index')->name('view.prform');
-Route::get('/admin-view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
 
 Route::group(['middleware' => ['auth', 'user']], function(){
     
+    //User View
+    Route::get('/user-view/{id}/{requestor}', 'PrintController@index')->name('view.prform');
+
     //User Dashboard
     Route::get('/user/dashboard', 'User\UserDashboardController@index')->name('user-dashboard');
 
@@ -85,6 +87,9 @@ Route::group(['middleware' => ['auth', 'user']], function(){
 
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
+
+    //Admin View
+    Route::get('/admin-view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
 
     //Admin Dashboard
     Route::get('/admin/dashboard', 'Admin\AdminDashboardController@index')->name('admin-dashboard');

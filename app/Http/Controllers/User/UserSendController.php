@@ -24,11 +24,21 @@ class UserSendController extends Controller
         $prforms = Products::select('products.*', 'prforms.*', 'users.*')
             ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
             ->join('users', 'users.id', 'prforms.user_id')
-            ->where('prforms.pr_id', $id)->first();
+            ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->first();
 
         $products = Products::where('prform_id', $id)->get();
 
-        return view('user.user-send', compact('prforms', 'products'));
+        if($prforms){
+
+            return view('user.user-send', compact('prforms', 'products'));
+
+        } else {
+
+            abort(404);
+            
+        }
+
+        
     }
     
 
@@ -136,13 +146,23 @@ class UserSendController extends Controller
         $prforms = Products::select('products.*', 'prforms.*', 'users.*')
         ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
         ->join('users', 'users.id', 'prforms.user_id')
-        ->where('prforms.pr_id', $id)->first();
+        ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->first();
 
         $products = Products::where('prform_id', $id)->get();
 
         $count = Products::where('prform_id', $id)->count();
 
-        return view('user.user-resend', compact('prforms', 'products', 'count'));
+        if($prforms){
+
+            return view('user.user-resend', compact('prforms', 'products', 'count'));
+
+        } else {
+
+            abort(404);
+
+        }
+
+        
 
     }
 
