@@ -464,10 +464,7 @@
         });
       }
     });
-    
-    // initialize with defaults
-    $("#input-id").fileinput({theme : 'fa'});
-    
+  
   </script>
           
 @endsection
