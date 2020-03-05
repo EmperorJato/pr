@@ -103,7 +103,6 @@
       </div>
     </div>
   </div>
-  <input id="input-id" type="file" class="file" data-preview-file-type="text" >
   <!-- Modal -->
   <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
