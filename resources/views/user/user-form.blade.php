@@ -127,15 +127,6 @@
             <label for="purpose">Specific Purpose or Usage:</label>
             <textarea type="text" class="form-control" id="purpose" name="purpose"></textarea>
           </div>
-          <div class="input-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile04">
-              <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-            </div>
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">Button</button>
-            </div>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
