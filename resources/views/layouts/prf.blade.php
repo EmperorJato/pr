@@ -108,7 +108,7 @@
     
     <!-- Scripts -->
     <script src="{{ asset('js/all.js') }}"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" type="text/javascript"></script>
+    {{-- <script src="https://kit.fontawesome.com/a076d05399.js" type="text/javascript"></script> --}}
     <script type="text/javascript">
         $('#user-form').popover({trigger : "hover focus"});
         $('#user-request').popover({trigger : "hover focus"});

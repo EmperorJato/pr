@@ -58,6 +58,8 @@ class AdminDeletedController extends Controller
         PRForms::where('pr_id',  $status_id)->update([
 
             'status' => 'Requested',
+            'status_date' => null,
+            'status_remarks' => null
 
         ]);
 

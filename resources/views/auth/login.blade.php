@@ -18,7 +18,59 @@
         });
     </script>
     @endif
-    <div class="row justify-content-center">
+
+    <img class="wave" src="{{asset('images/bg2.png')}}">
+	<div class="container">
+		
+		<div class="login-content">
+			<form method="POST" action="{{ route('login') }}" autocomplete="off">
+                @csrf
+                <div class="cent">
+                    <img src="{{asset('images/avatar.svg')}}">
+                    <h2 class="title">Welcome</h2>
+                </div>
+				
+                <div class="md-form">
+
+                    <i class="fas fa-user prefix"></i>
+                    <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required>
+                    <label for="username">{{ __('Username') }}</label>
+            
+
+                        @error('username')
+                        <span class="invalid-feedback" role="alert">
+                            <div class="text-center">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        </span>
+                        @enderror
+                   
+                </div>
+                <div class="md-form">
+
+                    <i class="fas fa-lock prefix"></i>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                    <label for="password">{{ __('Password') }}</label>
+                    
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <div class="text-center">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </span>
+                    @enderror
+                </div>
+                
+            	<button type="submit" class="btn">
+                    {{ __('Login') }}
+                </button>
+            </form>
+        </div>
+        <div class="img">
+			<img src="{{asset('images/login-bg.svg')}}">
+		</div>
+    </div>
+    {{-- <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
@@ -65,6 +117,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 @endsection

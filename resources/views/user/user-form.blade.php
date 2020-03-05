@@ -103,10 +103,10 @@
       </div>
     </div>
   </div>
-  
+  <input id="input-id" type="file" class="file" data-preview-file-type="text" >
   <!-- Modal -->
   <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalScrollableTitle">To complete, please fill up this form</h5>
@@ -127,6 +127,15 @@
           <div class="form-group">
             <label for="purpose">Specific Purpose or Usage:</label>
             <textarea type="text" class="form-control" id="purpose" name="purpose"></textarea>
+          </div>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile04">
+              <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">Button</button>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -456,6 +465,10 @@
         });
       }
     });
+    
+    // initialize with defaults
+    $("#input-id").fileinput({theme : 'fa'});
+    
   </script>
           
 @endsection

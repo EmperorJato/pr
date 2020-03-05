@@ -47,7 +47,7 @@
                                 <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approveData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
-                                <a style="cursor: pointer; color: #ef8157;" class="issueData" data-content="Mark as issue" rel="popover" data-placement="bottom">
+                                <a style="cursor: pointer; color: #ef8157;" class="issueData" data-content="Mark as close" rel="popover" data-placement="bottom">
                                     <i class="fas fa-check-circle" style="font-size: 20px;"></i>
                                 </a>
                             </td>
@@ -60,11 +60,37 @@
     </div>
 </div>
 
-<form id="status" style="display: none;">
-    {{csrf_field()}}
-    {{method_field('PUT')}}
-    <input type="hidden" id="status_id" name="status_id" value="">
-</form>
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Remarks</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="status" onsubmit="return false;">
+            <div class="modal-body">
+                
+                {{csrf_field()}}
+                {{method_field('PUT')}}
+                <input type="hidden" id="status_id" name="status_id" value="">
+                <div class="form-group">
+                    <label for="reason">Reference</label>
+                    <textarea type="text" class="form-control" id="checks_remarks" name="checks_remarks"></textarea>
+                    <small id="e_reason" class="form-text text-muted"></small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 
 {{$prform->links()}}
 
@@ -86,6 +112,13 @@
         }).get();
         
         $('#status_id').val(data[0]);
+
+        $('#checkModal').modal('show');
+        
+    });
+
+
+    $('#status').on('submit', function(){
         $('.overlay').show();
         $.ajax({
             url : "{{route('admin.issue')}}",

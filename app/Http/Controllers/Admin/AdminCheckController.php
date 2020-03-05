@@ -32,7 +32,8 @@ class AdminCheckController extends Controller
 
         PRForms::where('pr_id', $status_id)->update([
 
-            'checks' => Carbon::now()
+            'checks' => Carbon::now(),
+            'checks_remarks' => $request->checks_remarks
 
         ]);
 
