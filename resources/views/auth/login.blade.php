@@ -27,7 +27,7 @@
                 @csrf
                 <div class="cent">
                     <img src="{{asset('images/avatar.svg')}}">
-                    <h2 class="title">Welcome</h2>
+                    <h2 class="title">Sign in</h2>
                 </div>
 				
                 <div class="md-form">
