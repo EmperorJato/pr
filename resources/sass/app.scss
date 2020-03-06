@@ -10,8 +10,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+@import 'paper-dashboard';
 
-@import 'paper-dashboard'; 
 
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
@@ -20,7 +20,3 @@
 // Loader
 @import 'loader';
 
-
-*{
-    font-family: 'Poppins', sans-serif;
-}
