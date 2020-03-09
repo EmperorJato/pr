@@ -66,4 +66,30 @@ class AdminCheckController extends Controller
 
         return redirect()->route('admin-check');
     }
+
+    public function revert(Request $request){
+
+        $status_id = $request->get('status_id');
+
+        PRForms::where('pr_id', $status_id)->update([
+
+            'status' => 'Approved',
+            'checks' => null,
+            'checks_remarks' => null
+
+        ]);
+
+    }
+
+    public function edit(Request $request){
+
+        $status_id = $request->get('edit_id');
+
+        PRForms::where('pr_id', $status_id)->update([
+
+            'checks_remarks' => $request->checks_remarks
+
+        ]);
+
+    }
 }

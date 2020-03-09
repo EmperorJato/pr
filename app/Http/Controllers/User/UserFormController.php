@@ -8,6 +8,8 @@ use App\PRForms;
 use App\Products;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Attachment;
+use Illuminate\Support\Facades\Storage;
 
 class UserFormController extends Controller
 {
@@ -45,6 +47,8 @@ class UserFormController extends Controller
         
         $pr_id = $this->create($request->all())->id;
 
+      
+
         if(count($request->product) > 0){
             foreach($request->product as $item => $a){
                 $data = array(
@@ -63,4 +67,5 @@ class UserFormController extends Controller
         return response()->json(['pr_id' => $pr_id, 'requestor' => Auth::user()->name]);
         
     }
+
 }

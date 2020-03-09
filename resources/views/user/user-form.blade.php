@@ -11,21 +11,21 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-            <table class="table">
-              <thead class="text-primary">
-                <tr>
-                  <th>Product</th>
-                  <th>Quantity</th>
-                  <th>Unit</th>
-                  <th>Price</th>
-                  <th>Total</th>
-                  <th>Remarks</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+          <table class="table">
+            <thead class="text-primary">
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Remarks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
           <div class="text-center">
             <button type="button" class="btn btn-success btn-sm" id="showAdd"><i class="fas fa-cart-plus"></i>&nbsp; Add Product</button>
           </div>
@@ -136,13 +136,18 @@
     </div>
   </div>
 </form>
+
+
+
+
+
+
 <input type="hidden" id="editRow" value="">
 @endsection
 
 @section('scripts')
   
   <script type="text/javascript">
-
 
     $('#pr_form').hide();
     
@@ -405,16 +410,22 @@
     $('#submit_pr').on('click', function(){
       
       if($('#project').val() == ""){
+
         $('#project').addClass('border-danger');
+
         $('#e_project').html('<strong><span class="text-danger">Project Name is required</span></strong>');
+      
       } else {
         
         $('#modalForm').modal('hide');
+
         $('.overlay').show();
+
         $.ajax({
+
           url : "{{ route('insert.products') }}",
           type : "POST",
-          data : $('#insert_product').serialize(),
+          data: $('#insert_product').serialize(),
           success: function(e){
             var pr_id = e.pr_id;
             var requestor = e.requestor;
@@ -455,6 +466,7 @@
         });
       }
     });
+
   
   </script>
           

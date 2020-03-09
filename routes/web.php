@@ -119,6 +119,8 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     //Admin Check
     Route::get('/admin/checks', 'Admin\AdminCheckController@index')->name('admin-check');
     Route::put('/admin/update-issue', 'Admin\AdminCheckController@issue')->name('admin.issue');
+    Route::put('/admin/checks-revert', 'Admin\AdminCheckController@revert')->name('admin.revert');
+    Route::put('/admin/checks-edit', 'Admin\AdminCheckController@edit')->name('admin.edit');
 
 
     //Admin Search
