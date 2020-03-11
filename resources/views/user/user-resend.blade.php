@@ -511,6 +511,10 @@
         });
       }
     });
+
+    $(window).on('load', function() {
+        $(".overlay").fadeOut(200);
+    });
   </script>
           
 @endsection

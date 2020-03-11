@@ -1,8 +1,6 @@
 @extends('layouts.prf')
 
 @section('content')
-
-
   <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
@@ -169,7 +167,9 @@
 @section('scripts')
   
   <script type="text/javascript">
-
+    $(window).on('load', function() {
+      $(".overlay").fadeOut(200);
+    });
   </script>
           
 @endsection

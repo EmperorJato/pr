@@ -12,16 +12,18 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mdb.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    @yield('links')
+
     
     
 </head>
 <body>
     <div id="app">
-        @yield('content')
+        @yield('content')  
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/mdb.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

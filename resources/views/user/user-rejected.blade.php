@@ -12,6 +12,9 @@
 @endsection
 
 @section('content')
+<div class="overlay">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
@@ -61,6 +64,8 @@
 <script type="text/javascript">
 
     $('.viewData').popover({ trigger: "hover focus"});
-
+    $(window).on('load', function() {
+        $(".overlay").fadeOut(200);
+    });
 </script>
 @endsection

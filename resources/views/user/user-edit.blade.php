@@ -594,5 +594,9 @@
         let requestor = $('#requestor').val();
         window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
     });
+
+    $(window).on('load', function() {
+        $(".overlay").fadeOut(200);
+    });
 </script>
 @endsection

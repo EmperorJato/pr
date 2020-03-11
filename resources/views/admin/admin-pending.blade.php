@@ -71,6 +71,8 @@
 
     $('.viewData').popover({trigger : "hover focus"});
     $('.viewPDF').popover({trigger : "hover focus"});
- 
+    $(window).on('load', function() {
+        $(".overlay").fadeOut(200);
+    });
 </script>
 @endsection

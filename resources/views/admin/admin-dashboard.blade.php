@@ -5,7 +5,6 @@
 <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
-
 <div class="row justify-content-center">
   <div class="col-lg-4 col-md-6 col-sm-6">
     <div class="card card-stats">
@@ -55,7 +54,8 @@
 
 @section('scripts')
 <script type="text/javascript">
-
- 
+$(window).on('load', function() {
+    $(".overlay").fadeOut(200);
+});
 </script>
 @endsection

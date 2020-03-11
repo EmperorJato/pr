@@ -95,7 +95,7 @@
             <div class="card-body">
               <div class="text-center">
                 <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
-                <button type="button" class="btn btn-primary" id="submit_btn"><i class="fas fa-paper-plane"></i>&nbsp; Submit</button>
+                <button type="button" class="btn btn-primary" id="submit_btn"><i class="fas fa-save"></i>&nbsp; Save</button>
               </div>
             </div>
           </div>
@@ -127,6 +127,9 @@
             <label for="purpose">Specific Purpose or Usage:</label>
             <textarea type="text" class="form-control" id="purpose" name="purpose"></textarea>
           </div>
+          {{-- <div class="form-group">
+            <input id="input-id" type="file" class="file" data-preview-file-type="text" >
+          </div> --}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -137,12 +140,8 @@
   </div>
 </form>
 
-
-
-
-
-
 <input type="hidden" id="editRow" value="">
+
 @endsection
 
 @section('scripts')
@@ -409,23 +408,47 @@
 
     $('#submit_pr').on('click', function(){
       
-      if($('#project').val() == ""){
-
-        $('#project').addClass('border-danger');
-
-        $('#e_project').html('<strong><span class="text-danger">Project Name is required</span></strong>');
+      let inputStatus = false;
+      let fileStatus = false;
       
+      if($('#project').val() == ""){
+        
+        $('#project').addClass('border-danger');
+        
+        $('#e_project').html('<strong><span class="text-danger">Project Name is required</span></strong>');
+        
+        inputStatus = false;
+        
       } else {
         
+        $('#project').removeClass('border-danger');
+        
+        $('#e_project').html('');
+        
+        inputStatus = true;
+        
+      }
+
+
+
+      if((inputStatus) == true){
+        
         $('#modalForm').modal('hide');
-
+        
         $('.overlay').show();
-
+        
+        var formData = new FormData($('#insert_product')[0]);
+        
         $.ajax({
-
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
           url : "{{ route('insert.products') }}",
           type : "POST",
-          data: $('#insert_product').serialize(),
+          data: formData,
+          contentType : false,
+          processData : false,
+          cache : false,
           success: function(e){
             var pr_id = e.pr_id;
             var requestor = e.requestor;
@@ -467,7 +490,46 @@
       }
     });
 
+  //  var click = 0;
+
+  // $('#send-attach').on('click', function(){
+
+  //   click++;
   
+  //   let send = "";
+  
+  //   send = 
+  
+  //   '<div class="border border-info" style="padding: 5px; margin: 15px 0px;" id="cover-file'+click+'">'+
+  //     '<i class="fas fa-times-circle float-right deleteFile" style="color: #51cbce; cursor: pointer;" id="deleteFile'+click+'"></i>'+
+  //     '<input type="file" id="attachments'+click+'" class="attachments" name="attachments[]" multiple style="margin: 15px 0px;">'+
+  //     '<div class="form-group">'+
+  //       '<label for="purpose">Add description for this file: </label>'+
+  //       '<input type="text" class="form-control" id="attach_description'+click+'" name="attach_description[]">'+
+  //       '<small id="e_attachment'+click+'" class="form-text text-muted"></small>'+
+  //     '</div>'+
+  //   '</div>';
+      
+  //   $(send).appendTo('#target-attachment').hide().fadeIn(1000);
+      
+  // });
+
+  // $('body').on('click', '.deleteFile', function(){
+    
+  //   $(this).parent().fadeOut(500, function(){
+      
+  //     $(this).remove();
+      
+  //   });
+
+  // });
+
+  // $("#input-id").fileinput({
+  //   theme: 'fas'
+  // });
+  $(window).on('load', function() {
+    $(".overlay").fadeOut(200);
+  });
   </script>
           
 @endsection

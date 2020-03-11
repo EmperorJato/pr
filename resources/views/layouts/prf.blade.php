@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     
     <!-- Styles -->
+   
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
@@ -107,6 +108,7 @@
     </div>
     
     <!-- Scripts -->
+
     <script src="{{ asset('js/all.js') }}"></script>
     <script type="text/javascript">
         $('#user-form').popover({trigger : "hover focus"});
