@@ -110,7 +110,6 @@
     <!-- Scripts -->
 
     <script src="{{ asset('js/all.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript">
         $('#user-form').popover({trigger : "hover focus"});
         $('#user-request').popover({trigger : "hover focus"});
