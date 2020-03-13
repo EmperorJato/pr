@@ -159,6 +159,56 @@
 </form>
 
 <div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Your Attachment:</h5>
+              </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach($attachments as $attachment)
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="d-none">
+                                {{$ext = pathinfo(Storage::url('attachments/'.$attachment->attach_path), PATHINFO_EXTENSION)}}
+                            </div>
+                            @if( $ext == 'jpg' ||  $ext == 'jpeg' ||  $ext == 'tiff' ||  $ext == 'gif' ||  $ext == 'png')
+                                <img class="card-img-top" src="{{Storage::url('attachments/'.$attachment->attach_path)}}">
+                            @else
+                                <img class="card-img-top" src="{{asset('images/attachment.png')}}" href="{{Storage::url('attachments/'.$attachment->attach_path)}}">
+                            @endif
+                            <div class="card-body" style="height: 150px;">
+                                <input type="hidden" id="attach-id{{$attachment->attach_id}}" name="attach-id" value="{{$attachment->attach_id}}">
+                                <input type="hidden" id="attach-path{{$attachment->attach_id}}" name="attach-path" value="{{$attachment->attach_path}}">
+                                <p class="card-text">{{$attachment->attach_name}}</p>
+                                <button type="button" id="{{$attachment->attach_id}}" class="btn btn-danger attachDelete" style="position: absolute; bottom: 0;"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                          </div>
+                    </div>
+                    @endforeach
+                </div>
+                <form id="delete-attachment" name="delete-attachment" method="DELETE">
+                    @csrf
+                    <input type="hidden" id="attachment-id" name="attachment-id" value="">
+                    <input type="hidden" id="attachment-path" name="attachment-path" value="">
+                </form>
+            </div>
+            <div class="card-footer">
+                <form method="POST" id="edit-attachment" name="edit-attachment" enctype="multipart/form-data">
+                    <input type="hidden" id="pr-id" name="pr-id" value="{{$prforms->pr_id}}">
+                        <div class="file-loading">
+                            <input id="attachments" name="attachments[]" type="file" multiple>
+                        </div>
+                    <button type="button" id="save-attachment" class="btn btn-success" style="display: none; margin-top : 5px;">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
@@ -597,6 +647,81 @@
 
     $(window).on('load', function() {
         $(".overlay").fadeOut(200);
+    });
+
+    $('img').EZView();
+
+    $("#attachments").on('click', function(){
+
+        $('#save-attachment').fadeIn(2000);
+
+    });
+
+    $("#attachments").fileinput({
+        theme : "fas",
+        dropZoneEnabled: false,
+        'showUpload': false,
+        showCaption: false,
+        autoReplace: true,
+        overwriteInitial: true,
+        showUploadedThumbs: false,
+        initialPreviewShowDelete: false,
+        browseLabel: "Add Attachment",
+        maxFilePreviewSize: 40000,
+        maxFileSize: 40000
+    });
+
+    $('.attachDelete').on('click', function(){
+
+        let pr_id = $(this).attr('id');
+        let attach_id = $('#attach-id'+pr_id+'').val();
+        let attach_path = $('#attach-path'+pr_id+'').val();
+        $('#attachment-id').val(attach_id);
+        $('#attachment-path').val(attach_path);
+
+        $('.overlay').show();
+        $.ajax({
+            url : "{{ route('delete.attachment') }}",
+            type : "DELETE",
+            data : $('#delete-attachment').serialize(),
+            success : function (){
+                location.reload();
+            },
+            error : function (){
+                $('.overlay').hide();
+                swal('Error', "Something went wrong, Please try again", "error").then(function(){
+                    $('#addProduct').removeAttr('disabled');
+                });
+            }
+        })
+    });
+
+    $('.fileinput-remove').on('click', function(){
+
+        $('#save-attachment').hide();
+
+    });
+
+    $('#save-attachment').on('click', function(){
+        let attachData = new FormData($('#edit-attachment')[0]);
+        $('.overlay').show();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('store.attachment') }}",
+            type: "POST",
+            data: attachData,
+            contentType : false,
+            processData : false,
+            cache : false,
+            success: function(){
+                location.reload();
+            },
+            error: function(){
+                swal('Error', "Something went wrong, Please try again", "error");
+            }
+        });
     });
 </script>
 @endsection

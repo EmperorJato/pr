@@ -105,7 +105,7 @@
   </div>
   <!-- Modal -->
   <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalScrollableTitle">To complete, please fill up this form</h5>
@@ -127,9 +127,12 @@
             <label for="purpose">Specific Purpose or Usage:</label>
             <textarea type="text" class="form-control" id="purpose" name="purpose"></textarea>
           </div>
-          {{-- <div class="form-group">
-            <input id="input-id" type="file" class="file" data-preview-file-type="text" >
-          </div> --}}
+          <div class="form-group">
+            <label for="send-attachment">Send Attachment:</label>
+            <div class="file-loading">
+              <input id="attachments" name="attachments[]" type="file" multiple>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -144,9 +147,24 @@
 
 @endsection
 
-@section('scripts')
+@section('scripts') 
   
   <script type="text/javascript">
+
+  $("#attachments").fileinput({
+      theme : "fas",
+      dropZoneEnabled: false,
+      'showUpload': false,
+      showCaption: false,
+      autoReplace: true,
+      overwriteInitial: true,
+      showUploadedThumbs: false,
+      initialPreviewShowDelete: false,
+      browseLabel: "Add Attachment",
+      maxFilePreviewSize: 40000,
+      maxFileSize: 40000
+  });
+
 
     $('#pr_form').hide();
     
@@ -179,6 +197,7 @@
       if(product == ""){
         $('#product').addClass('border-danger');
         $('#e_product').html('<strong><span class="text-danger">Product is required</span></strong>');
+ 
         productStatus = false;
       } else {
         $('#product').removeClass('border-danger');
@@ -416,6 +435,12 @@
         $('#project').addClass('border-danger');
         
         $('#e_project').html('<strong><span class="text-danger">Project Name is required</span></strong>');
+
+        $('#project')[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center'
+        });
         
         inputStatus = false;
         
@@ -490,43 +515,6 @@
       }
     });
 
-  //  var click = 0;
-
-  // $('#send-attach').on('click', function(){
-
-  //   click++;
-  
-  //   let send = "";
-  
-  //   send = 
-  
-  //   '<div class="border border-info" style="padding: 5px; margin: 15px 0px;" id="cover-file'+click+'">'+
-  //     '<i class="fas fa-times-circle float-right deleteFile" style="color: #51cbce; cursor: pointer;" id="deleteFile'+click+'"></i>'+
-  //     '<input type="file" id="attachments'+click+'" class="attachments" name="attachments[]" multiple style="margin: 15px 0px;">'+
-  //     '<div class="form-group">'+
-  //       '<label for="purpose">Add description for this file: </label>'+
-  //       '<input type="text" class="form-control" id="attach_description'+click+'" name="attach_description[]">'+
-  //       '<small id="e_attachment'+click+'" class="form-text text-muted"></small>'+
-  //     '</div>'+
-  //   '</div>';
-      
-  //   $(send).appendTo('#target-attachment').hide().fadeIn(1000);
-      
-  // });
-
-  // $('body').on('click', '.deleteFile', function(){
-    
-  //   $(this).parent().fadeOut(500, function(){
-      
-  //     $(this).remove();
-      
-  //   });
-
-  // });
-
-  // $("#input-id").fileinput({
-  //   theme: 'fas'
-  // });
   $(window).on('load', function() {
     $(".overlay").fadeOut(200);
   });

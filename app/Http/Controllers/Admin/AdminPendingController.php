@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\PRForms;
 use App\Products;
 use Illuminate\Support\Carbon;
+use App\Attachment;
 
 class AdminPendingController extends Controller
 {
@@ -32,8 +33,9 @@ class AdminPendingController extends Controller
         ->where('prforms.pr_id', $id)->first();
 
         $products = Products::where('prform_id', $id)->get();
+        $attachments = Attachment::where('attachment_id', $id)->get();
 
-        return view('admin.admin-view', compact('prforms', 'products'));
+        return view('admin.admin-view', compact('prforms', 'products', 'attachments'));
 
     }
 

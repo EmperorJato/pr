@@ -10,8 +10,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import 'paper-dashboard';
+@import '~bootstrap-fileinput/scss/fileinput.scss';
 
+@import 'paper-dashboard';
 
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
@@ -20,3 +21,12 @@
 // Loader
 @import 'loader';
 
+
+.card-img-top{
+    
+   width: 100%!important;
+   height: 200px!important;
+   object-fit: cover;
+   object-position: center;
+   
+}

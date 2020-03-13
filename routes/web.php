@@ -82,6 +82,11 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     //User Resend
     Route::get('/user-resend/{id}/{requestor}', 'User\UserSendController@resend')->name('user-resend');
     Route::post('/user/resend/pr', 'User\UserSendController@store')->name('user.resend');
+
+    //User Delete attachment
+    Route::delete('user-delete/attachment', 'AttachmentController@delete')->name('delete.attachment');
+    Route::post('user-attach/attachment', 'AttachmentController@storeAttach')->name('store.attachment');
+
 });
 
 
@@ -128,6 +133,10 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::get('/approve/admin', 'Admin\AdminRequestedController@search')->name('approve.search');
     Route::get('/remove/admin', 'Admin\AdminDeletedController@search')->name('remove.search');
     Route::get('/check/admin', 'Admin\AdminCheckController@search')->name('check.search');
+
+    //User Delete attachment
+    Route::delete('admin-delete/attachment', 'AttachmentController@delete')->name('admin-delete.attachment');
+    Route::post('admin-attach/attachment', 'AttachmentController@storeAttach')->name('admin-store.attachment');
     
 });
 

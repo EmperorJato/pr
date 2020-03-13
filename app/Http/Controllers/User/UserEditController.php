@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Products;
 use Illuminate\Support\Facades\Auth;
+use App\Attachment;
 
 class UserEditController extends Controller
 {
@@ -27,9 +28,11 @@ class UserEditController extends Controller
     
             $products = Products::where('prform_id', $id)->get();
 
+            $attachments = Attachment::where('attachment_id', $id)->get();
+
             if($prforms){
 
-                return view('user.user-edit', compact('prforms', 'products'));
+                return view('user.user-edit', compact('prforms', 'products', 'attachments'));
 
             } else {
 

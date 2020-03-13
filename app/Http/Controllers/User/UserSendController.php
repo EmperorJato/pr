@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Attachment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Products;
 use App\PRForms;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+
 
 class UserSendController extends Controller
 {
@@ -21,16 +23,17 @@ class UserSendController extends Controller
 
     public function index($id){
 
-        $prforms = Products::select('products.*', 'prforms.*', 'users.*')
+        $prforms = Products::select('products.*', 'prforms.*')
             ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
-            ->join('users', 'users.id', 'prforms.user_id')
-            ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->first();
+            ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->where('prforms.status', null)->first();
 
         $products = Products::where('prform_id', $id)->get();
 
+        $attachments = Attachment::where('attachment_id', $id)->get();
+
         if($prforms){
 
-            return view('user.user-send', compact('prforms', 'products'));
+            return view('user.user-send', compact('prforms', 'products', 'attachments'));
 
         } else {
 
@@ -149,12 +152,12 @@ class UserSendController extends Controller
         ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->first();
 
         $products = Products::where('prform_id', $id)->get();
-
+        $attachments = Attachment::where('attachment_id', $id)->get();
         $count = Products::where('prform_id', $id)->count();
 
         if($prforms){
 
-            return view('user.user-resend', compact('prforms', 'products', 'count'));
+            return view('user.user-resend', compact('prforms', 'products', 'count', 'attachments'));
 
         } else {
 
@@ -198,6 +201,8 @@ class UserSendController extends Controller
         
         $pr_id = $this->create($request->all())->id;
 
+        $this->storeAttachment($pr_id);
+        
         if(count($request->product) > 0){
             foreach($request->product as $item => $a){
                 $data = array(
@@ -217,5 +222,34 @@ class UserSendController extends Controller
         return response()->json(['pr_id' => $pr_id, 'requestor' => Auth::user()->name]);
         
     }
+
+    private function storeAttachment($pr_id){
+
+        if (request()->file('attachments')){
+
+            $file = request()->file('attachments');
+
+
+            foreach($file as $item => $b){
+
+                
+                $file_path = Carbon::parse(Carbon::now())->format('Y-m-d').'_ATTACH_'.rand().'-'.$file[$item]->getClientOriginalName();
+
+                $attachment = array(
+
+                    'attachment_id' => $pr_id,
+                    'attach_name' =>  $file[$item]->getClientOriginalName(),
+                    'attach_path' => $file_path
+                );
+
+            
+                $file[$item]->storeAs('public/attachments', $file_path);
+
+                Attachment::insert($attachment);
+                
+            }
+        }
+    }
+
 
 }

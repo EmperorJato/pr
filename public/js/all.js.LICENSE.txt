@@ -22,6 +22,30 @@
  */
 
 /*!
+ * bootstrap-fileinput v5.0.8
+ * http://plugins.krajee.com/file-input
+ *
+ * Author: Kartik Visweswaran
+ * Copyright: 2014 - 2019, Kartik Visweswaran, Krajee.com
+ *
+ * Licensed under the BSD-3-Clause
+ * https://github.com/kartik-v/bootstrap-fileinput/blob/master/LICENSE.md
+ */
+
+/*!
+ * bootstrap-fileinput v5.0.8
+ * http://plugins.krajee.com/file-input
+ *
+ * Font Awesome 5 icon theme configuration for bootstrap-fileinput. Requires font awesome 5 assets to be loaded.
+ *
+ * Author: Kartik Visweswaran
+ * Copyright: 2014 - 2019, Kartik Visweswaran, Krajee.com
+ *
+ * Licensed under the BSD-3-Clause
+ * https://github.com/kartik-v/bootstrap-fileinput/blob/master/LICENSE.md
+ */
+
+/*!
  * jQuery JavaScript Library v3.4.1
  * https://jquery.com/
  *
@@ -67,4 +91,13 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+/**!
+ * KvSortable
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @license MIT
+ *
+ * Changed kvsortable plugin naming to prevent conflict with JQuery UI Sortable
+ * @author Kartik Visweswaran
  */

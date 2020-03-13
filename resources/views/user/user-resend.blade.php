@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form method="POST" autocomplete="off" onsubmit="return false" id="insert_product">
+<form method="POST" autocomplete="off" onsubmit="return false;" id="insert_product" enctype="multipart/form-data">
   <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
@@ -82,7 +82,6 @@
           </div>
         </div>
       </div>
-    </form>
       <div id="pr_form">
         <div class="card">
           <div class="card-body">
@@ -139,6 +138,22 @@
         </div>
       </div>
       <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Send Attachment:</h5>
+                  </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <div class="file-loading">
+                      <input id="attachments" name="attachments[]" type="file" multiple>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      <div class="row justify-content-center">
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
@@ -155,6 +170,7 @@
       </div>
     </div>
   </div>
+</form>
 <input type="hidden" id="editRow" value="">
 @endsection
 
@@ -422,6 +438,7 @@
     })
         
     $('#submit_btn').on('click', function(){
+      let formData = new FormData($('#insert_product')[0]);
       if($('input[name="product[]"]').length <= 0){
         swal("Error", "Please add atleast one product", "error");
       } else {
@@ -438,7 +455,10 @@
                 $.ajax({
                     url : "{{route('user.resend')}}",
                     type: "POST",   
-                    data: $('#insert_product').serialize(),
+                    data: formData,
+                    contentType : false,
+                    processData : false,
+                    cache : false,
                     success: function(){
                         $('.overlay').hide();
                         swal("Success", "Submitted Successfully", "success").then(function(){
@@ -453,68 +473,30 @@
                 });
             }
         });
-
-      }
-
-    });
-
-    $('#submit_pr').on('click', function(){
-      
-      if($('#project').val() == ""){
-        $('#project').addClass('border-danger');
-        $('#e_project').html('<strong><span class="text-danger">Project Name is required</span></strong>');
-      } else {
-        
-        $('#modalForm').modal('hide');
-        $('.overlay').show();
-        $.ajax({
-          url : "{{ route('insert.products') }}",
-          type : "POST",
-          data : $('#insert_product').serialize(),
-          success: function(e){
-            var pr_id = e.pr_id;
-            var requestor = e.requestor;
-            $('.overlay').hide();
-            swal(
-            'Good job!',
-            'Saved Successfully',
-            'success'
-            ).then(function(){
-              
-              swal("Would you like to view this request and send to admin ?", {
-                icon: "info",
-                buttons: {
-                  cancel : true,
-                  pdf : {
-                    text : "View Request",
-                    value : "pdf"
-                  }
-                },
-              }).then((e) => {
-                switch(e){
-                  case "pdf" :
-                  window.location.href = "/user/"+pr_id+"/"+requestor+"";
-                  $('.overlay').show();
-                  break;
-                  
-                  default :
-                  window.location.href = "{{route('user-request')}}";
-                  $('.overlay').show();
-                }
-              });
-            });
-          },
-          error: function(e){
-            $('.overlay').hide();
-            swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
-          }
-        });
       }
     });
 
     $(window).on('load', function() {
         $(".overlay").fadeOut(200);
     });
+
+    $('img').EZView();
+
+
+    $("#attachments").fileinput({
+        theme : "fas",
+        dropZoneEnabled: false,
+        'showUpload': false,
+        showCaption: false,
+        autoReplace: true,
+        overwriteInitial: true,
+        showUploadedThumbs: false,
+        initialPreviewShowDelete: false,
+        browseLabel: "Add Attachment",
+        maxFilePreviewSize: 40000,
+        maxFileSize: 40000
+    });
+
   </script>
           
 @endsection

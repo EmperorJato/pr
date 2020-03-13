@@ -130,7 +130,7 @@
             <a href="{{route('view.prform', [$id=$send->pr_id, $requestor=$send->requestor])}}" type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-eye"></i>&nbsp; view</a>
             @elseif($status == "Rejected")
             <h5 class="text-danger"><i class="fas fa-times"></i> Rejected</h5>
-            <a href="{{route('user-send', [$id=$send->pr_id, $requestor=$send->requestor])}}" type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-eye"></i>&nbsp; view</a>
+            <a href="{{route('view.prform', [$id=$send->pr_id, $requestor=$send->requestor])}}" type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-eye"></i>&nbsp; view</a>
             @elseif($status == "Requested")
             <h5 class="text-primary"><i class="fas fa-mug-hot"></i> Pending</h5>
             <a href="{{route('user-edit', [$id=$send->pr_id, $series=$send->series])}}" type="button" class="btn btn-primary" id="send_btn"><i class="fas fa-eye"></i>&nbsp; view</a>

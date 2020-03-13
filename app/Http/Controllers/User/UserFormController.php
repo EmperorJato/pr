@@ -48,7 +48,7 @@ class UserFormController extends Controller
         $pr_id = $this->create($request->all())->id;
 
 
-        // $this->storeAttachment($pr_id);
+        $this->storeAttachment($pr_id);
 
         if(count($request->product) > 0){
 
@@ -70,32 +70,32 @@ class UserFormController extends Controller
         
     }
 
-    // private function storeAttachment($pr_id){
+    private function storeAttachment($pr_id){
 
-    //     if (count(request()->file('attachments')) > 0){
+        if (request()->file('attachments')){
 
-    //         $file = request()->file('attachments');
+            $file = request()->file('attachments');
 
 
-    //         foreach($file as $item => $b){
+            foreach($file as $item => $b){
 
-    //             $file_path = Carbon::parse(Carbon::now())->format('Y-m-d').'_ATTACH_'.rand().'-'.$file[$item]->getClientOriginalName();
-
-    //             $attachment = array(
-                    
-    //                 'attachment_id' => $pr_id,
-    //                 'attach_description' => request()->attach_description[$item],
-    //                 'attach_name' =>  $file[$item]->getClientOriginalName(),
-    //                 'attach_path' => $file_path
-                    
-    //             );
-            
-    //             $file[$item]->storeAs('public/attachments', $file_path);
-
-    //             Attachment::insert($attachment);
                 
-    //         }
-    //     }
-    // }
+                $file_path = Carbon::parse(Carbon::now())->format('Y-m-d').'_ATTACH_'.rand().'-'.$file[$item]->getClientOriginalName();
+
+                $attachment = array(
+
+                    'attachment_id' => $pr_id,
+                    'attach_name' =>  $file[$item]->getClientOriginalName(),
+                    'attach_path' => $file_path
+                );
+
+            
+                $file[$item]->storeAs('public/attachments', $file_path);
+
+                Attachment::insert($attachment);
+                
+            }
+        }
+    }
 
 }

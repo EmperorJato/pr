@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Products;
 use Illuminate\Support\Facades\Auth;
+use App\Attachment;
 
 
 class PrintController extends Controller
@@ -38,20 +39,17 @@ class PrintController extends Controller
             ->where('prforms.pr_id', $id)->where('prforms.user_id', Auth::user()->id)->first();
 
             $products = Products::where('prform_id', $id)->get();
+            $attachments = Attachment::where('attachment_id', $id)->get();
 
             if($prforms){
 
-                return view('pages.view-request', compact('prforms', 'products'));
+                return view('pages.view-request', compact('prforms', 'products', 'attachments'));
                 
             } else {
 
                 abort(404);
 
             }
-
-            
-
-
 
     }
 
@@ -64,8 +62,9 @@ class PrintController extends Controller
             ->where('prforms.pr_id', $id)->first();
 
         $products = Products::where('prform_id', $id)->get();
+        $attachments = Attachment::where('attachment_id', $id)->get();
 
-        return view('pages.admin-view-request', compact('prforms', 'products'));
+        return view('pages.admin-view-request', compact('prforms', 'products', 'attachments'));
 
     }
 

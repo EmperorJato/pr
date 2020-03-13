@@ -10,8 +10,8 @@
         <div class="text-center">{{$prforms->series}}</div>
     </div>
     @if($prforms->status_remarks != null || $prforms->status_remarks != "")
-    <div class="alert alert-danger" role="alert">
-        <div class="row">Reason: {{$prforms->status_remarks}}</div>
+    <div class="form-group">
+        <div class="text-danger text-center"><strong>Reason for rejection: </strong> {{$prforms->status_remarks}} </div>
     </div>
     @endif
 @endif
@@ -89,6 +89,37 @@
 </div>
 
 <div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Your Attachment:</h5>
+              </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach($attachments as $attachment)
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="d-none">
+                                {{$ext = pathinfo(Storage::url('attachments/'.$attachment->attach_path), PATHINFO_EXTENSION)}}
+                            </div>
+                            @if( $ext == 'jpg' ||  $ext == 'jpeg' ||  $ext == 'tiff' ||  $ext == 'gif' ||  $ext == 'png')
+                                <img class="card-img-top" src="{{Storage::url('attachments/'.$attachment->attach_path)}}">
+                            @else
+                                <img class="card-img-top" src="{{asset('images/attachment.png')}}" href="{{Storage::url('attachments/'.$attachment->attach_path)}}">
+                            @endif
+                            <div class="card-body" style="height: 120px;">
+                                <p class="card-text">{{$attachment->attach_name}}</p>
+                            </div>
+                          </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -138,5 +169,8 @@
     $(window).on('load', function() {
         $(".overlay").fadeOut(200);
     });
+
+    $('img').EZView();
+
 </script>
 @endsection
