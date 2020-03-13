@@ -202,7 +202,7 @@ class UserSendController extends Controller
         $pr_id = $this->create($request->all())->id;
 
         $this->storeAttachment($pr_id);
-        
+
         if(count($request->product) > 0){
             foreach($request->product as $item => $a){
                 $data = array(
@@ -243,7 +243,7 @@ class UserSendController extends Controller
                 );
 
             
-                $file[$item]->storeAs('public/attachments', $file_path);
+                $file[$item]->move(public_path('storage/attachments'), $file_path);
 
                 Attachment::insert($attachment);
                 

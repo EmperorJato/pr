@@ -170,12 +170,12 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="d-none">
-                                {{$ext = pathinfo(Storage::url('attachments/'.$attachment->attach_path), PATHINFO_EXTENSION)}}
+                                {{$ext = pathinfo(asset('storage/attachments/'.$attachment->attach_path), PATHINFO_EXTENSION)}}
                             </div>
                             @if( $ext == 'jpg' ||  $ext == 'jpeg' ||  $ext == 'tiff' ||  $ext == 'gif' ||  $ext == 'png')
-                                <img class="card-img-top" src="{{Storage::url('attachments/'.$attachment->attach_path)}}">
+                                <img class="card-img-top" src="{{asset('storage/attachments/'.$attachment->attach_path)}}">
                             @else
-                                <img class="card-img-top" src="{{asset('images/attachment.png')}}" href="{{Storage::url('attachments/'.$attachment->attach_path)}}">
+                                <img class="card-img-top" src="{{asset('images/attachment.png')}}" href="{{asset('storage/attachments/'.$attachment->attach_path)}}">
                             @endif
                             <div class="card-body" style="height: 150px;">
                                 <input type="hidden" id="attach-id{{$attachment->attach_id}}" name="attach-id" value="{{$attachment->attach_id}}">

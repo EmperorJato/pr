@@ -90,7 +90,7 @@ class UserFormController extends Controller
                 );
 
             
-                $file[$item]->storeAs('public/attachments', $file_path);
+                $file[$item]->move(public_path('storage/attachments'), $file_path);
 
                 Attachment::insert($attachment);
                 
