@@ -196,7 +196,7 @@
                 <form method="POST" id="edit-attachment" name="edit-attachment" enctype="multipart/form-data">
                     <input type="hidden" id="pr-id" name="pr-id" value="{{$prforms->pr_id}}">
                         <div class="file-loading">
-                            <input id="attachments" name="attachments[]" type="file" multiple>
+                            <input id="attachments" name="attachments[]" type="file" multiple accept="application/pdf, image/*">
                         </div>
                     <button type="button" id="save-attachment" class="btn btn-success" style="display: none; margin-top : 5px;">
                         <i class="fas fa-save"></i> Save

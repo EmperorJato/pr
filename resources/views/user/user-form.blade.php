@@ -130,7 +130,7 @@
           <div class="form-group">
             <label for="send-attachment">Send Attachment:</label>
             <div class="file-loading">
-              <input id="attachments" name="attachments[]" type="file" multiple>
+              <input id="attachments" name="attachments[]" type="file" multiple accept="application/pdf, image/*">
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@
       initialPreviewShowDelete: false,
       browseLabel: "Add Attachment",
       maxFilePreviewSize: 40000,
-      maxFileSize: 40000
+      maxFileSize: 40000,
   });
 
 

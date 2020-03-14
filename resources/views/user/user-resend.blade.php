@@ -146,7 +146,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <div class="file-loading">
-                      <input id="attachments" name="attachments[]" type="file" multiple>
+                      <input id="attachments" name="attachments[]" type="file" multiple accept="application/pdf, image/*">
                     </div>
                   </div>
                 </div>

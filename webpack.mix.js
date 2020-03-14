@@ -12,4 +12,4 @@ const mix = require('laravel-mix');
  */
 
 mix.js(['resources/js/app.js', 'resources/js/perfect-scrollbar.jquery.min.js', 'resources/js/paper-dashboard.js', 'resources/js/currency.js', 'resources/js/jquery.numeric.js', 'resources/js/draggable.js', 'resources/js/EZView.js'], 'public/js/all.js')
-   .sass('resources/sass/app.scss', 'public/css').sass('resources/sass/login.scss', 'public/css').version();
+.js('resources/js/app.js', 'public/js').sass('resources/sass/app.scss', 'public/css').sass('resources/sass/login.scss', 'public/css').version();
