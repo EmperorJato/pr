@@ -46,11 +46,21 @@
                             <td>{{$row->project}}</td>
                             <td>
                                 <a href="{{route('admin-view', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-eye" style="font-size: 20px;"></i>
+                                    <i class="fas fa-eye" style="font-size: 15px;"></i>
                                 </a>&nbsp;
                                 <a href="{{route('view.pdf', [$id=$row->pr_id, $requestor=$row->requestor])}}" target="_blank" style="cursor: pointer; color: #51cbce;" class="viewPDF" data-content="View PDF" rel="popover" data-placement="bottom">
-                                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-                                </a>
+                                    <i class="fas fa-file-pdf" style="font-size: 15px;"></i>
+                                </a>&nbsp;
+                                @if(isset($row->attachment_id))
+                                {{-- href="{{route('show-attachment', [$id=$row->pr_id, $requestor=$row->series])}}" --}}
+                                <span style="cursor: pointer; color: #34eb80;" class="attach" data-content="View Attachment" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-paperclip" style="font-size: 15px;"></i>
+                                </span>
+                                @else
+                                <span href="" target="_blank" style="color: #51cbce;" class="noAttach" data-content="No Attachment Found" rel="popover" data-placement="bottom">
+                                    <i class="fas fa-paperclip" style="font-size: 15px;"></i>
+                                </span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -61,18 +71,71 @@
     </div>
 </div>
 
-
 {{$prform->links()}}
 
 @endsection
+
+<div class="modal fade" id="modalAttachment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">PRF Attachment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <input type="hidden" id="attachment_id" name="attachment_id">
+                        <div id="attachs">
+                            @include('admin.admin-attachment')
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section('scripts')
 <script type="text/javascript">
 
     $('.viewData').popover({trigger : "hover focus"});
     $('.viewPDF').popover({trigger : "hover focus"});
+    $('.attach').popover({trigger : "hover focus"});
+    $('.noAttach').popover({trigger : "hover focus"});
     $(window).on('load', function() {
         $(".overlay").fadeOut(200);
+    });
+    
+    $('.attach').on('click', function(){
+        let tr = $(this).closest('tr');
+        let data = tr.children('td').map(function(){
+            return $(this).text();
+        }).get();
+
+        $('#attachment_id').val(data[0]);
+
+        let attachment_id = $('#attachment_id').val();
+        $(".overlay").show();
+        $.ajax({
+            url : "{{route('show-attachment')}}",
+            type : "GET",
+            data : {'attachment_id' : attachment_id},
+            success: function(e){
+                $('#attachs').html(e);
+                $('img').EZView();
+                $(".overlay").fadeOut(200);
+            },
+            error: function(e){     
+                console.log(e);
+            }
+        });
+        $('#modalAttachment').modal('show');
     });
 </script>
 @endsection

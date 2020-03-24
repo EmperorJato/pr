@@ -19,8 +19,7 @@ class AdminPendingController extends Controller
 
     public function index(){
 
-        $prform = PRForms::where('status', '=', 'Requested')->orderBy('series_no', 'asc')->paginate(10);
-
+        $prform = Attachment::select('prforms.*', 'attachments.attachment_id')->rightJoin('prforms', 'prforms.pr_id', 'attachments.attachment_id')->where('status', '=', 'Requested')->distinct('attachments.attachment_id')->orderBy('series_no', 'asc')->paginate(10);
         return view('admin.admin-pending', compact('prform'));
 
     }
@@ -31,7 +30,6 @@ class AdminPendingController extends Controller
         ->join('prforms', 'prforms.pr_id', '=', 'products.prform_id')
         ->join('users', 'users.id', 'prforms.user_id')
         ->where('prforms.pr_id', $id)->first();
-
         $products = Products::where('prform_id', $id)->get();
         $attachments = Attachment::where('attachment_id', $id)->get();
 
@@ -139,6 +137,16 @@ class AdminPendingController extends Controller
         $product = Products::where('p_id', $delete_id);
 
         $product->delete();
+
+    }
+
+    public function viewAttachment(Request $request){
+
+        $id = $request->attachment_id;
+
+        $attachments = Attachment::where('attachment_id', $id)->get();
+
+        return view('admin.admin-attachment', compact('attachments'))->render();
 
     }
 }

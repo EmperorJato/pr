@@ -138,6 +138,9 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::delete('admin-delete/attachment', 'AttachmentController@delete')->name('admin-delete.attachment');
     Route::post('admin-attach/attachment', 'AttachmentController@storeAttach')->name('admin-store.attachment');
     
+
+    Route::get('admin/attachment/view', 'Admin\AdminPendingController@viewAttachment')->name('show-attachment');
+
 });
 
 

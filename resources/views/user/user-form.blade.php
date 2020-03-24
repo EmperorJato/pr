@@ -296,7 +296,11 @@
       });
        
     $('body').on('click', '.editData', function(){
-        $('#pr_form')[0].scrollIntoView();
+        $('#pr_form')[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center'
+        });
         $('#pr_form').show();
         $('#saveChanges').hide();
         $('#editChanges').show();

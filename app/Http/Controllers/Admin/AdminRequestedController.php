@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\PRForms;
 use Illuminate\Support\Facades\Auth;
 
+
 class AdminRequestedController extends Controller
 {
     public function __construct()
@@ -49,4 +50,5 @@ class AdminRequestedController extends Controller
 
         return redirect()->route('admin-approved');
     }
+
 }
