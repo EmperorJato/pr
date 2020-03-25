@@ -71,10 +71,6 @@
     </div>
 </div>
 
-{{$prform->links()}}
-
-@endsection
-
 <div class="modal fade" id="modalAttachment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-scrollable modal-lg" role="document">
         <div class="modal-content">
@@ -88,7 +84,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <input type="hidden" id="attachment_id" name="attachment_id">
-                        <div id="attachs">
+                        <div id="attachs" style="display: none;">
                             @include('admin.admin-attachment')
                         </div>
                     </div>
@@ -101,9 +97,14 @@
     </div>
 </div>
 
+{{$prform->links()}}
+
+@endsection
+
+
+
 @section('scripts')
 <script type="text/javascript">
-
     $('.viewData').popover({trigger : "hover focus"});
     $('.viewPDF').popover({trigger : "hover focus"});
     $('.attach').popover({trigger : "hover focus"});
@@ -113,6 +114,7 @@
     });
     
     $('.attach').on('click', function(){
+        $('#attachs').show();
         let tr = $(this).closest('tr');
         let data = tr.children('td').map(function(){
             return $(this).text();
