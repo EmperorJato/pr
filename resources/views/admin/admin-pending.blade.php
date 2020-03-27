@@ -52,7 +52,6 @@
                                     <i class="fas fa-file-pdf" style="font-size: 15px;"></i>
                                 </a>&nbsp;
                                 @if(isset($row->attachment_id))
-                                {{-- href="{{route('show-attachment', [$id=$row->pr_id, $requestor=$row->series])}}" --}}
                                 <span style="cursor: pointer; color: #34eb80;" class="attach" data-content="View Attachment" rel="popover" data-placement="bottom">
                                     <i class="fas fa-paperclip" style="font-size: 15px;"></i>
                                 </span>
@@ -96,8 +95,6 @@
         </div>
     </div>
 </div>
-
-{{$prform->links()}}
 
 @endsection
 

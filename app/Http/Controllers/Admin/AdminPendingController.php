@@ -19,7 +19,7 @@ class AdminPendingController extends Controller
 
     public function index(){
 
-        $prform = PRForms::select('prforms.*', 'attachments.attachment_id')->leftJoin('attachments', 'prforms.pr_id', 'attachments.attachment_id')->where('prforms.status', 'Requested')->distinct('attachments.attachment_id')->orderBy('prforms.series_no', 'asc')->paginate(30);
+        $prform = PRForms::select('prforms.*', 'attachments.attachment_id')->leftJoin('attachments', 'prforms.pr_id', 'attachments.attachment_id')->where('prforms.status', 'Requested')->distinct('attachments.attachment_id')->orderBy('prforms.series_no', 'asc')->get();
         
         return view('admin.admin-pending', compact('prform'));
 
