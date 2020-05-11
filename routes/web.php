@@ -87,6 +87,11 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     Route::delete('user-delete/attachment', 'AttachmentController@delete')->name('delete.attachment');
     Route::post('user-attach/attachment', 'AttachmentController@storeAttach')->name('store.attachment');
 
+    //User Profile
+    Route::get('user/profile/{id}/{name}', 'User\UserDashboardController@profile')->name('user.profile');
+    Route::post('user/upload', 'User\UserDashboardController@upload')->name('user.upload-image');
+    Route::put('user/save-profile', 'User\UserDashboardController@save_profile')->name('user.save-profile');
+
 });
 
 
@@ -95,6 +100,7 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 
     //Admin View
     Route::get('/admin-view/{id}/{requestor}', 'PrintController@adminIndex')->name('view.admin-prform');
+    Route::get('/admin/messages/{id}/{requestor}', 'MessageController@admin')->name('view.admin-messages');
 
     //Admin Dashboard
     Route::get('/admin/dashboard', 'Admin\AdminDashboardController@index')->name('admin-dashboard');
@@ -140,7 +146,11 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     
 
     Route::get('admin/attachment/view', 'Admin\AdminPendingController@viewAttachment')->name('show-attachment');
+    Route::get('admin/profile/{id}/{name}', 'Admin\AdminDashboardController@profile')->name('admin.profile');
+    Route::post('admin/upload', 'Admin\AdminDashboardController@upload')->name('admin.upload-image');
+    Route::put('admin/save-profile', 'Admin\AdminDashboardController@save_profile')->name('admin.save-profile');
 
+    Route::get('admin/messages', 'Admin\AdminDashboardController@messages')->name('admin-messages');
 });
 
 

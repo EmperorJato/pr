@@ -19,9 +19,15 @@
         <div class="wrapper ">
             <div class="sidebar" data-color="black" data-active-color="primary">
                 <div class="logo">
-                    <a href="#" class="simple-text logo-normal text-center">
+                    <span class="simple-text logo-normal text-center">
                         Purchase Requisition
-                    </a>
+                    </span>
+                    <div class="text-center">   
+                        <span class="rounded-circle">
+                            <img src="{{asset('images/'.Auth::user()->user_avatar)}}" alt="" class="rounded-circle w-25">
+                        </span><BR>
+                        <a class="navbar-brand" href="{{route('user.profile', ['id' => Auth::user()->id, 'name' => Auth::user()->name])}}">{{Auth::user()->name}}</a>
+                    </div>
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">

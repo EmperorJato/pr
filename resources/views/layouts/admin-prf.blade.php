@@ -18,9 +18,15 @@
         <div class="wrapper ">
             <div class="sidebar" data-color="black" data-active-color="primary">
                 <div class="logo">
-                    <a href="#" class="simple-text logo-normal text-center">
+                    <span class="simple-text logo-normal text-center">
                         Purchase Requisition
-                    </a>
+                    </span>
+                    <div class="text-center">   
+                        <span class="rounded-circle">
+                            <img src="{{asset('images/'.Auth::user()->user_avatar)}}" alt="" class="rounded-circle w-25">
+                        </span><BR>
+                        <a class="navbar-brand" href="{{route('admin.profile', ['id' => Auth::user()->id, 'name' => Auth::user()->name])}}">{{Auth::user()->name}}</a>
+                    </div>
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
@@ -54,13 +60,18 @@
                                 <p>Check</p>
                             </a>
                         </li>
+                        {{-- <li class="{{ Route::currentRouteNamed('admin-messages') ? 'active' : '' }}">
+                            <a href="{{route('admin-messages')}}">
+                                <i class="fas fa-envelope"></i>
+                                <p>Messages</p>
+                            </a>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
             <div class="main-panel">
                 <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
                     <div class="container-fluid">
-                        
                         <div class="navbar-wrapper">
                             <div class="navbar-toggle">
                                 <button type="button" class="navbar-toggler">
@@ -69,7 +80,6 @@
                                     <span class="navbar-toggler-bar bar3"></span>
                                 </button>
                             </div>
-                            <a class="navbar-brand" href="#">{{Auth::user()->name}}</a>
                         </div>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -81,13 +91,13 @@
                             <ul class="navbar-nav">
                                 <li class="nav-item btn-rotate dropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                                 </li>
                             </ul>
                         </div>

@@ -10,6 +10,7 @@ use App\Products;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
+use App\User;
 
 
 class UserDashboardController extends Controller
@@ -68,6 +69,56 @@ class UserDashboardController extends Controller
 
         return view('user.user-dashboard', compact(['req', 'requested', 'approved', 'rejected', 'last_pr', 'last_requested', 'last_total', 'grand', 'status', 'send']));
 
+    }
+
+    public function profile($id){
+
+        if(Auth::user()->id == $id){
+
+            $user = User::find($id);
+
+            return view('user.user-profile', ['user' => $user]);
+        }
+
+        return back();
+        
+    }
+
+    public function upload(Request $request){
+
+        $upload = $request->file('upload');
+
+        $upload->move(public_path('images'), $upload->getClientOriginalName());
+
+        User::where('id', Auth::user()->id)->update([
+            'user_avatar' => $upload->getClientOriginalName(),
+        ]);
+    }
+
+    public function profile_validate(array $data){
+        return Validator::make($data, [
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+        ]);
+    }
+
+    public function save_profile(Request $request){
+
+        $this->profile_validate($request->all())->validate();
+
+        $arr = [
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname
+        ];
+
+        $name = implode(" ", $arr);
+        User::where('id', Auth::user()->id)->update([
+            'name' => $name,
+        ]);
+    }
+
+    public function messages(){
+        return view('admin.admin-messages');
     }
    
 

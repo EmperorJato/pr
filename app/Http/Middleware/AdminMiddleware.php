@@ -20,9 +20,10 @@ class AdminMiddleware
 
             return $next($request);
             
-        } else {
+          } else {
             
             return back();
         }
     }
 }
+
