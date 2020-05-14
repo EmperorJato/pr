@@ -42,23 +42,10 @@
             {{method_field('PUT')}}
             @csrf
             <div class="row">
-              <?php
-              $name = $user->name;
-              $explode = explode(" ", $name);
-              $firstname = $explode[0];
-              $lastname = $explode[1];
-              ?>
-              
-              <div class="col-md-6 pr-1">
+              <div class="col-md-12 pr-1">
                 <div class="form-group">
-                  <label>Firstname</label>
-                  <input type="text" class="form-control" name="firstname" value="{{$firstname}}">
-                </div>
-              </div>
-              <div class="col-md-6 px-1">
-                <div class="form-group">
-                  <label>Lastname</label>
-                  <input type="text" class="form-control" name="lastname" value="{{$lastname}}">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="fullname" value="{{$user->name}}">
                 </div>
               </div>
             </div>

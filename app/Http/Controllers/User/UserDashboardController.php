@@ -106,8 +106,7 @@ class UserDashboardController extends Controller
 
     public function profile_validate(array $data){
         return Validator::make($data, [
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
+            'fullname' => ['required', 'string', 'max:255']
         ]);
     }
 
@@ -115,14 +114,8 @@ class UserDashboardController extends Controller
 
         $this->profile_validate($request->all())->validate();
 
-        $arr = [
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname
-        ];
-
-        $name = implode(" ", $arr);
         User::where('id', Auth::user()->id)->update([
-            'name' => $name,
+            'name' => $request->fullname,
         ]);
     }
 
