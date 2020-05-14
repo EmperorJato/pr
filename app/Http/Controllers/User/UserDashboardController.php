@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use App\User;
+use App\Message;
 
 
 class UserDashboardController extends Controller
@@ -29,6 +30,7 @@ class UserDashboardController extends Controller
         $last_id = null;
         $last_total = null;
         $status = null;
+        $messages = null;
 
         $last_pr = PRForms::where('user_id', Auth::user()->id)->first();
 
@@ -67,7 +69,14 @@ class UserDashboardController extends Controller
             $grand = PRForms::leftJoin('products', 'products.prform_id', '=', 'prforms.pr_id')->where('user_id', Auth::user()->id)->where('status', 'Approved')->sum('total');
         }
 
-        return view('user.user-dashboard', compact(['req', 'requested', 'approved', 'rejected', 'last_pr', 'last_requested', 'last_total', 'grand', 'status', 'send']));
+        $messageStats = PRForms::where('user_id', Auth::user()->id)->where('status_remarks', '<>', null)->where('status', 'Rejected')->first();
+        
+        if($messageStats){
+
+            $messages = PRForms::join('users', 'users.id', '=', 'prforms.from_remarks')->where('user_id', Auth::user()->id)->where('msg_status', 0)->orderBy('series_no', 'asc')->get();
+        }
+
+        return view('user.user-dashboard', compact('req', 'requested', 'approved', 'rejected', 'last_pr', 'last_requested', 'last_total', 'grand', 'status', 'send', 'messages'));
 
     }
 
@@ -116,10 +125,5 @@ class UserDashboardController extends Controller
             'name' => $name,
         ]);
     }
-
-    public function messages(){
-        return view('admin.admin-messages');
-    }
-   
 
 }

@@ -60,12 +60,17 @@
                                 <p>Check</p>
                             </a>
                         </li>
-                        {{-- <li class="{{ Route::currentRouteNamed('admin-messages') ? 'active' : '' }}">
-                            <a href="{{route('admin-messages')}}">
-                                <i class="fas fa-envelope"></i>
-                                <p>Messages</p>
+                        <li class="{{ Route::currentRouteNamed('admin-inbox') ? 'active' : '' }}">
+                            <a href="{{route('admin-inbox')}}" id="admin-inbox">
+                                <i class="fas fa-inbox"></i>
+                                <?php $countMsg =  App\PRForms::where('msg_status_admin', 0)->count();?>
+                                <p>Inbox
+                                    @if($countMsg != 0)
+                                    <span class="numberCircle"><span>{{$countMsg}}</span></span>
+                                    @endif
+                                </p>
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </div>
             </div>

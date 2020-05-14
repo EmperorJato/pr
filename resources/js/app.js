@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('./typeahead');
 
 window.Vue = require('vue');
 

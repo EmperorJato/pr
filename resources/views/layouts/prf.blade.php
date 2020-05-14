@@ -67,6 +67,17 @@
                                 <p>Rejected PR</p>
                             </a>
                         </li>
+                        <li class="{{ Route::currentRouteNamed('user-inbox') ? 'active' : '' }}">
+                            <a href="{{route('user-inbox')}}" id="user-inbox">
+                                <i class="fas fa-inbox"></i>
+                                <?php $countMsg =  App\PRForms::where('user_id', Auth::user()->id)->where('msg_status', 0)->count();?>
+                                <p>Inbox
+                                    @if($countMsg != 0)
+                                    <span class="numberCircle"><span>{{$countMsg}}</span></span>
+                                    @endif
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -82,7 +93,6 @@
                                     <span class="navbar-toggler-bar bar3"></span>
                                 </button>
                             </div>
-                            <a class="navbar-brand" href="#">{{Auth::user()->name}}</a>
                         </div>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-bar navbar-kebab"></span>

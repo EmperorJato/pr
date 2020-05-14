@@ -35,6 +35,10 @@ Route::post('register-user', 'Auth\RegisterController@registerUser')->name('regi
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/recipient', 'MessageController@recipient')->name('recipient');
+
+Route::post('/recipient/message', 'MessageController@sendMsg')->name('to-recipient');
+
 // Print
 Route::get('/print/{id}/{requestor}', 'PrintController@view_print')->name('view.pdf');
 
@@ -91,6 +95,12 @@ Route::group(['middleware' => ['auth', 'user']], function(){
     Route::get('user/profile/{id}/{name}', 'User\UserDashboardController@profile')->name('user.profile');
     Route::post('user/upload', 'User\UserDashboardController@upload')->name('user.upload-image');
     Route::put('user/save-profile', 'User\UserDashboardController@save_profile')->name('user.save-profile');
+
+    Route::get('user/inbox', 'MessageController@userInbox')->name('user-inbox');
+    Route::get('message/{id}/{name}', 'MessageController@userMessage')->name('user-message');
+
+    Route::post('user/reply', 'MessageController@userReply')->name('user-reply');
+    Route::put('message/status/user', 'MessageController@msgUser')->name('msg.status-user');
 
 });
 
@@ -150,7 +160,10 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::post('admin/upload', 'Admin\AdminDashboardController@upload')->name('admin.upload-image');
     Route::put('admin/save-profile', 'Admin\AdminDashboardController@save_profile')->name('admin.save-profile');
 
-    Route::get('admin/messages', 'Admin\AdminDashboardController@messages')->name('admin-messages');
+    Route::get('messages/{id}/{name}', 'MessageController@adminMessage')->name('admin-message');
+    Route::post('admin/reply', 'MessageController@adminReply')->name('admin-reply');
+    Route::get('admin/inbox', 'MessageController@adminInbox')->name('admin-inbox');
+    Route::put('message/status', 'MessageController@msgAdmin')->name('admin-msg');
 });
 
 

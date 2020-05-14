@@ -11,6 +11,7 @@
         "php": "^7.2",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "fideloper/proxy": "^4.0",
+        "hashids/hashids": "^4.0",
         "jaspersoft/rest-client": "*",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",

@@ -27,3 +27,21 @@
    width: 100%!important;
    height: 200px!important;
 }
+
+.numberCircle {
+   display:inline-block;
+   position: fixed;
+   line-height:0px;
+   border-radius:50%;
+   border:2px solid red;
+   margin-left:10px;
+   background-color: red;
+}
+
+.numberCircle span {
+   display:inline-block;
+   padding-top:50%;
+   padding-bottom:50%;
+   margin-left:10px;
+   margin-right:10px;
+}

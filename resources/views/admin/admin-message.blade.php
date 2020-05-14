@@ -1,57 +1,83 @@
-@extends('layouts.prf')
+@extends('layouts.admin-prf')
 
 @section('content')
 <div class="overlay">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
-@if($prforms->status == "Rejected")
-    <div class="alert alert-danger" role="alert">
-        <h5 class="text-center">PRF Rejected</h5>
-        <div class="text-center">{{$prforms->series}}</div>
-    </div>
-    @if($prforms->status_remarks != null || $prforms->status_remarks != "")
-    <div class="form-group">
-        <div class="text-danger text-center"><strong>Reason for rejection: </strong> {{$prforms->status_remarks}} </div>
-    </div>
-    @endif
-@endif
-<div class="card">
-    @if(isset($prforms))
-    <div class="card-header" style="margin-bottom: -12px;">
-        <input type="hidden" id="requestor" name="requestor" value="{{$prforms->requestor}}">
-        <h3 class="card-title text-center">{{$prforms->requestor}}</h3>
-        <div class="text-center">
-            {{$prforms->series}}<br>
-            {{Carbon\Carbon::parse($prforms->date)->format('m/d/Y')}}
-        </div>
-    </div>
-    <div class="card-body">
-        <hr>
-        <input type="hidden" id="pr_id" name="pr_id" value="{{$prforms->pr_id}}">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <p for="department" style="font-size: 18px;">Department: </p>
-                <input type="text" class="form-control" id="department" name="department" value="{{$prforms->department}}" style="background-color: #fff;" readonly>
-            </div>
-            <div class="form-group col-md-6">
-                <p for="project" style="font-size: 18px;">To be used in <i style="font-size: 12px;">(Project Name)</i> :</p>
-                <input type="text" class="form-control" id="project" name="project" value="{{$prforms->project}}" style="background-color: #fff;" readonly>
-            </div>
-        </div><br>
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <p for="purpose" style="font-size: 18px;">Specific Purpose or Usage: </p>
-                <input type="text" class="form-control" id="purpose" name="purpose" value="{{$prforms->purpose}}" style="background-color: #fff;" readonly>
-            </div>
-        </div>
-    </div>
-    @else
-    <h4 class="text-center">No Product Found</h4>
-    @endif
-</div>
-
 <div class="row justify-content-center">
-    <div class="col-md-12">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Messages:</span>
+            </div>
+            <div class="card-body">
+                @if(isset($messages))
+                @foreach($messages as $message)
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2 col-2">
+                            <div class="avatar">
+                                <img src="{{asset('images/'.$message->user_avatar)}}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-10">
+                            <div class="form-group">
+                                <label for="name"><b>{{$message->name}}</b> &nbsp; <small>{{$message->cmt_date}}</small></label>
+                                <textarea type="text" class="form-control" id="comments" name="comments">{{$message->comments}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                @endforeach
+                @endif
+            </div>
+            <div class="card-footer">
+                <div class="col-md-12">
+                    <form onsubmit="return false;" autocomplete="off" id="reply_message" method="POST">
+                        @csrf
+                        <input type="hidden" name="prf_id" id="prf_id" value="{{$prf->pr_id}}">
+                        <div class="form-group">
+                            <textarea type="text" class="form-control" id="comments" name="comments" place="Write message here"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-envelope"> </i> Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            @if(isset($prf))
+            <div class="card-header">
+                <div class="text-center">
+                    <h3>{{$prf->series}}</h3>
+                    <p>{{Carbon\Carbon::parse($prf->date)->format('m/d/Y')}}</p>
+                    <hr>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="form-row">
+                        <div class="form-group col-md-6 text-left">
+                            <label for="department" style="font-size: 13px;"><b>Department: </b></label>
+                            <input type="text" class="form-control" id="department" name="department" value="{{$prf->department}}" style="background-color: #fff;" readonly>
+                        </div>
+                        <div class="form-group col-md-6 text-left">
+                            <label for="project" style="font-size: 13px;"><b>To be used in <i style="font-size: 12px;">(Project Name)</i> </b> :</label>
+                            <input type="text" class="form-control" id="project" name="project" value="{{$prf->project}}" style="background-color: #fff;" readonly>
+                        </div>
+                    </div><br>
+                    <div class="form-row">
+                        <div class="form-group col-md-12 text-left">
+                            <label for="purpose" style="font-size: 13px;"><b>Specific Purpose or Usage:</b> </label>
+                            <input type="text" class="form-control" id="purpose" name="purpose" value="{{$prf->purpose}}" style="background-color: #fff;" readonly>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <table class="table">
@@ -85,42 +111,6 @@
                 </table>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="row justify-content-center">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Your Attachment:</h5>
-              </div>
-            <div class="card-body">
-                <div class="row">
-                    @foreach($attachments as $attachment)
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="d-none">
-                                {{$ext = pathinfo(asset('storage/attachments/'.$attachment->attach_path), PATHINFO_EXTENSION)}}
-                            </div>
-                            @if( $ext == 'jpg' ||  $ext == 'jpeg' ||  $ext == 'tiff' ||  $ext == 'gif' ||  $ext == 'png')
-                                <img class="card-img-top" src="{{asset('storage/attachments/'.$attachment->attach_path)}}">
-                            @else
-                                <img class="card-img-top" src="{{asset('images/attachment.png')}}" href="{{asset('storage/attachments/'.$attachment->attach_path)}}">
-                            @endif
-                            <div class="card-body" style="height: 120px;">
-                                <p class="card-text">{{$attachment->attach_name}}</p>
-                            </div>
-                          </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row justify-content-center">
-    <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Grand Total:</h4>
@@ -128,49 +118,52 @@
             <div class="card-body">
                 <div class="text-center">
                     <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
-                    <button type="button" class="btn btn-primary" id="pdf_btn"><i class="fas fa-file-pdf"></i>&nbsp; View PDF</button>
-                    @if($prforms->status == "Rejected")
-                    <a href="{{route('user-resend', [$id=$prforms->pr_id, $requestor=$prforms->requestor])}}" class="btn btn-warning"><i class="fas fa-paper-plane"></i>&nbsp; Resend PRF</a>
-                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
+
+function grandTotal(){
+    var grand = 0;
     
-    function grandTotal(){
-        var grand = 0;
-        
-        $('.total').each(function(i, e){
-            var amount = $(this).val()-0;
-            grand += amount;
-        });
-        
-        $('#grandTotal').html(grand).formatCurrency({symbol: ''});
-    }
-    
+    $('.total').each(function(i, e){
+        var amount = $(this).val()-0;
+        grand += amount;
+    });
     $('.price-currency').formatCurrency({symbol : ''});
-    
     $('.total-currency').formatCurrency({symbol : '₱ '});
-    
+    $('#grandTotal').html(grand).formatCurrency({symbol: ''});
+}
+
     grandTotal();
 
-    $('#pdf_btn').on('click', function(){
-        let pr_id = $('#pr_id').val();
-        let requestor = $('#requestor').val();
-        window.open("/print/"+pr_id+"/"+requestor+"", "_blank");
+    $('#reply_message').on('submit', function(){
+        $.ajax({
+            url : '{{route("admin-reply")}}',
+            type : 'POST',
+            data : $('#reply_message').serialize(),
+            success : function(res){
+                swal({
+                    icon : 'success',
+                    title : 'Success',
+                    text : 'Send Successfully.'
+                }).then(function(){
+                    location.reload();
+                });
+            },
+            error : function(err){
+                console.log(err);
+            }
+        })
     });
-    
+
     $(window).on('load', function() {
         $(".overlay").fadeOut(200);
     });
-
-    $('img').EZView();
-
 </script>
 @endsection

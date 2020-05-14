@@ -9,6 +9,7 @@ use App\PRForms;
 use App\Products;
 use Illuminate\Support\Carbon;
 use App\Attachment;
+use App\Message;
 
 class AdminPendingController extends Controller
 {
@@ -62,8 +63,19 @@ class AdminPendingController extends Controller
             'approve' => Auth::user()->name,
             'status' => 'Rejected',
             'status_date' => Carbon::now(),
-            'status_remarks' => $request->reason
+            'status_remarks' => $request->reason,
+            'from_remarks' => Auth::user()->id,
+            'msg_status' => 0,
+            'msg_status_admin' => 1,
+            'msg_status_date' => Carbon::now()
 
+        ]);
+
+        Message::insert([
+            'msg_prf_id' => $reason_id,
+            'msg_user_id' => Auth::user()->id,
+            'comments' => $request->reason,
+            'cmt_date' => Carbon::now()
         ]);
 
     }

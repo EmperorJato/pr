@@ -10,6 +10,7 @@ use App\Products;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\User;
+use App\Message;
 
 class AdminDashboardController extends Controller
 {
@@ -30,13 +31,22 @@ class AdminDashboardController extends Controller
 
         $total = null;
 
+        $messages = null;
+
         if($prform){
 
     
             $total = PRForms::select('prforms.*', 'products.*')->leftJoin('products', 'products.prform_id', '=', 'prforms.pr_id')->where('status', 'Requested')->sum('total');
         }
 
-        return view('admin.admin-dashboard', compact('today_pr', 'pr', 'total', 'prform'));
+        $messageStats = PRForms::where('msg_status_admin', 0)->first();
+        
+        if($messageStats){
+
+            $messages = PRForms::join('users', 'users.id', '=', 'prforms.user_id')->where('msg_status_admin', 0)->get();
+        }
+
+        return view('admin.admin-dashboard', compact('today_pr', 'pr', 'total', 'prform', 'messages'));
 
     }
 
@@ -86,10 +96,5 @@ class AdminDashboardController extends Controller
             'name' => $name,
         ]);
     }
-
-    public function messages(){
-        return view('admin.admin-messages');
-    }
-
 
 }
