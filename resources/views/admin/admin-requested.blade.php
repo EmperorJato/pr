@@ -32,6 +32,7 @@
                                 <th>Series</th>
                                 <th>Requestor</th>
                                 <th>Project</th>
+                                <th>Approval Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -44,6 +45,7 @@
                                 <td>{{$row->series}}</td>
                                 <td>{{$row->requestor}}</td>
                                 <td>{{$row->project}}</td>
+                                <td>{{Carbon\Carbon::parse($row->status_date)->format('m-d-Y')}}</td>
                                 <td>    
                                     <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="approveData" data-content="View Request" rel="popover" data-placement="bottom">
                                         <i class="fas fa-eye" style="font-size: 20px;"></i>
