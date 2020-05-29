@@ -31,6 +31,7 @@
                             <th>Series</th>
                             <th>Project</th>
                             <th>Usage</th>
+                            <th>Disapproval Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -43,8 +44,9 @@
                             <td>{{$row->series}}</td>
                             <td>{{$row->project}}</td>
                             <td>{{$row->purpose}}</td>
+                            <td>{{Carbon\Carbon::parse($row->status_date)->format('m-d-Y')}}</td>
                             <td>
-                                <a href="{{route('view.prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('user-message', [$id=$row->pr_id, $name=Auth::user()->name])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>&nbsp;
                             </td>

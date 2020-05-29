@@ -16,8 +16,7 @@ class AdminDeletedController extends Controller
 
     public function index(){
 
-        $prform = PRForms::where('status', 'Rejected')->orderBy('date', 'desc')->paginate(10);
-
+        $prform = PRForms::rightJoin('users', 'id', 'prforms.user_id')->where('status', 'Rejected')->orderBy('date', 'desc')->paginate(10);
         return view('admin.admin-deleted', compact('prform'));
         
     }

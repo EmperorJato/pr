@@ -120,6 +120,11 @@
                     <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
                 </div>
             </div>
+            <div class="card-footer text-center">
+                @if(Auth::user()->id == $prf->user_id)
+                <a href="{{route('user-resend', [$id=$prf->pr_id, $requestor=$prf->requestor])}}" class="btn btn-warning"><i class="fas fa-paper-plane"></i>&nbsp; Resend PRF</a>
+                @endif
+            </div>
         </div>
     </div>
 </div>

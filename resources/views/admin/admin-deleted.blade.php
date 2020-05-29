@@ -43,12 +43,12 @@
                             <td>{{++$key}}</td>
                             <td>{{Carbon\Carbon::parse($row->date)->format('m-d-Y')}}</td>
                             <td>{{$row->series}}</td>
-                            <td>{{$row->requestor}}</td>
+                            <td>{{$row->name}}</td>
                             <td>{{$row->project}}</td>
                             <td>{{$row->purpose}}</td>
                             <td>{{Carbon\Carbon::parse($row->status_date)->format('m-d-Y')}}</td>
                             <td>
-                                <a href="{{route('view.admin-prform', [$id=$row->pr_id, $requestor=$row->requestor])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
+                                <a href="{{route('admin-message', ['id' => $row->pr_id, 'name' => Auth::user()->name])}}" style="cursor: pointer; color: #51cbce;" class="viewData" data-content="View Request" rel="popover" data-placement="bottom">
                                     <i class="fas fa-eye" style="font-size: 20px;"></i>
                                 </a>
                                 <span style="cursor: pointer; color: #34eb80;" class="restoreData" data-content="Restore Request" rel="popover" data-placement="bottom">

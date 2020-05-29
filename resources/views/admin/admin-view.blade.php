@@ -173,7 +173,7 @@
                     <input type="hidden" id="reason_id" name="reason_id">
                     <div class="form-group">
                         <label for="reason">Reason</label>
-                        <textarea type="text" class="form-control" id="reason" name="reason"></textarea>
+                        <textarea type="text" class="form-control" id="reason" name="reason" required></textarea>
                         <small id="e_reason" class="form-text text-muted"></small>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
           <div class="text-center">
             <h1><span>&#8369; </span><span id="grandTotal">0.00</span></h1>
             <button type="button" class="btn btn-primary" id="approve_btn"><i class="fas fa-thumbs-up"></i>&nbsp; Approve</button>
-            <button type="button" class="btn btn-danger" id="remove_btn"><i class="fas fa-thumbs-down"></i>&nbsp; Rejected</button>
+            <button type="button" class="btn btn-danger" id="remove_btn"><i class="fas fa-thumbs-down"></i>&nbsp; Reject</button>
           </div>
         </div>
       </div>
@@ -609,26 +609,30 @@
             
         }
     });
-
     $('#reasonChanges').on('click', function(){
-
-        $('.overlay').show();
-        $.ajax({
-            url: "{{route('admin.remove')}}",
-            type: "PUT",
-            data: $('#reason_form').serialize(),
-            success: function(){
-                $('.overlay').hide();
-                swal("Success", "Successfully Rejected", "success").then(function(){
-                    $('.overlay').show();
-                    window.location.href = "{{route('admin-pending')}}";
-                }); 
-            },
-            error: function(){
-                $('.overlay').hide();
-                swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
-            }
-        });
+        if($('#reason').val() == ''){
+            $('#reason').addClass('border-danger');
+            $('#e_reason').html('<strong><span class="text-danger">Reason is required</span></strong>');
+        } else {
+            
+            $('.overlay').show();
+            $.ajax({
+                url: "{{route('admin.remove')}}",
+                type: "PUT",
+                data: $('#reason_form').serialize(),
+                success: function(){
+                    $('.overlay').hide();
+                    swal("Success", "Successfully Rejected", "success").then(function(){
+                        $('.overlay').show();
+                        window.location.href = "{{route('admin-pending')}}";
+                    }); 
+                },
+                error: function(){
+                    $('.overlay').hide();
+                    swal('Error', "Something went wrong, Maybe you have been inactive for too long. Please refresh the page, thank you!", "error");
+                }
+            });
+        }
     });
     $(window).on('load', function() {
         $(".overlay").fadeOut(200);
