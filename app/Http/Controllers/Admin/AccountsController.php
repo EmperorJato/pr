@@ -26,7 +26,7 @@ class AccountsController extends Controller
         $id = $request->get('id');
         $proj = $request->get('val');
         $project = PRForms::where('user_id', $id)
-        ->where('project', 'like', '%'. $proj.'%')
+        ->where('project', $proj)
         ->where('status', 'Approved')->get();
         $output = '<p><b>PRF</b></p>';
         $output .= '<div class="table">
@@ -59,7 +59,7 @@ class AccountsController extends Controller
         $proj = $request->get('val');
         $project = Products::join('prforms', 'prforms.pr_id', 'products.prform_id')
         ->where('user_id', $id)
-        ->where('project', 'like', '%'. $proj.'%')
+        ->where('project', $proj)
         ->where('status', 'Approved')->get();
         
         $output = '';
