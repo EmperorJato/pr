@@ -14,13 +14,12 @@
     <link href="{{ asset('css/mdb.css') }}" rel="stylesheet">
     @yield('links')
 
-    
-    
 </head>
 <body>
     <div id="app">
         @yield('content')  
     </div>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/mdb.js') }}"></script>

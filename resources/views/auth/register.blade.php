@@ -2,15 +2,6 @@
 
 @section('content')
 <div class="container">
-    @if(session()->has('success'))
-    <script type="text/javascript">
-        $(function(){
-            swal("Success", "Please contact the administrator to access your account. Thank You", "success").then(function(){
-                window.location.href = "{{url('/')}}";
-            });
-        });
-    </script>
-    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -83,7 +74,7 @@
                         </div>
                         
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" id="try">
                                 <i class="fas fa-user-plus"> </i>
                                 {{ __('Register') }}
                             </button>
@@ -94,5 +85,16 @@
         </div>
     </div>
 </div>
+@section('scripts')
+@if(session()->has('success'))
+<script type="text/javascript">
+    $(function(){
+        swal("Success", "Please contact the administrator to access your account. Thank You", "success").then(function(){
+            window.location.href = "{{url('/')}}";
+        });
+    });
+</script>
+@endif
+@endsection
 @endsection
 

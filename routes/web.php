@@ -164,6 +164,14 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::post('admin/reply', 'MessageController@adminReply')->name('admin-reply');
     Route::get('admin/inbox', 'MessageController@adminInbox')->name('admin-inbox');
     Route::put('message/status', 'MessageController@msgAdmin')->name('admin-msg');
+
+    Route::get('admin/accounts', 'Admin\AdminDashboardController@accounts')->name('admin-users');
+    Route::put('admin/approve-user', 'Admin\AdminDashboardController@approveUser')->name('admin.approveUser');
+
+    Route::get('admin/accounts/{id}/{name}', 'Admin\AccountsController@index')->name('admin.accounts');
+    Route::get('admin/get-project', 'Admin\AccountsController@getProject')->name('admin.get-project');
+    Route::get('admin/get-product', 'Admin\AccountsController@getProduct')->name('admin.get-product');
+
 });
 
 
