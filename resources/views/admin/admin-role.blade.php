@@ -25,7 +25,7 @@
                             @foreach($users as $key => $row)
                             <tr>
                                 <td style="display: none;">{{$row->id}}</td>
-                                <td>{{++$key}}</td>
+                                <td>{{($users->currentpage()-1) * $users->perpage() + ++$key}}</td>
                                 <td>{{Carbon\Carbon::parse($row->created_at)->format('m-d-Y')}}</td>
                                 <td>{{$row->name}}</td>
                                 <td>
